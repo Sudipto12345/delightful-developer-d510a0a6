@@ -123,10 +123,70 @@
   );
   --shadow-glow: 0 24px 60px -24px color-mix(in oklab, oklch(0.55 0.24 266) 70%, transparent);
   --shadow-soft: 0 18px 40px -22px oklch(0.08 0.04 268 / 80%);
+  --grid-line: color-mix(in oklab, white 5%, transparent);
 }
 
 .dark {
   color-scheme: dark;
+}
+
+/* Light theme — same cobalt identity on clean, airy surfaces. */
+.light {
+  color-scheme: light;
+
+  --background: oklch(0.985 0.005 260);
+  --foreground: oklch(0.22 0.045 268);
+
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.96 0.012 265);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.045 268);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.045 268);
+
+  --primary: oklch(0.5 0.24 266);
+  --primary-foreground: oklch(0.99 0.005 260);
+  --primary-soft: oklch(0.66 0.18 264);
+
+  --secondary: oklch(0.945 0.018 265);
+  --secondary-foreground: oklch(0.26 0.05 268);
+
+  --muted: oklch(0.95 0.012 265);
+  --muted-foreground: oklch(0.5 0.03 265);
+
+  --accent: oklch(0.72 0.16 68);
+  --accent-foreground: oklch(0.2 0.05 268);
+
+  --success: oklch(0.58 0.15 155);
+  --success-foreground: oklch(0.99 0.005 260);
+  --warning: oklch(0.74 0.16 72);
+  --warning-foreground: oklch(0.2 0.05 268);
+  --destructive: oklch(0.57 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 260);
+
+  --border: oklch(0.22 0.045 268 / 14%);
+  --input: oklch(0.22 0.045 268 / 20%);
+  --ring: oklch(0.55 0.22 266);
+
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.24 0.045 268);
+  --sidebar-primary: oklch(0.5 0.24 266);
+  --sidebar-primary-foreground: oklch(0.99 0.005 260);
+  --sidebar-accent: oklch(0.95 0.015 265);
+  --sidebar-accent-foreground: oklch(0.24 0.045 268);
+  --sidebar-border: oklch(0.22 0.045 268 / 12%);
+  --sidebar-ring: oklch(0.55 0.22 266);
+
+  --gradient-glass: linear-gradient(
+    145deg,
+    color-mix(in oklab, white 85%, transparent),
+    color-mix(in oklab, white 55%, transparent)
+  );
+  --shadow-glow: 0 24px 60px -28px color-mix(in oklab, oklch(0.5 0.24 266) 45%, transparent);
+  --shadow-soft: 0 16px 36px -24px oklch(0.3 0.06 268 / 35%);
+
+  --grid-line: color-mix(in oklab, oklch(0.22 0.045 268) 8%, transparent);
 }
 
 @layer base {
