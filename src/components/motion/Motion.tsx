@@ -72,7 +72,7 @@ export function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
     });
   }, [spring, suffix]);
 
-  return <span ref={ref}>০{suffix}</span>;
+  return <span ref={ref}>0{suffix}</span>;
 }
 
 export function Parallax({

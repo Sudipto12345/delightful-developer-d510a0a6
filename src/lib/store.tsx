@@ -60,7 +60,7 @@ const initialState: State = {
 };
 
 const now = () =>
-  new Date().toLocaleString("bn-BD", { dateStyle: "medium", timeStyle: "short" });
+  new Date().toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" });
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>(initialState);
@@ -89,7 +89,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const log = (s: State, action: string, target: string): State => ({
       ...s,
       audit: [
-        { id: `a-${Date.now()}`, actor: s.session?.name ?? "অ্যাডমিন", action, target, at: now() },
+        { id: `a-${Date.now()}`, actor: s.session?.name ?? "Admin", action, target, at: now() },
         ...s.audit,
       ].slice(0, 40),
     });
@@ -116,7 +116,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
                 ...s.requests,
               ],
             },
-            "নতুন এনরোলমেন্ট রিকোয়েস্ট",
+            "New enrollment request",
             r.trxId,
           ),
         );
@@ -132,7 +132,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
               enrolled:
                 req && !s.enrolled.includes(req.courseId) ? [...s.enrolled, req.courseId] : s.enrolled,
             },
-            "পেমেন্ট অনুমোদন",
+            "Payment approved",
             req?.trxId ?? id,
           );
         }),
@@ -143,7 +143,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
               ...s,
               requests: s.requests.map((r) => (r.id === id ? { ...r, status: "rejected" } : r)),
             },
-            "পেমেন্ট বাতিল",
+            "Payment rejected",
             s.requests.find((r) => r.id === id)?.trxId ?? id,
           ),
         ),
@@ -171,7 +171,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
                 ? s.courses.map((x) => (x.id === c.id ? c : x))
                 : [c, ...s.courses],
             },
-            s.courses.some((x) => x.id === c.id) ? "কোর্স সম্পাদনা" : "নতুন কোর্স যুক্ত",
+            s.courses.some((x) => x.id === c.id) ? "Course updated" : "Course created",
             c.title,
           ),
         ),
@@ -179,7 +179,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         setState((s) =>
           log(
             { ...s, courses: s.courses.filter((c) => c.id !== id) },
-            "কোর্স মুছে ফেলা",
+            "Course deleted",
             s.courses.find((c) => c.id === id)?.title ?? id,
           ),
         ),
@@ -190,7 +190,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
               ...s,
               courses: s.courses.map((c) => (c.id === id ? { ...c, published: !c.published } : c)),
             },
-            "কোর্স স্ট্যাটাস পরিবর্তন",
+            "Course status changed",
             s.courses.find((c) => c.id === id)?.title ?? id,
           ),
         ),
@@ -198,7 +198,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         setState((s) =>
           log(
             { ...s, users: s.users.map((u) => (u.id === id ? { ...u, status } : u)) },
-            status === "blocked" ? "ইউজার ব্লক" : "ইউজার সক্রিয়",
+            status === "blocked" ? "User blocked" : "User activated",
             s.users.find((u) => u.id === id)?.name ?? id,
           ),
         ),
@@ -206,7 +206,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         setState((s) =>
           log(
             { ...s, users: s.users.filter((u) => u.id !== id) },
-            "ইউজার মুছে ফেলা",
+            "User deleted",
             s.users.find((u) => u.id === id)?.name ?? id,
           ),
         ),
@@ -223,6 +223,6 @@ export function useStore() {
 }
 
 export const bn = (n: number) =>
-  n.toLocaleString("bn-BD", { maximumFractionDigits: 0 });
+  n.toLocaleString("en-US", { maximumFractionDigits: 0 });
 
-export const taka = (n: number) => `৳${bn(n)}`;
+export const taka = (n: number) => `$${bn(n)}`;

@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { LegalPage } from "@/components/layout/LegalPage";
 
-const title = "গোপনীয়তা নীতি — ElevateHub Ltd";
+const title = "Privacy Policy — ElevateHub Ltd";
 const description =
-  "আপনার তথ্য কীভাবে সংগ্রহ, ব্যবহার ও সুরক্ষিত রাখা হয় — ElevateHub Ltd-এর গোপনীয়তা নীতি।";
+  "How ElevateHub Ltd collects, uses, and protects your information — our privacy policy.";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -20,34 +20,34 @@ export const Route = createFileRoute("/privacy")({
   }),
   component: () => (
     <LegalPage
-      eyebrow="আইনি"
-      title="গোপনীয়তা নীতি"
-      updated="সর্বশেষ হালনাগাদ: ১ আগস্ট, ২০২৬"
+      eyebrow="Legal"
+      title="Privacy Policy"
+      updated="Last updated: August 1, 2026"
       sections={[
         {
-          heading: "কী তথ্য সংগ্রহ করি",
+          heading: "Information We Collect",
           body: [
-            "নাম, মোবাইল নম্বর, ইমেইল, জেলা এবং কোর্স অগ্রগতি সংক্রান্ত তথ্য আমরা সংরক্ষণ করি।",
-            "ম্যানুয়াল পেমেন্টের ক্ষেত্রে শুধুমাত্র ট্রানজেকশন আইডি ও পরিমাণ সংরক্ষণ করা হয়; কোনো পিন বা ওটিপি কখনোই চাওয়া হয় না।",
+            "We store your name, phone number, email, region, and course progress information.",
+            "For manual payments, we only store the transaction ID and amount; we never ask for your PIN or OTP.",
           ],
         },
         {
-          heading: "তথ্যের ব্যবহার",
+          heading: "How We Use Your Information",
           body: [
-            "কোর্স অ্যাক্সেস চালু করা, সাপোর্ট দেওয়া, ব্যাচের আপডেট জানানো এবং শেখার অভিজ্ঞতা উন্নত করতে তথ্য ব্যবহৃত হয়।",
-            "আপনার তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি করা হয় না।",
+            "We use your information to activate course access, provide support, share batch updates, and improve your learning experience.",
+            "We never sell your information to any third party.",
           ],
         },
         {
-          heading: "নিরাপত্তা",
+          heading: "Security",
           body: [
-            "ডেটা এনক্রিপ্টেড সংযোগে আদান-প্রদান হয় এবং কেবল অনুমোদিত টিম সদস্যরাই প্রয়োজনীয় তথ্য দেখতে পারেন।",
+            "Data is exchanged over encrypted connections, and only authorized team members can access the information they need.",
           ],
         },
         {
-          heading: "আপনার অধিকার",
+          heading: "Your Rights",
           body: [
-            "যেকোনো সময় আপনার তথ্য সংশোধন বা অ্যাকাউন্ট মুছে ফেলার অনুরোধ করতে পারেন — support@elevatehubltd.com ঠিকানায় লিখুন।",
+            "You may request to correct your information or delete your account at any time — write to support@elevatehubltd.com.",
           ],
         },
       ]}

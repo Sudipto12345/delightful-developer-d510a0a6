@@ -5,9 +5,9 @@ import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Button } from "@/components/ui/button";
 
-const title = "কর্পোরেট ট্রেনিং — ElevateHub Ltd";
+const title = "Corporate Training — ElevateHub Ltd";
 const description =
-  "আপনার টিমের জন্য কাস্টমাইজড স্কিল ট্রেনিং। ব্যাচভিত্তিক ক্লাস, প্রোগ্রেস রিপোর্ট ও ইন-হাউস ওয়ার্কশপ।";
+  "Customized skills training for your team. Batch-based classes, progress reports, and in-house workshops.";
 
 export const Route = createFileRoute("/corporate")({
   head: () => ({
@@ -25,19 +25,19 @@ export const Route = createFileRoute("/corporate")({
 });
 
 const offerings = [
-  { icon: Users2, title: "টিম ব্যাচ", text: "১০–২০০ জনের ব্যাচে কাস্টম কারিকুলাম ও নির্ধারিত সময়সূচি।" },
-  { icon: Workflow, title: "ইন-হাউস ওয়ার্কশপ", text: "আপনার অফিসে সরাসরি হাতে-কলমে ওয়ার্কশপ, ঢাকার ভেতরে ও বাইরে।" },
-  { icon: LineChart, title: "প্রোগ্রেস রিপোর্ট", text: "প্রতি সপ্তাহে এইচআর ড্যাশবোর্ডে অংশগ্রহণ ও ফলাফল রিপোর্ট।" },
-  { icon: Building2, title: "ইন্ডাস্ট্রি কেস", text: "আপনার ব্যবসার বাস্তব কেস স্টাডি দিয়ে অ্যাসাইনমেন্ট তৈরি।" },
+  { icon: Users2, title: "Team Batches", text: "Custom curriculum and scheduling for groups of 10–200 people." },
+  { icon: Workflow, title: "In-House Workshops", text: "Hands-on workshops delivered directly at your office, anywhere in the world." },
+  { icon: LineChart, title: "Progress Reports", text: "Weekly participation and results reports on your HR dashboard." },
+  { icon: Building2, title: "Industry Case Studies", text: "Assignments built around real case studies from your business." },
 ];
 
 function CorporatePage() {
   return (
     <PublicShell>
       <PageHero
-        eyebrow="বিজনেস সলিউশন"
-        title="আপনার টিমকে দক্ষ করে তুলুন"
-        description="সরকারি-বেসরকারি প্রতিষ্ঠান, স্টার্টআপ ও এজেন্সির জন্য কাস্টমাইজড ট্রেনিং প্রোগ্রাম।"
+        eyebrow="Business Solutions"
+        title="Upskill your team"
+        description="Customized training programs for enterprises, government bodies, startups, and agencies."
       />
       <section className="container-eh py-12">
         <Stagger className="grid gap-4 sm:grid-cols-2">
@@ -53,15 +53,15 @@ function CorporatePage() {
         </Stagger>
 
         <div className="mt-10 rounded-2xl border border-border bg-card p-6">
-          <h2 className="text-lg font-bold">কীভাবে শুরু করবেন</h2>
+          <h2 className="text-lg font-bold">How to Get Started</h2>
           <ol className="mt-4 space-y-3 text-sm text-muted-foreground">
-            <li>১. প্রয়োজন জানিয়ে আমাদের সাথে যোগাযোগ করুন।</li>
-            <li>২. আমরা স্কিল গ্যাপ অ্যাসেসমেন্ট করে প্রস্তাবনা দেব।</li>
-            <li>৩. কারিকুলাম ও সময়সূচি চূড়ান্ত করে ব্যাচ শুরু।</li>
-            <li>৪. প্রোগ্রাম শেষে রিপোর্ট ও সার্টিফিকেট হস্তান্তর।</li>
+            <li>1. Contact us and tell us what you need.</li>
+            <li>2. We run a skills gap assessment and share a proposal.</li>
+            <li>3. We finalize the curriculum and schedule, then kick off the batch.</li>
+            <li>4. At the end of the program, we hand over reports and certificates.</li>
           </ol>
           <Button asChild className="mt-6 bg-spark text-accent-foreground">
-            <Link to="/contact">প্রস্তাবনা চান</Link>
+            <Link to="/contact">Request a Proposal</Link>
           </Button>
         </div>
       </section>

@@ -4,7 +4,7 @@ import { CourseCard } from "@/components/course/CourseCard";
 import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Stagger, StaggerItem } from "@/components/motion/Motion";
 import { getCategory } from "@/data/courses";
-import { bn, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/categories/$slug")({
   loader: ({ params }) => {
@@ -14,10 +14,10 @@ export const Route = createFileRoute("/categories/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData)
-      return { meta: [{ title: "ক্যাটাগরি পাওয়া যায়নি" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Category Not Found" }, { name: "robots", content: "noindex" }] };
     const c = loaderData.category;
-    const t = `${c.name} কোর্স — ElevateHub Ltd`;
-    const d = `${c.name} শিখুন বাংলায়। ${c.tagline}. ইন্ডাস্ট্রি মেন্টর, রিয়েল প্রজেক্ট ও ভেরিফায়েড সার্টিফিকেট।`;
+    const t = `${c.name} Courses — ElevateHub Ltd`;
+    const d = `Learn ${c.name}. ${c.tagline}. Industry mentors, real projects, and verified certificates.`;
     return {
       meta: [
         { title: t },
@@ -40,9 +40,9 @@ function CategoryPage() {
 
   return (
     <PublicShell>
-      <PageHero eyebrow="ক্যাটাগরি" title={`${category.name} কোর্স`} description={category.tagline} />
+      <PageHero eyebrow="Category" title={`${category.name} Courses`} description={category.tagline} />
       <section className="container-eh py-12">
-        <p className="text-sm text-muted-foreground">{bn(list.length)} টি কোর্স</p>
+        <p className="text-sm text-muted-foreground">{list.length} courses</p>
         <Stagger className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((c) => (
             <StaggerItem key={c.id} className="h-full">

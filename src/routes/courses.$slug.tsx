@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import type { Course } from "@/data/courses";
 import { courses, getCourse, getInstructor } from "@/data/courses";
-import { bn, taka, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/courses/$slug")({
   loader: ({ params }) => {
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/courses/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData)
-      return { meta: [{ title: "কোর্স পাওয়া যায়নি" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Course Not Found" }, { name: "robots", content: "noindex" }] };
     const c = loaderData.course;
     return {
       meta: [
@@ -69,7 +69,7 @@ export const Route = createFileRoute("/courses/$slug")({
   component: CourseDetail,
 });
 
-const levelLabel: Record<Course["level"], string> = { beginner: "বিগিনার", intermediate: "ইন্টারমিডিয়েট", advanced: "অ্যাডভান্সড" };
+const levelLabel: Record<Course["level"], string> = { beginner: "Beginner", intermediate: "Intermediate", advanced: "Advanced" };
 
 function CourseDetail() {
   const { course } = Route.useLoaderData() as { course: Course };
@@ -92,7 +92,7 @@ function CourseDetail() {
               {course.badge && <Badge className="bg-accent text-accent-foreground">{course.badge}</Badge>}
               <Badge variant="secondary">{levelLabel[course.level]}</Badge>
               <Badge variant="secondary">
-                {course.language === "bangla" ? "সম্পূর্ণ বাংলা" : "বাংলিশ"}
+                {course.language === "bangla" ? "Fully in English" : "Bilingual"}
               </Badge>
             </div>
             <h1 className="mt-4 text-3xl leading-tight font-extrabold sm:text-4xl">{course.title}</h1>
@@ -101,23 +101,23 @@ function CourseDetail() {
             <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 fill-accent text-accent" />
-                {course.rating.toLocaleString("bn-BD")} ({bn(course.reviewsCount)} রিভিউ)
+                {course.rating.toLocaleString("en-US")} ({course.reviewsCount.toLocaleString("en-US")} reviews)
               </span>
               <span className="flex items-center gap-1.5">
-                <Users className="h-4 w-4" /> {bn(course.students)} শিক্ষার্থী
+                <Users className="h-4 w-4" /> {course.students.toLocaleString("en-US")} students
               </span>
               <span className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4" /> {bn(course.durationHours)} ঘণ্টা
+                <Clock className="h-4 w-4" /> {course.durationHours.toLocaleString("en-US")} hours
               </span>
               <span className="flex items-center gap-1.5">
-                <BookOpen className="h-4 w-4" /> {bn(course.lessonsCount)} লেসন
+                <BookOpen className="h-4 w-4" /> {course.lessonsCount.toLocaleString("en-US")} lessons
               </span>
             </div>
 
             <p className="mt-6 leading-relaxed text-muted-foreground">{course.description}</p>
 
             <Reveal className="mt-8">
-              <h2 className="text-xl font-bold">কোর্স শেষে যা পারবেন</h2>
+              <h2 className="text-xl font-bold">What you'll be able to do</h2>
               <ul className="mt-4 grid gap-2 sm:grid-cols-2">
                 {course.outcomes.map((o) => (
                   <li key={o} className="flex gap-2 rounded-xl border border-border bg-card p-3 text-sm">
@@ -129,7 +129,7 @@ function CourseDetail() {
             </Reveal>
 
             <Reveal className="mt-10">
-              <h2 className="text-xl font-bold">কারিকুলাম</h2>
+              <h2 className="text-xl font-bold">Curriculum</h2>
               <Accordion
                 type="single"
                 collapsible
@@ -139,7 +139,7 @@ function CourseDetail() {
                 {course.modules.map((m, i) => (
                   <AccordionItem key={m.title} value={`m-${i}`}>
                     <AccordionTrigger className="text-left text-sm font-semibold">
-                      মডিউল {bn(i + 1)}: {m.title}
+                      Module {i + 1}: {m.title}
                     </AccordionTrigger>
                     <AccordionContent>
                       <ul className="space-y-2">
@@ -153,7 +153,7 @@ function CourseDetail() {
                               <span className="truncate">{l.title}</span>
                               {l.free && (
                                 <Badge variant="secondary" className="shrink-0 text-[10px]">
-                                  ফ্রি
+                                  Free
                                 </Badge>
                               )}
                             </span>
@@ -168,7 +168,7 @@ function CourseDetail() {
             </Reveal>
 
             <Reveal className="mt-10">
-              <h2 className="text-xl font-bold">প্রয়োজনীয়তা</h2>
+              <h2 className="text-xl font-bold">Requirements</h2>
               <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                 {course.requirements.map((r) => (
                   <li key={r} className="flex gap-2">
@@ -180,7 +180,7 @@ function CourseDetail() {
 
             {instructor && (
               <Reveal className="mt-10">
-                <h2 className="text-xl font-bold">মেন্টর</h2>
+                <h2 className="text-xl font-bold">Mentor</h2>
                 <div className="mt-4 rounded-2xl border border-border bg-card p-5">
                   <div className="flex items-center gap-3">
                     <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-cobalt font-bold">
@@ -194,7 +194,7 @@ function CourseDetail() {
                   <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{instructor.bio}</p>
                   <Button asChild variant="outline" size="sm" className="mt-4">
                     <Link to="/instructors/$slug" params={{ slug: instructor.slug }}>
-                      প্রোফাইল দেখুন
+                      View Profile
                     </Link>
                   </Button>
                 </div>
@@ -206,26 +206,26 @@ function CourseDetail() {
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-2xl border border-border bg-card p-5 soft-shadow">
               <div className="flex items-end gap-2">
-                <span className="text-3xl font-extrabold text-accent">{taka(course.price)}</span>
+                <span className="text-3xl font-extrabold text-accent">${course.price.toLocaleString("en-US")}</span>
                 {course.oldPrice && (
                   <span className="pb-1 text-sm text-muted-foreground line-through">
-                    {taka(course.oldPrice)}
+                    ${course.oldPrice.toLocaleString("en-US")}
                   </span>
                 )}
               </div>
               {course.oldPrice && (
                 <p className="mt-1 text-xs text-success">
-                  ছাড় {bn(Math.round((1 - course.price / course.oldPrice) * 100))}% — সীমিত সময়ের জন্য
+                  {Math.round((1 - course.price / course.oldPrice) * 100)}% off — for a limited time
                 </p>
               )}
               <div className="mt-4">
-                <p className="text-xs text-muted-foreground">পরবর্তী ব্যাচ: {course.nextBatch}</p>
+                <p className="text-xs text-muted-foreground">Next batch: {course.nextBatch}</p>
                 <Progress value={72} className="mt-2 h-2" />
-                <p className="mt-1 text-xs text-muted-foreground">৭২% আসন পূর্ণ</p>
+                <p className="mt-1 text-xs text-muted-foreground">72% of seats filled</p>
               </div>
               <Button asChild size="lg" className="mt-5 h-12 w-full bg-spark text-accent-foreground">
                 <Link to="/checkout/$slug" params={{ slug: course.slug }}>
-                  এখনই এনরোল করুন
+                  Enroll Now
                 </Link>
               </Button>
               <Button
@@ -234,17 +234,17 @@ function CourseDetail() {
                 onClick={() => toggleWishlist(course.id)}
               >
                 <Heart className={`mr-1 h-4 w-4 ${liked ? "fill-accent text-accent" : ""}`} />
-                {liked ? "উইশলিস্টে আছে" : "উইশলিস্টে রাখুন"}
+                {liked ? "In Wishlist" : "Add to Wishlist"}
               </Button>
               <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-center gap-2">
-                  <Globe className="h-4 w-4 text-accent" /> লাইফটাইম অ্যাক্সেস
+                  <Globe className="h-4 w-4 text-accent" /> Lifetime access
                 </li>
                 <li className="flex items-center gap-2">
-                  <BadgeCheck className="h-4 w-4 text-accent" /> ভেরিফায়েড সার্টিফিকেট
+                  <BadgeCheck className="h-4 w-4 text-accent" /> Verified certificate
                 </li>
                 <li className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-accent" /> মেন্টর সাপোর্ট গ্রুপ
+                  <Users className="h-4 w-4 text-accent" /> Mentor support group
                 </li>
               </ul>
             </div>
@@ -254,7 +254,7 @@ function CourseDetail() {
 
       {related.length > 0 && (
         <section className="container-eh py-14">
-          <h2 className="text-xl font-bold sm:text-2xl">সম্পর্কিত কোর্স</h2>
+          <h2 className="text-xl font-bold sm:text-2xl">Related Courses</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((c) => (
               <CourseCard key={c.id} course={c} />

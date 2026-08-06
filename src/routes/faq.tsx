@@ -10,9 +10,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { faqs } from "@/data/content";
 
-const title = "সাধারণ জিজ্ঞাসা (FAQ) — ElevateHub Ltd";
+const title = "Frequently Asked Questions (FAQ) — ElevateHub Ltd";
 const description =
-  "কোর্স, পেমেন্ট, সার্টিফিকেট ও মেন্টর সাপোর্ট সংক্রান্ত সবচেয়ে বেশি জিজ্ঞাসিত প্রশ্নের উত্তর বাংলায়।";
+  "Answers to the most common questions about courses, payments, certificates, and mentor support.";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -47,9 +47,9 @@ function FaqPage() {
   return (
     <PublicShell>
       <PageHero
-        eyebrow="সাপোর্ট"
-        title="সাধারণ জিজ্ঞাসা"
-        description="উত্তর না পেলে আমাদের সাথে যোগাযোগ করুন — আমরা দ্রুত সাড়া দিই।"
+        eyebrow="Support"
+        title="Frequently Asked Questions"
+        description="Can't find an answer? Get in touch with us — we respond quickly."
       />
       <section className="container-eh max-w-3xl py-12">
         <Accordion type="single" collapsible className="rounded-2xl border border-border bg-card px-4">
@@ -61,9 +61,9 @@ function FaqPage() {
           ))}
         </Accordion>
         <div className="mt-8 rounded-2xl border border-border bg-card p-6 text-center">
-          <p className="font-semibold">আরও প্রশ্ন আছে?</p>
+          <p className="font-semibold">Still have questions?</p>
           <Button asChild className="mt-4 bg-spark text-accent-foreground">
-            <Link to="/contact">যোগাযোগ করুন</Link>
+            <Link to="/contact">Contact Us</Link>
           </Button>
         </div>
       </section>
