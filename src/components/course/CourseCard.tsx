@@ -3,12 +3,11 @@ import { Clock, Star, Users } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { getInstructor, type Course } from "@/data/courses";
-import { bn, taka } from "@/lib/store";
 
 const levelLabel: Record<Course["level"], string> = {
-  beginner: "বিগিনার",
-  intermediate: "ইন্টারমিডিয়েট",
-  advanced: "অ্যাডভান্সড",
+  beginner: "Beginner",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
 };
 
 export function CourseCard({ course }: { course: Course }) {
@@ -40,27 +39,27 @@ export function CourseCard({ course }: { course: Course }) {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <Star className="h-3.5 w-3.5 fill-accent text-accent" />
-            {course.rating.toLocaleString("bn-BD")} ({bn(course.reviewsCount)})
+            {course.rating.toLocaleString("en-US")} ({course.reviewsCount.toLocaleString("en-US")})
           </span>
           <span className="flex items-center gap-1">
-            <Users className="h-3.5 w-3.5" /> {bn(course.students)}
+            <Users className="h-3.5 w-3.5" /> {course.students.toLocaleString("en-US")}
           </span>
           <span className="flex items-center gap-1">
-            <Clock className="h-3.5 w-3.5" /> {bn(course.durationHours)} ঘণ্টা
+            <Clock className="h-3.5 w-3.5" /> {course.durationHours.toLocaleString("en-US")} hrs
           </span>
         </div>
-        <p className="text-xs text-muted-foreground">মেন্টর: {instructor?.name}</p>
+        <p className="text-xs text-muted-foreground">Mentor: {instructor?.name}</p>
         <div className="mt-auto flex items-end justify-between pt-2">
           <div>
-            <span className="text-xl font-bold text-accent">{taka(course.price)}</span>
+            <span className="text-xl font-bold text-accent">${course.price.toLocaleString("en-US")}</span>
             {course.oldPrice && (
               <span className="ml-2 text-sm text-muted-foreground line-through">
-                {taka(course.oldPrice)}
+                ${course.oldPrice.toLocaleString("en-US")}
               </span>
             )}
           </div>
           <span className="text-xs font-medium text-primary-soft group-hover:underline">
-            বিস্তারিত →
+            Details →
           </span>
         </div>
       </div>

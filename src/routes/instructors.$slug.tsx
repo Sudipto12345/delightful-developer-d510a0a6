@@ -5,7 +5,6 @@ import { CourseCard } from "@/components/course/CourseCard";
 import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Badge } from "@/components/ui/badge";
 import { courses, instructors, type Instructor } from "@/data/courses";
-import { bn } from "@/lib/store";
 
 export const Route = createFileRoute("/instructors/$slug")({
   loader: ({ params }) => {
@@ -15,7 +14,7 @@ export const Route = createFileRoute("/instructors/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData)
-      return { meta: [{ title: "মেন্টর পাওয়া যায়নি" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Mentor Not Found" }, { name: "robots", content: "noindex" }] };
     const i = loaderData.instructor;
     const t = `${i.name} — ${i.title} | ElevateHub Ltd`;
     return {
@@ -39,23 +38,23 @@ function InstructorDetail() {
 
   return (
     <PublicShell>
-      <PageHero eyebrow="মেন্টর প্রোফাইল" title={instructor.name} description={instructor.title}>
+      <PageHero eyebrow="Mentor Profile" title={instructor.name} description={instructor.title}>
         <div className="mt-6 flex flex-wrap gap-3 text-sm">
           <span className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5">
-            <Star className="h-4 w-4 fill-accent text-accent" /> {instructor.rating.toLocaleString("bn-BD")} রেটিং
+            <Star className="h-4 w-4 fill-accent text-accent" /> {instructor.rating.toLocaleString("en-US")} rating
           </span>
           <span className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5">
-            <Users className="h-4 w-4 text-accent" /> {bn(instructor.students)} শিক্ষার্থী
+            <Users className="h-4 w-4 text-accent" /> {instructor.students.toLocaleString("en-US")} students
           </span>
           <span className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5">
-            <Award className="h-4 w-4 text-accent" /> {instructor.experience} অভিজ্ঞতা
+            <Award className="h-4 w-4 text-accent" /> {instructor.experience} experience
           </span>
         </div>
       </PageHero>
 
       <section className="container-eh py-12">
         <div className="rounded-2xl border border-border bg-card p-6">
-          <h2 className="text-lg font-bold">পরিচিতি</h2>
+          <h2 className="text-lg font-bold">About</h2>
           <p className="mt-3 leading-relaxed text-muted-foreground">{instructor.bio}</p>
           <div className="mt-5 flex flex-wrap gap-2">
             {instructor.skills.map((s) => (
@@ -68,7 +67,7 @@ function InstructorDetail() {
 
         {list.length > 0 && (
           <>
-            <h2 className="mt-12 text-xl font-bold sm:text-2xl">এই মেন্টরের কোর্স</h2>
+            <h2 className="mt-12 text-xl font-bold sm:text-2xl">Courses by this mentor</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {list.map((c) => (
                 <CourseCard key={c.id} course={c} />
