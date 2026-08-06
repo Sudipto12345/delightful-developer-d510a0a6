@@ -15,20 +15,20 @@ export function SiteFooter() {
             <span className="text-lg font-bold">ElevateHub Ltd</span>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            বাংলাদেশের তরুণদের জন্য দক্ষতাভিত্তিক অনলাইন লার্নিং প্ল্যাটফর্ম। বাংলায় শিখুন, দক্ষ হোন, ক্যারিয়ার
-            গড়ুন।
+            A skills-first online learning platform for ambitious people worldwide. Learn, get certified,
+            and grow your career.
           </p>
           <div className="mt-5 flex gap-3">
             <a
               href="https://facebook.com"
-              aria-label="ফেসবুক"
+              aria-label="Facebook"
               className="grid h-9 w-9 place-items-center rounded-lg border border-border hover:bg-secondary"
             >
               <Facebook className="h-4 w-4" />
             </a>
             <a
               href="https://youtube.com"
-              aria-label="ইউটিউব"
+              aria-label="YouTube"
               className="grid h-9 w-9 place-items-center rounded-lg border border-border hover:bg-secondary"
             >
               <Youtube className="h-4 w-4" />
@@ -37,7 +37,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold tracking-wide uppercase">ক্যাটাগরি</h3>
+          <h3 className="text-sm font-semibold tracking-wide uppercase">Categories</h3>
           <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
             {categories.map((c) => (
               <li key={c.slug}>
@@ -54,51 +54,51 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold tracking-wide uppercase">প্রতিষ্ঠান</h3>
+          <h3 className="text-sm font-semibold tracking-wide uppercase">Company</h3>
           <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
             <li>
               <Link to="/about" className="hover:text-foreground">
-                আমাদের সম্পর্কে
+                About us
               </Link>
             </li>
             <li>
               <Link to="/instructors" className="hover:text-foreground">
-                মেন্টর প্যানেল
+                Our mentors
               </Link>
             </li>
             <li>
               <Link to="/corporate" className="hover:text-foreground">
-                কর্পোরেট ট্রেনিং
+                Corporate training
               </Link>
             </li>
             <li>
               <Link to="/pricing" className="hover:text-foreground">
-                প্রাইসিং
+                Pricing
               </Link>
             </li>
             <li>
               <Link to="/faq" className="hover:text-foreground">
-                সাধারণ প্রশ্ন
+                FAQ
               </Link>
             </li>
             <li>
               <Link to="/consultation" className="hover:text-foreground">
-                ফ্রি কনসালটেশন
+                Free consultation
               </Link>
             </li>
           </ul>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold tracking-wide uppercase">যোগাযোগ</h3>
+          <h3 className="text-sm font-semibold tracking-wide uppercase">Contact</h3>
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
             <li className="flex gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-              <span>বাড়ি ৪২, রোড ৭, ধানমন্ডি, ঢাকা ১২০৯</span>
+              <span>20 Fenchurch Street, London EC3M 3BY, United Kingdom</span>
             </li>
             <li className="flex gap-2">
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-              <a href="tel:+8809611000000">০৯৬১১-০০০০০০</a>
+              <a href="tel:+14155550100">+1 (415) 555-0100</a>
             </li>
             <li className="flex gap-2">
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
@@ -110,16 +110,16 @@ export function SiteFooter() {
 
       <div className="border-t border-border/60">
         <div className="container-eh flex flex-col gap-3 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© ২০২৬ ElevateHub Ltd. সর্বস্বত্ব সংরক্ষিত।</p>
+          <p>© 2026 ElevateHub Ltd. All rights reserved.</p>
           <div className="flex flex-wrap gap-4">
             <Link to="/terms" className="hover:text-foreground">
-              শর্তাবলি
+              Terms
             </Link>
             <Link to="/privacy" className="hover:text-foreground">
-              প্রাইভেসি পলিসি
+              Privacy Policy
             </Link>
             <Link to="/refund-policy" className="hover:text-foreground">
-              রিফান্ড পলিসি
+              Refund Policy
             </Link>
           </div>
         </div>

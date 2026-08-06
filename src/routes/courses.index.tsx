@@ -15,11 +15,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { categories } from "@/data/courses";
-import { bn, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 
-const title = "সব কোর্স — ElevateHub Ltd";
+const title = "All Courses — ElevateHub Ltd";
 const description =
-  "ওয়েব ডেভেলপমেন্ট, গ্রাফিক ডিজাইন, ডিজিটাল মার্কেটিং, ফ্রিল্যান্সিং, ডেটা ও এআই এবং স্পোকেন ইংলিশ — বাংলায় সব কোর্স এক জায়গায়।";
+  "Web development, graphic design, digital marketing, freelancing, data & AI, and spoken English — every course in one place.";
 
 export const Route = createFileRoute("/courses/")({
   head: () => ({
@@ -76,9 +76,9 @@ function CoursesPage() {
   return (
     <PublicShell>
       <PageHero
-        eyebrow="কোর্স ক্যাটালগ"
-        title="আপনার জন্য সঠিক কোর্সটি খুঁজে নিন"
-        description="ফিল্টার করে সহজেই খুঁজে নিন আপনার লেভেল, বাজেট ও আগ্রহ অনুযায়ী কোর্স।"
+        eyebrow="Course Catalog"
+        title="Find the right course for you"
+        description="Filter easily to find courses that match your level, budget, and interests."
       />
 
       <section className="container-eh py-8 sm:py-12">
@@ -89,9 +89,9 @@ function CoursesPage() {
               <Input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="কোর্স খুঁজুন..."
+                placeholder="Search courses..."
                 className="h-11 pl-9"
-                aria-label="কোর্স খুঁজুন"
+                aria-label="Search courses"
               />
             </div>
             <Button
@@ -106,10 +106,10 @@ function CoursesPage() {
           <div className={`${showFilters ? "grid" : "hidden"} gap-2 sm:grid-cols-2 lg:grid lg:grid-cols-4`}>
             <Select value={cat} onValueChange={setCat}>
               <SelectTrigger className="h-11">
-                <SelectValue placeholder="ক্যাটাগরি" />
+                <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">সব ক্যাটাগরি</SelectItem>
+                <SelectItem value="all">All Categories</SelectItem>
                 {categories.map((c) => (
                   <SelectItem key={c.slug} value={c.slug}>
                     {c.name}
@@ -120,37 +120,37 @@ function CoursesPage() {
 
             <Select value={level} onValueChange={setLevel}>
               <SelectTrigger className="h-11">
-                <SelectValue placeholder="লেভেল" />
+                <SelectValue placeholder="Level" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">সব লেভেল</SelectItem>
-                <SelectItem value="beginner">বিগিনার</SelectItem>
-                <SelectItem value="intermediate">ইন্টারমিডিয়েট</SelectItem>
-                <SelectItem value="advanced">অ্যাডভান্সড</SelectItem>
+                <SelectItem value="all">All Levels</SelectItem>
+                <SelectItem value="beginner">Beginner</SelectItem>
+                <SelectItem value="intermediate">Intermediate</SelectItem>
+                <SelectItem value="advanced">Advanced</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={price} onValueChange={setPrice}>
               <SelectTrigger className="h-11">
-                <SelectValue placeholder="বাজেট" />
+                <SelectValue placeholder="Budget" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">সব বাজেট</SelectItem>
-                <SelectItem value="under3000">৩,০০০ টাকার নিচে</SelectItem>
-                <SelectItem value="3000-6000">৩,০০০ – ৬,০০০ টাকা</SelectItem>
-                <SelectItem value="above6000">৬,০০০ টাকার উপরে</SelectItem>
+                <SelectItem value="all">All Budgets</SelectItem>
+                <SelectItem value="under3000">Under $3,000</SelectItem>
+                <SelectItem value="3000-6000">$3,000 – $6,000</SelectItem>
+                <SelectItem value="above6000">Above $6,000</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={sort} onValueChange={setSort}>
               <SelectTrigger className="h-11">
-                <SelectValue placeholder="সাজান" />
+                <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="popular">জনপ্রিয়তা</SelectItem>
-                <SelectItem value="rating">রেটিং</SelectItem>
-                <SelectItem value="price-low">দাম: কম থেকে বেশি</SelectItem>
-                <SelectItem value="price-high">দাম: বেশি থেকে কম</SelectItem>
+                <SelectItem value="popular">Most Popular</SelectItem>
+                <SelectItem value="rating">Rating</SelectItem>
+                <SelectItem value="price-low">Price: Low to High</SelectItem>
+                <SelectItem value="price-high">Price: High to Low</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -158,18 +158,18 @@ function CoursesPage() {
 
         <div className="mt-6 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            {bn(filtered.length)} টি কোর্স পাওয়া গেছে
+            {filtered.length} courses found
           </p>
           <Button variant="ghost" size="sm" onClick={reset}>
-            ফিল্টার রিসেট
+            Reset Filters
           </Button>
         </div>
 
         {filtered.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-border p-10 text-center">
-            <p className="font-semibold">কোনো কোর্স পাওয়া যায়নি</p>
+            <p className="font-semibold">No courses found</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              অন্য কীওয়ার্ড বা ফিল্টার দিয়ে চেষ্টা করুন।
+              Try a different keyword or filter.
             </p>
           </div>
         ) : (

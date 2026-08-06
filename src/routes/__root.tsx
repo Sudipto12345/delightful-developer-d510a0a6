@@ -80,16 +80,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ElevateHub Ltd — বাংলায় স্কিল শিখুন" },
+      { title: "ElevateHub Ltd — Learn In-Demand Skills Online" },
       {
         name: "description",
         content:
-          "বাংলাদেশের তরুণদের জন্য মোবাইল-ফার্স্ট অনলাইন লার্নিং প্ল্যাটফর্ম। বাংলায় কোর্স, মেন্টর সাপোর্ট ও ভেরিফায়েড সার্টিফিকেট।",
+          "A mobile-first global learning platform with expert-led courses, live mentor support and verified certificates.",
       },
       { name: "author", content: "ElevateHub Ltd" },
       { property: "og:site_name", content: "ElevateHub Ltd" },
       { property: "og:type", content: "website" },
-      { property: "og:locale", content: "bn_BD" },
+      { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0a0f2c" },
     ],
@@ -102,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;600;700;800&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
@@ -128,7 +128,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="bn" className="dark">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
