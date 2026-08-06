@@ -49,11 +49,11 @@ import { Button } from "@/components/ui/button";
 import { categories, instructors } from "@/data/courses";
 import { events, faqs, posts, stats, testimonials } from "@/data/content";
 import { paymentMethods } from "@/data/users";
-import { bn, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 
-const title = "ElevateHub Ltd — বাংলায় স্কিল শিখে ক্যারিয়ার গড়ুন";
+const title = "ElevateHub Ltd — Build Your Career With In-Demand Skills";
 const description =
-  "বাংলাদেশের তরুণদের জন্য মোবাইল-ফার্স্ট অনলাইন লার্নিং প্ল্যাটফর্ম। ওয়েব ডেভেলপমেন্ট, ডিজাইন, ডিজিটাল মার্কেটিং, ফ্রিল্যান্সিং ও স্পোকেন ইংলিশ কোর্স — সম্পূর্ণ বাংলায়, মেন্টর সাপোর্টসহ।";
+  "A mobile-first online learning platform for ambitious learners worldwide. Web development, design, digital marketing, freelancing, and communication skills courses — with real mentor support, trusted by learners in 60+ countries.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -78,8 +78,7 @@ export const Route = createFileRoute("/")({
           description,
           address: {
             "@type": "PostalAddress",
-            addressLocality: "ঢাকা",
-            addressCountry: "BD",
+            addressLocality: "Global",
           },
         }),
       },
@@ -150,7 +149,7 @@ function HomePage() {
                 <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-accent" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-              নতুন ব্যাচ চলছে — আসন সীমিত
+              New Cohort Now Enrolling — Limited Seats
             </motion.span>
 
             <motion.h1
@@ -159,9 +158,9 @@ function HomePage() {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="mt-5 text-4xl leading-[1.1] font-extrabold sm:text-6xl"
             >
-              বাংলায় শিখুন,
+              Learn Smart,
               <br />
-              <span className="text-gradient">দক্ষতায় এগিয়ে যান</span>
+              <span className="text-gradient">Level Up Your Skills</span>
             </motion.h1>
 
             <motion.p
@@ -170,8 +169,8 @@ function HomePage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
-              ঘরে বসে মোবাইল দিয়েই শিখুন ওয়েব ডেভেলপমেন্ট, ডিজাইন, মার্কেটিং ও ফ্রিল্যান্সিং। ইন্ডাস্ট্রি
-              মেন্টর, লাইভ সাপোর্ট আর রিয়েল প্রজেক্ট — সবকিছু এক প্ল্যাটফর্মে।
+              Learn web development, design, marketing, and freelancing — anytime, anywhere, right from
+              your phone. Industry mentors, live support, and real projects, all on one platform.
             </motion.p>
 
             <motion.div
@@ -182,12 +181,12 @@ function HomePage() {
             >
               <Button asChild size="lg" className="h-12 bg-spark text-accent-foreground">
                 <Link to="/courses">
-                  কোর্স দেখুন <ArrowRight className="ml-1 h-4 w-4" />
+                  Browse Courses <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-12">
                 <Link to="/consultation">
-                  <PlayCircle className="mr-1 h-4 w-4" /> ফ্রি কনসালটেশন
+                  <PlayCircle className="mr-1 h-4 w-4" /> Free Consultation
                 </Link>
               </Button>
             </motion.div>
@@ -213,7 +212,7 @@ function HomePage() {
             >
               <img
                 src={heroImg}
-                alt="অনলাইনে শিখছেন বাংলাদেশি শিক্ষার্থীরা"
+                alt="Learners studying online from around the world"
                 width={1200}
                 height={1200}
                 className="h-full w-full object-cover"
@@ -226,7 +225,7 @@ function HomePage() {
               className="absolute -bottom-5 left-4 rounded-2xl border border-border bg-card/90 p-3 backdrop-blur soft-shadow"
             >
               <p className="flex items-center gap-2 text-xs font-medium">
-                <BadgeCheck className="h-4 w-4 text-success" /> ৪২,০০০+ শিক্ষার্থী শিখছেন
+                <BadgeCheck className="h-4 w-4 text-success" /> 42,000+ learners and growing
               </p>
             </motion.div>
           </div>
@@ -236,13 +235,13 @@ function HomePage() {
           <div className="container-eh">
             <Marquee
               items={[
-                "সম্পূর্ণ বাংলায় ক্লাস",
-                "লাইফটাইম অ্যাক্সেস",
-                "বিকাশ · নগদ · রকেট পেমেন্ট",
-                "ভেরিফায়েড সার্টিফিকেট",
-                "লাইভ মেন্টর সাপোর্ট",
-                "মোবাইল ফ্রেন্ডলি",
-                "রিয়েল প্রজেক্ট",
+                "Learn From Anywhere",
+                "Lifetime Access",
+                "Secure Global Payments",
+                "Verified Certificates",
+                "Live Mentor Support",
+                "Mobile Friendly",
+                "Real Projects",
               ]}
             />
           </div>
@@ -252,9 +251,9 @@ function HomePage() {
       {/* CATEGORIES */}
       <section className="container-eh py-16 sm:py-24">
         <SectionHead
-          eyebrow="ক্যাটাগরি"
-          title="আপনার আগ্রহের ক্ষেত্র বেছে নিন"
-          description="প্রতিটি ক্যাটাগরিতে রয়েছে ধাপে ধাপে সাজানো লার্নিং পাথ ও ইন্ডাস্ট্রি মেন্টর।"
+          eyebrow="Categories"
+          title="Choose Your Field of Interest"
+          description="Every category comes with a step-by-step learning path and industry mentors."
         />
         <Stagger className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {categories.map((cat) => {
@@ -274,7 +273,7 @@ function HomePage() {
                   <h3 className="text-base font-bold sm:text-lg">{cat.name}</h3>
                   <p className="text-xs text-muted-foreground sm:text-sm">{cat.tagline}</p>
                   <span className="mt-auto text-xs font-medium text-primary-soft group-hover:underline">
-                    কোর্স দেখুন →
+                    Browse Courses →
                   </span>
                 </Link>
               </StaggerItem>
@@ -290,11 +289,11 @@ function HomePage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <SectionHead
               center={false}
-              eyebrow="জনপ্রিয় কোর্স"
-              title="যেসব কোর্সে শিক্ষার্থীরা সবচেয়ে বেশি সফল"
+              eyebrow="Popular Courses"
+              title="The Courses Driving the Most Career Wins"
             />
             <Button asChild variant="outline" className="w-full sm:w-auto">
-              <Link to="/courses">সব কোর্স দেখুন</Link>
+              <Link to="/courses">View All Courses</Link>
             </Button>
           </div>
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -310,18 +309,18 @@ function HomePage() {
       {/* WHY US */}
       <section className="container-eh py-16 sm:py-24">
         <SectionHead
-          eyebrow="কেন ElevateHub"
-          title="আমরা শুধু ভিডিও দিই না, দক্ষতা তৈরি করি"
-          description="বাংলাদেশের বাস্তবতা মাথায় রেখে তৈরি — কম ইন্টারনেট, মোবাইল ডিভাইস আর ব্যস্ত রুটিনের জন্যও উপযোগী।"
+          eyebrow="Why ElevateHub"
+          title="We Don't Just Stream Videos — We Build Skills"
+          description="Designed for real life — low bandwidth, mobile devices, and busy schedules, wherever you are."
         />
         <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { icon: Smartphone, t: "মোবাইল ফার্স্ট", d: "কম ডেটাতেও স্মুথ ভিডিও, অফলাইন নোট ও ছোট স্ক্রিনে পড়ার উপযোগী ডিজাইন।" },
-            { icon: Users, t: "লাইভ মেন্টর সাপোর্ট", d: "সপ্তাহে দুইদিন লাইভ কিউএ ও ব্যাচভিত্তিক সাপোর্ট গ্রুপ।" },
-            { icon: Wallet, t: "সহজ পেমেন্ট", d: "বিকাশ, নগদ, রকেট বা ব্যাংক — ম্যানুয়াল ভেরিফিকেশন মাত্র ২ ঘণ্টায়।" },
-            { icon: Trophy, t: "রিয়েল প্রজেক্ট", d: "প্রতিটি কোর্সে পোর্টফোলিও-উপযোগী প্রজেক্ট ও কোড রিভিউ।" },
-            { icon: ShieldCheck, t: "ভেরিফায়েড সার্টিফিকেট", d: "ইউনিক আইডি দিয়ে যাচাইযোগ্য ডিজিটাল সার্টিফিকেট।" },
-            { icon: Headphones, t: "ক্যারিয়ার গাইডেন্স", d: "সিভি রিভিউ, ইন্টারভিউ প্র্যাকটিস ও ফ্রিল্যান্সিং গাইড।" },
+            { icon: Smartphone, t: "Mobile First", d: "Smooth video even on low data, offline notes, and a design built for small screens." },
+            { icon: Users, t: "Live Mentor Support", d: "Live Q&A twice a week plus cohort-based support groups." },
+            { icon: Wallet, t: "Easy Global Payments", d: "Cards, PayPal, and popular digital wallets — verified in under 2 hours." },
+            { icon: Trophy, t: "Real Projects", d: "Portfolio-ready projects and code reviews in every course." },
+            { icon: ShieldCheck, t: "Verified Certificates", d: "Digital certificates with a unique ID you can verify anywhere." },
+            { icon: Headphones, t: "Career Guidance", d: "Resume reviews, interview practice, and freelancing guides." },
           ].map((f) => (
             <StaggerItem key={f.t}>
               <div className="h-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary-soft/50">
@@ -340,17 +339,17 @@ function HomePage() {
       <section className="relative overflow-hidden border-y border-border/60 bg-surface/30 py-16 sm:py-24">
         <div className="container-eh">
           <SectionHead
-            eyebrow="লার্নিং পাথ"
-            title="শূন্য থেকে ক্যারিয়ার — ৫টি ধাপ"
-            description="প্রতিটি ধাপে নির্দিষ্ট লক্ষ্য, অ্যাসাইনমেন্ট ও মেন্টর চেকপয়েন্ট।"
+            eyebrow="Learning Path"
+            title="Zero to Career — 5 Steps"
+            description="Every step has clear goals, assignments, and mentor checkpoints."
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-5">
             {[
-              { n: "০১", t: "স্কিল নির্বাচন", d: "ফ্রি কাউন্সেলিং সেশনে আপনার জন্য সঠিক কোর্স ঠিক করুন।" },
-              { n: "০২", t: "ফাউন্ডেশন", d: "বেসিক কনসেপ্ট বাংলায় শিখুন, প্রতিদিন ৩০ মিনিট।" },
-              { n: "০৩", t: "প্র্যাকটিস", d: "অ্যাসাইনমেন্ট ও কুইজে হাতে-কলমে দক্ষতা যাচাই।" },
-              { n: "০৪", t: "রিয়েল প্রজেক্ট", d: "পোর্টফোলিওর জন্য পূর্ণাঙ্গ প্রজেক্ট তৈরি।" },
-              { n: "০৫", t: "ক্যারিয়ার", d: "সিভি, ইন্টারভিউ ও মার্কেটপ্লেস প্রস্তুতি।" },
+              { n: "01", t: "Pick Your Skill", d: "Find the right course for you in a free counseling session." },
+              { n: "02", t: "Foundation", d: "Master the basics in clear, simple lessons — just 30 minutes a day." },
+              { n: "03", t: "Practice", d: "Prove your skills hands-on with assignments and quizzes." },
+              { n: "04", t: "Real Project", d: "Build a full project for your portfolio." },
+              { n: "05", t: "Career", d: "Get ready with your resume, interviews, and marketplace profile." },
             ].map((step, i) => (
               <Reveal key={step.n} delay={i * 0.08}>
                 <div className="relative h-full rounded-2xl border border-border bg-card p-5">
@@ -371,7 +370,7 @@ function HomePage() {
             <div className="overflow-hidden rounded-3xl border border-border">
               <img
                 src={mentorImg}
-                alt="ইন্ডাস্ট্রি মেন্টর ক্লাস নিচ্ছেন"
+                alt="Industry mentor teaching a live class"
                 loading="lazy"
                 width={1024}
                 height={1024}
@@ -382,9 +381,9 @@ function HomePage() {
           <div>
             <SectionHead
               center={false}
-              eyebrow="মেন্টর প্যানেল"
-              title="যারা ইন্ডাস্ট্রিতে কাজ করছেন, তারাই শেখাচ্ছেন"
-              description="প্রত্যেক মেন্টর কমপক্ষে ৫ বছরের বাস্তব অভিজ্ঞতাসম্পন্ন।"
+              eyebrow="Mentor Panel"
+              title="Taught by People Working in the Industry"
+              description="Every mentor brings at least 5 years of real-world experience."
             />
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {instructors.slice(0, 4).map((m, i) => (
@@ -406,7 +405,7 @@ function HomePage() {
               ))}
             </div>
             <Button asChild variant="outline" className="mt-6">
-              <Link to="/instructors">সব মেন্টর দেখুন</Link>
+              <Link to="/instructors">View All Mentors</Link>
             </Button>
           </div>
         </div>
@@ -416,9 +415,9 @@ function HomePage() {
       <section className="relative overflow-hidden border-y border-border/60 bg-surface/30 py-16 sm:py-24">
         <div className="container-eh">
           <SectionHead
-            eyebrow="সফলতার গল্প"
-            title="তাদের গল্পই আমাদের পরিচয়"
-            description="দেশের ৬৪ জেলা থেকে শিক্ষার্থীরা শিখে ক্যারিয়ার বদলাচ্ছেন।"
+            eyebrow="Success Stories"
+            title="Their Stories Are Our Proof"
+            description="Learners in 60+ countries are transforming their careers with us."
           />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {testimonials.map((t) => (
@@ -444,9 +443,9 @@ function HomePage() {
           <div>
             <SectionHead
               center={false}
-              eyebrow="সহজ পেমেন্ট"
-              title="বিকাশ, নগদ, রকেট বা ব্যাংক — যেভাবে আপনার সুবিধা"
-              description="পেমেন্ট করে ট্রানজেকশন আইডি সাবমিট করুন। আমাদের টিম যাচাই করে সর্বোচ্চ ২ ঘণ্টার মধ্যে কোর্স চালু করে দেবে।"
+              eyebrow="Easy Payments"
+              title="Card, PayPal, or Bank Transfer — Whatever Works for You"
+              description="Complete your payment and submit your transaction ID. Our team verifies it and unlocks your course within 2 hours."
             />
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {paymentMethods.map((p, i) => (
@@ -464,7 +463,7 @@ function HomePage() {
               ))}
             </div>
             <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
-              {["কোনো হিডেন চার্জ নেই", "৭ দিনের মধ্যে রিফান্ড সুবিধা", "প্রতিটি পেমেন্টের ডিজিটাল রশিদ"].map(
+              {["No hidden charges", "7-day refund policy", "Digital receipt for every payment"].map(
                 (li) => (
                   <li key={li} className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-success" /> {li}
@@ -477,7 +476,7 @@ function HomePage() {
             <div className="overflow-hidden rounded-3xl border border-border">
               <img
                 src={certificateImg}
-                alt="কোর্স সম্পন্নের ভেরিফায়েড সার্টিফিকেট"
+                alt="Verified certificate of course completion"
                 loading="lazy"
                 width={1024}
                 height={1024}
@@ -492,9 +491,9 @@ function HomePage() {
       <section className="border-y border-border/60 bg-surface/30 py-16 sm:py-24">
         <div className="container-eh">
           <SectionHead
-            eyebrow="আসন্ন ইভেন্ট"
-            title="ফ্রি ওয়েবিনার ও বুটক্যাম্প"
-            description="প্রতি মাসে অনলাইন ও অফলাইনে ফ্রি সেশন — আসন সীমিত।"
+            eyebrow="Upcoming Events"
+            title="Free Webinars & Bootcamps"
+            description="Free sessions online and in person every month — seats are limited."
           />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
             {events.map((e) => (
@@ -506,9 +505,9 @@ function HomePage() {
                     {e.date} · {e.time}
                   </p>
                   <p className="text-sm text-muted-foreground">{e.mode}</p>
-                  <p className="mt-3 text-xs text-accent">আসন বাকি {bn(e.seats)}</p>
+                  <p className="mt-3 text-xs text-accent">{e.seats} seats left</p>
                   <Button asChild size="sm" className="mt-4 w-full">
-                    <Link to="/events">রেজিস্টার করুন</Link>
+                    <Link to="/events">Register Now</Link>
                   </Button>
                 </div>
               </StaggerItem>
@@ -520,9 +519,9 @@ function HomePage() {
       {/* BLOG */}
       <section className="container-eh py-16 sm:py-24">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <SectionHead center={false} eyebrow="ব্লগ" title="শেখার রিসোর্স ও গাইড" />
+          <SectionHead center={false} eyebrow="Blog" title="Learning Resources & Guides" />
           <Button asChild variant="outline" className="w-full sm:w-auto">
-            <Link to="/blog">সব লেখা</Link>
+            <Link to="/blog">View All Posts</Link>
           </Button>
         </div>
         <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -549,7 +548,7 @@ function HomePage() {
 
       {/* FAQ */}
       <section className="container-eh pb-16 sm:pb-24">
-        <SectionHead eyebrow="সাধারণ প্রশ্ন" title="যা জানতে চান" />
+        <SectionHead eyebrow="FAQ" title="Common Questions, Answered" />
         <Reveal className="mx-auto mt-10 max-w-3xl">
           <Accordion type="single" collapsible className="rounded-2xl border border-border bg-card px-4">
             {faqs.map((f, i) => (
@@ -568,13 +567,13 @@ function HomePage() {
           <div className="relative overflow-hidden rounded-3xl border border-border bg-cobalt p-8 text-center sm:p-14">
             <div className="absolute inset-0 grid-noise opacity-30" aria-hidden="true" />
             <div className="relative">
-              <h2 className="text-2xl font-extrabold sm:text-4xl">আজই আপনার শেখা শুরু হোক</h2>
+              <h2 className="text-2xl font-extrabold sm:text-4xl">Start Learning Today</h2>
               <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 sm:text-base">
-                ফ্রি অ্যাকাউন্ট খুলে প্রিভিউ ক্লাস দেখুন। পছন্দ হলে তবেই এনরোল করুন।
+                Create a free account and preview a class. Enroll only when you're ready.
               </p>
               <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
                 <Button asChild size="lg" className="h-12 bg-accent text-accent-foreground">
-                  <Link to="/auth/register">ফ্রি রেজিস্ট্রেশন</Link>
+                  <Link to="/auth/register">Sign Up Free</Link>
                 </Button>
                 <Button
                   asChild
@@ -583,7 +582,7 @@ function HomePage() {
                   className="h-12 border-white/30 bg-white/10 text-white"
                 >
                   <a href="https://facebook.com" target="_blank" rel="noreferrer">
-                    <Facebook className="mr-1 h-4 w-4" /> কমিউনিটিতে যোগ দিন
+                    <Facebook className="mr-1 h-4 w-4" /> Join Our Community
                   </a>
                 </Button>
               </div>
