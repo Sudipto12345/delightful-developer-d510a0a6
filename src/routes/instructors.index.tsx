@@ -6,11 +6,10 @@ import { Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { instructors } from "@/data/courses";
-import { bn } from "@/lib/store";
 
-const title = "মেন্টর ও ইন্সট্রাক্টর — ElevateHub Ltd";
+const title = "Mentors & Instructors — ElevateHub Ltd";
 const description =
-  "ইন্ডাস্ট্রি অভিজ্ঞ বাংলাদেশি মেন্টরদের কাছ থেকে শিখুন। ওয়েব, ডিজাইন, মার্কেটিং, ডেটা ও এআই বিশেষজ্ঞ টিম।";
+  "Learn from industry-experienced mentors. A team of experts in web, design, marketing, data, and AI.";
 
 export const Route = createFileRoute("/instructors/")({
   head: () => ({
@@ -31,9 +30,9 @@ function InstructorsPage() {
   return (
     <PublicShell>
       <PageHero
-        eyebrow="আমাদের মেন্টর"
-        title="যাদের কাছ থেকে শিখবেন"
-        description="প্রত্যেক মেন্টর ইন্ডাস্ট্রিতে সক্রিয়ভাবে কাজ করছেন — তাই শেখা হয় বাস্তবমুখী।"
+        eyebrow="Our Mentors"
+        title="Learn from the best"
+        description="Every mentor is actively working in the industry — so learning stays practical and real-world."
       />
       <section className="container-eh py-12">
         <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -60,13 +59,13 @@ function InstructorsPage() {
                 <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <Star className="h-4 w-4 fill-accent text-accent" />
-                    {i.rating.toLocaleString("bn-BD")}
+                    {i.rating.toLocaleString("en-US")}
                   </span>
-                  <span>{bn(i.students)} শিক্ষার্থী</span>
+                  <span>{i.students.toLocaleString("en-US")} students</span>
                 </div>
                 <Button asChild variant="outline" size="sm" className="mt-4">
                   <Link to="/instructors/$slug" params={{ slug: i.slug }}>
-                    প্রোফাইল দেখুন
+                    View Profile
                   </Link>
                 </Button>
               </article>
