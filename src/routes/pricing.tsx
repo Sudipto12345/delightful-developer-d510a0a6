@@ -5,11 +5,10 @@ import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { taka } from "@/lib/store";
 
-const title = "প্রাইসিং ও প্যাকেজ — ElevateHub Ltd";
+const title = "Pricing & Plans — ElevateHub Ltd";
 const description =
-  "একক কোর্স, ক্যারিয়ার ট্র্যাক ও প্রিমিয়াম মেন্টরশিপ — আপনার বাজেট অনুযায়ী শেখার প্ল্যান বেছে নিন।";
+  "Single courses, career tracks, and premium mentorship — choose a learning plan that fits your budget.";
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
@@ -28,39 +27,39 @@ export const Route = createFileRoute("/pricing")({
 
 const plans = [
   {
-    name: "স্টার্টার",
-    price: 2500,
-    tag: "একক কোর্স",
+    name: "Starter",
+    price: 25,
+    tag: "Single Course",
     features: [
-      "যেকোনো একটি কোর্সে লাইফটাইম অ্যাক্সেস",
-      "কমিউনিটি গ্রুপ সাপোর্ট",
-      "কোর্স সার্টিফিকেট",
-      "মোবাইল ও ডেস্কটপে দেখা",
+      "Lifetime access to any one course",
+      "Community group support",
+      "Course certificate",
+      "Watch on mobile and desktop",
     ],
   },
   {
-    name: "ক্যারিয়ার ট্র্যাক",
-    price: 8900,
-    tag: "সবচেয়ে জনপ্রিয়",
+    name: "Career Track",
+    price: 89,
+    tag: "Most Popular",
     popular: true,
     features: [
-      "৩টি সম্পর্কিত কোর্স একসাথে",
-      "সাপ্তাহিক লাইভ মেন্টর সেশন",
-      "পোর্টফোলিও ও সিভি রিভিউ",
-      "জব প্লেসমেন্ট গাইডলাইন",
-      "প্রিমিয়াম সার্টিফিকেট",
+      "3 related courses bundled together",
+      "Weekly live mentor sessions",
+      "Portfolio and resume review",
+      "Job placement guidelines",
+      "Premium certificate",
     ],
   },
   {
-    name: "প্রিমিয়াম মেন্টরশিপ",
-    price: 15900,
-    tag: "১-অন-১",
+    name: "Premium Mentorship",
+    price: 159,
+    tag: "1-on-1",
     features: [
-      "সব কোর্সে ১ বছর অ্যাক্সেস",
-      "মাসে ৪টি ১-অন-১ সেশন",
-      "ফ্রিল্যান্স প্রোফাইল সেটআপ",
-      "রিয়েল ক্লায়েন্ট প্রজেক্ট গাইড",
-      "প্রায়োরিটি সাপোর্ট",
+      "1-year access to all courses",
+      "4 one-on-one sessions per month",
+      "Freelance profile setup",
+      "Real client project guidance",
+      "Priority support",
     ],
   },
 ];
@@ -69,9 +68,9 @@ function PricingPage() {
   return (
     <PublicShell>
       <PageHero
-        eyebrow="প্রাইসিং"
-        title="সাশ্রয়ী দামে মানসম্পন্ন শেখা"
-        description="সব প্ল্যানে বিকাশ, নগদ, রকেট বা ব্যাংক ট্রান্সফারে ম্যানুয়াল পেমেন্ট সুবিধা।"
+        eyebrow="Pricing"
+        title="Quality learning at an affordable price"
+        description="All plans support payment via Bank Transfer, PayPal, or Wise with manual verification."
       />
       <section className="container-eh py-12">
         <Stagger className="grid gap-4 lg:grid-cols-3">
@@ -86,7 +85,7 @@ function PricingPage() {
                   <h2 className="text-lg font-bold">{p.name}</h2>
                   <Badge variant={p.popular ? "default" : "secondary"}>{p.tag}</Badge>
                 </div>
-                <p className="mt-4 text-3xl font-extrabold text-accent">{taka(p.price)}</p>
+                <p className="mt-4 text-3xl font-extrabold text-accent">${p.price}</p>
                 <ul className="mt-5 space-y-2.5 text-sm text-muted-foreground">
                   {p.features.map((f) => (
                     <li key={f} className="flex gap-2">
@@ -99,7 +98,7 @@ function PricingPage() {
                   className={`mt-6 h-12 w-full ${p.popular ? "bg-spark text-accent-foreground" : ""}`}
                   variant={p.popular ? "default" : "outline"}
                 >
-                  <Link to="/courses">কোর্স বাছাই করুন</Link>
+                  <Link to="/courses">Choose a Course</Link>
                 </Button>
               </div>
             </StaggerItem>
@@ -107,13 +106,13 @@ function PricingPage() {
         </Stagger>
 
         <div className="mt-10 rounded-2xl border border-border bg-card p-6">
-          <h2 className="text-lg font-bold">শিক্ষার্থী ও দলগত ছাড়</h2>
+          <h2 className="text-lg font-bold">Student & Group Discounts</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            বৈধ শিক্ষার্থী আইডি দেখালে ২০% ছাড়। ৫ জনের বেশি একসাথে ভর্তি হলে ৩০% পর্যন্ত কর্পোরেট ছাড়
-            প্রযোজ্য।
+            20% off with a valid student ID. Up to 30% corporate discount for groups enrolling
+            5 or more people at once.
           </p>
           <Button asChild variant="outline" className="mt-4">
-            <Link to="/corporate">কর্পোরেট ট্রেনিং</Link>
+            <Link to="/corporate">Corporate Training</Link>
           </Button>
         </div>
       </section>

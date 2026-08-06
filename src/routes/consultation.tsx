@@ -17,9 +17,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { categories } from "@/data/courses";
 
-const title = "ফ্রি ক্যারিয়ার কনসালটেশন — ElevateHub Ltd";
+const title = "Free Career Consultation — ElevateHub Ltd";
 const description =
-  "কোন স্কিল আপনার জন্য সঠিক? বিনামূল্যে ১৫ মিনিটের ক্যারিয়ার কনসালটেশন বুক করুন আমাদের মেন্টরদের সাথে।";
+  "Not sure which skill is right for you? Book a free 15-minute career consultation with one of our mentors.";
 
 export const Route = createFileRoute("/consultation")({
   head: () => ({
@@ -37,14 +37,14 @@ export const Route = createFileRoute("/consultation")({
 });
 
 const schema = z.object({
-  name: z.string().trim().min(2, "নাম লিখুন").max(60),
-  phone: z.string().trim().min(11, "সঠিক মোবাইল নম্বর দিন").max(15),
-  interest: z.string().min(1, "আগ্রহের বিষয় বাছাই করুন"),
-  slot: z.string().min(1, "সময় বাছাই করুন"),
+  name: z.string().trim().min(2, "Please enter your name").max(60),
+  phone: z.string().trim().min(11, "Please enter a valid phone number").max(15),
+  interest: z.string().min(1, "Please select a topic of interest"),
+  slot: z.string().min(1, "Please select a time slot"),
   note: z.string().trim().max(400).optional(),
 });
 
-const slots = ["সকাল ১১:০০ – ১১:১৫", "দুপুর ২:০০ – ২:১৫", "বিকাল ৫:০০ – ৫:১৫", "রাত ৮:৩০ – ৮:৪৫"];
+const slots = ["11:00 AM – 11:15 AM", "2:00 PM – 2:15 PM", "5:00 PM – 5:15 PM", "8:30 PM – 8:45 PM"];
 
 function ConsultationPage() {
   const [form, setForm] = useState({ name: "", phone: "", interest: "", slot: "", note: "" });
@@ -62,32 +62,32 @@ function ConsultationPage() {
     }
     setErrors({});
     setDone(true);
-    toast.success("কনসালটেশন বুক হয়েছে! আমরা ফোনে কনফার্ম করব।");
+    toast.success("Consultation booked! We'll call to confirm.");
   };
 
   return (
     <PublicShell>
       <PageHero
-        eyebrow="ফ্রি সেশন"
-        title="১৫ মিনিটে ক্যারিয়ার দিকনির্দেশনা"
-        description="কোন স্কিল, কত সময়, কীভাবে আয় — মেন্টরের সাথে কথা বলে পরিষ্কার পরিকল্পনা নিন।"
+        eyebrow="Free Session"
+        title="Career direction in 15 minutes"
+        description="Which skill, how long it takes, how to earn — talk to a mentor and leave with a clear plan."
       />
       <section className="container-eh max-w-2xl py-12">
         {done ? (
           <div className="rounded-2xl border border-success/40 bg-card p-8 text-center">
-            <h2 className="text-xl font-bold text-success">বুকিং কনফার্ম হয়েছে</h2>
+            <h2 className="text-xl font-bold text-success">Booking Confirmed</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              {form.slot} সময়ে আমাদের মেন্টর {form.phone} নম্বরে কল করবেন।
+              Our mentor will call {form.phone} during the {form.slot} slot.
             </p>
             <Button className="mt-6" variant="outline" onClick={() => setDone(false)}>
-              আরেকটি বুকিং
+              Book Another Session
             </Button>
           </div>
         ) : (
           <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-6" noValidate>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <Label htmlFor="c-name">নাম</Label>
+                <Label htmlFor="c-name">Name</Label>
                 <Input
                   id="c-name"
                   className="mt-1.5 h-11"
@@ -97,13 +97,13 @@ function ConsultationPage() {
                 {errors["name"] && <p className="mt-1 text-xs text-destructive">{errors["name"]}</p>}
               </div>
               <div>
-                <Label htmlFor="c-phone">মোবাইল</Label>
+                <Label htmlFor="c-phone">Phone</Label>
                 <Input
                   id="c-phone"
                   className="mt-1.5 h-11"
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  placeholder="01XXXXXXXXX"
+                  placeholder="+1 (415) 555-0100"
                 />
                 {errors["phone"] && <p className="mt-1 text-xs text-destructive">{errors["phone"]}</p>}
               </div>
@@ -111,10 +111,10 @@ function ConsultationPage() {
 
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <div>
-                <Label>আগ্রহের বিষয়</Label>
+                <Label>Area of Interest</Label>
                 <Select value={form.interest} onValueChange={(v) => setForm({ ...form, interest: v })}>
                   <SelectTrigger className="mt-1.5 h-11">
-                    <SelectValue placeholder="বাছাই করুন" />
+                    <SelectValue placeholder="Select an option" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((c) => (
@@ -129,10 +129,10 @@ function ConsultationPage() {
                 )}
               </div>
               <div>
-                <Label>পছন্দের সময়</Label>
+                <Label>Preferred Time</Label>
                 <Select value={form.slot} onValueChange={(v) => setForm({ ...form, slot: v })}>
                   <SelectTrigger className="mt-1.5 h-11">
-                    <SelectValue placeholder="সময় বাছাই" />
+                    <SelectValue placeholder="Select a time" />
                   </SelectTrigger>
                   <SelectContent>
                     {slots.map((s) => (
@@ -147,18 +147,18 @@ function ConsultationPage() {
             </div>
 
             <div className="mt-4">
-              <Label htmlFor="c-note">সংক্ষিপ্ত নোট (ঐচ্ছিক)</Label>
+              <Label htmlFor="c-note">Brief Note (optional)</Label>
               <Textarea
                 id="c-note"
                 className="mt-1.5 min-h-24"
                 value={form.note}
                 onChange={(e) => setForm({ ...form, note: e.target.value })}
-                placeholder="আপনার বর্তমান অবস্থা ও লক্ষ্য"
+                placeholder="Your current situation and goals"
               />
             </div>
 
             <Button type="submit" className="mt-6 h-12 w-full bg-spark text-accent-foreground">
-              ফ্রি সেশন বুক করুন
+              Book Free Session
             </Button>
           </form>
         )}

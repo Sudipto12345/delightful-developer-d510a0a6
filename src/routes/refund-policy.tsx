@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { LegalPage } from "@/components/layout/LegalPage";
 
-const title = "রিফান্ড নীতি — ElevateHub Ltd";
+const title = "Refund Policy — ElevateHub Ltd";
 const description =
-  "কোর্স ফেরত ও রিফান্ডের শর্ত, সময়সীমা এবং আবেদন প্রক্রিয়া সম্পর্কে বিস্তারিত জানুন।";
+  "Learn the terms, timelines, and process for course refunds in detail.";
 
 export const Route = createFileRoute("/refund-policy")({
   head: () => ({
@@ -20,28 +20,28 @@ export const Route = createFileRoute("/refund-policy")({
   }),
   component: () => (
     <LegalPage
-      eyebrow="আইনি"
-      title="রিফান্ড নীতি"
-      updated="সর্বশেষ হালনাগাদ: ১ আগস্ট, ২০২৬"
+      eyebrow="Legal"
+      title="Refund Policy"
+      updated="Last updated: August 1, 2026"
       sections={[
         {
-          heading: "৭ দিনের নিশ্চয়তা",
+          heading: "7-Day Guarantee",
           body: [
-            "কোর্স শুরুর ৭ দিনের মধ্যে যদি ২০%-এর কম কনটেন্ট দেখে থাকেন, তাহলে সম্পূর্ণ ফি ফেরতের আবেদন করতে পারবেন।",
+            "If you have viewed less than 20% of a course's content within 7 days of starting, you may request a full refund.",
           ],
         },
         {
-          heading: "যেসব ক্ষেত্রে রিফান্ড প্রযোজ্য নয়",
+          heading: "When Refunds Do Not Apply",
           body: [
-            "২০%-এর বেশি কনটেন্ট সম্পন্ন করলে, সার্টিফিকেট ইস্যু হলে, অথবা নীতিমালা লঙ্ঘনের কারণে অ্যাকাউন্ট স্থগিত হলে রিফান্ড প্রযোজ্য নয়।",
-            "ফ্রি ওয়েবিনার ও ডিসকাউন্ট বান্ডেলের ক্ষেত্রে আলাদা শর্ত প্রযোজ্য হতে পারে।",
+            "Refunds do not apply once more than 20% of the content has been completed, once a certificate has been issued, or if an account is suspended for a policy violation.",
+            "Separate terms may apply to free webinars and discounted bundles.",
           ],
         },
         {
-          heading: "আবেদন প্রক্রিয়া",
+          heading: "How to Apply",
           body: [
-            "support@elevatehubltd.com ঠিকানায় আপনার নাম, মোবাইল নম্বর ও ট্রানজেকশন আইডি পাঠান।",
-            "আবেদন যাচাইয়ের পর ৭–১০ কর্মদিবসের মধ্যে একই বিকাশ/নগদ/ব্যাংক অ্যাকাউন্টে টাকা ফেরত দেওয়া হয়।",
+            "Send your name, phone number, and transaction ID to support@elevatehubltd.com.",
+            "Once your request is verified, the refund is issued to the original Bank Transfer, PayPal, or Wise account within 7–10 business days.",
           ],
         },
       ]}

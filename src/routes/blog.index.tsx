@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { posts } from "@/data/content";
 
-const title = "ব্লগ ও ক্যারিয়ার গাইড — ElevateHub Ltd";
+const title = "Blog & Career Guides — ElevateHub Ltd";
 const description =
-  "ফ্রিল্যান্সিং, ওয়েব ডেভেলপমেন্ট, ডিজাইন ও ডিজিটাল মার্কেটিং নিয়ে বাংলায় বাস্তবমুখী গাইড ও টিপস।";
+  "Practical guides and tips on freelancing, web development, design, and digital marketing.";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
@@ -27,16 +27,16 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function BlogIndex() {
-  const cats = ["সব", ...Array.from(new Set(posts.map((p) => p.category)))];
-  const [cat, setCat] = useState("সব");
-  const list = cat === "সব" ? posts : posts.filter((p) => p.category === cat);
+  const cats = ["All", ...Array.from(new Set(posts.map((p) => p.category)))];
+  const [cat, setCat] = useState("All");
+  const list = cat === "All" ? posts : posts.filter((p) => p.category === cat);
 
   return (
     <PublicShell>
       <PageHero
-        eyebrow="ব্লগ"
-        title="শেখার পথে কাজে লাগবে এমন লেখা"
-        description="প্রতি সপ্তাহে নতুন গাইড — ক্যারিয়ার, স্কিল ও ফ্রিল্যান্সিং নিয়ে।"
+        eyebrow="Blog"
+        title="Writing that helps you along the way"
+        description="New guides every week — on careers, skills, and freelancing."
       />
       <section className="container-eh py-12">
         <div className="flex gap-2 overflow-x-auto pb-2">

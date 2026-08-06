@@ -6,11 +6,10 @@ import { Counter, Reveal, Stagger, StaggerItem } from "@/components/motion/Motio
 import { Button } from "@/components/ui/button";
 import { stats } from "@/data/content";
 import { instructors } from "@/data/courses";
-import { bn } from "@/lib/store";
 
-const title = "আমাদের সম্পর্কে — ElevateHub Ltd";
+const title = "About Us — ElevateHub Ltd";
 const description =
-  "ElevateHub Ltd বাংলাদেশের তরুণদের জন্য মোবাইল-ফার্স্ট স্কিল প্ল্যাটফর্ম। আমাদের মিশন, ভিশন ও টিম সম্পর্কে জানুন।";
+  "ElevateHub Ltd is a mobile-first skills platform for ambitious learners worldwide. Learn about our mission, vision, and team.";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -30,40 +29,40 @@ export const Route = createFileRoute("/about")({
 const values = [
   {
     icon: Compass,
-    title: "বাংলায় স্পষ্ট শিক্ষা",
-    text: "জটিল বিষয়ও সহজ বাংলায়, উদাহরণসহ — যাতে যেকোনো জেলার শিক্ষার্থী বুঝতে পারে।",
+    title: "Clear, Plain-Language Teaching",
+    text: "Even complex topics are explained clearly with examples — so learners anywhere can follow along.",
   },
   {
     icon: Rocket,
-    title: "ফলাফলভিত্তিক শেখা",
-    text: "প্রতিটি কোর্স শেষে থাকে পোর্টফোলিও প্রজেক্ট, যা চাকরি বা ক্লায়েন্ট পেতে কাজে লাগে।",
+    title: "Outcome-Focused Learning",
+    text: "Every course ends with a portfolio project that helps you land a job or win clients.",
   },
   {
     icon: HeartHandshake,
-    title: "মেন্টর সাপোর্ট",
-    text: "প্রশ্ন করলে উত্তর পাবেন — লাইভ সেশন ও কমিউনিটি গ্রুপে সক্রিয় মেন্টর টিম।",
+    title: "Mentor Support",
+    text: "Ask a question, get an answer — our active mentor team runs live sessions and community groups.",
   },
   {
     icon: ShieldCheck,
-    title: "স্বচ্ছ পেমেন্ট",
-    text: "বিকাশ, নগদ, রকেট বা ব্যাংক — ম্যানুয়াল ভেরিফিকেশনে নিরাপদ ও স্বচ্ছ প্রক্রিয়া।",
+    title: "Transparent Payments",
+    text: "Bank Transfer, PayPal, or Wise — with manual verification for a safe, transparent process.",
   },
 ];
 
 const milestones = [
-  { year: "২০২২", text: "৩ জন মেন্টর নিয়ে ছোট একটি ব্যাচ দিয়ে যাত্রা শুরু।" },
-  { year: "২০২৩", text: "প্রথম ৫,০০০ শিক্ষার্থী ও সম্পূর্ণ বাংলা কারিকুলাম চালু।" },
-  { year: "২০২৪", text: "মোবাইল-ফার্স্ট প্ল্যাটফর্ম ও লাইভ মেন্টরশিপ প্রোগ্রাম।" },
-  { year: "২০২৬", text: "৪২,০০০+ শিক্ষার্থী, ৬৪ জেলায় লার্নার কমিউনিটি।" },
+  { year: "2022", text: "Started with a small cohort and just 3 mentors." },
+  { year: "2023", text: "Reached our first 5,000 students and launched a full curriculum." },
+  { year: "2024", text: "Launched a mobile-first platform and live mentorship program." },
+  { year: "2026", text: "42,000+ students, with a learner community across 64 regions." },
 ];
 
 function AboutPage() {
   return (
     <PublicShell>
       <PageHero
-        eyebrow="আমাদের গল্প"
-        title="দক্ষতা হোক প্রতিটি তরুণের হাতের নাগালে"
-        description="আমরা বিশ্বাস করি ভাষা যেন শেখার পথে বাধা না হয়। তাই ElevateHub-এর প্রতিটি কোর্স বাংলায়, মোবাইলে, সাশ্রয়ী দামে।"
+        eyebrow="Our Story"
+        title="Making skills accessible to every ambitious learner"
+        description="We believe language and geography shouldn't stand in the way of learning. Every ElevateHub course is clear, mobile-friendly, and affordable."
       />
 
       <section className="container-eh py-12">
@@ -81,7 +80,7 @@ function AboutPage() {
 
       <section className="container-eh pb-12">
         <Reveal>
-          <h2 className="text-2xl font-bold">আমাদের মূল্যবোধ</h2>
+          <h2 className="text-2xl font-bold">Our Values</h2>
         </Reveal>
         <Stagger className="mt-6 grid gap-4 sm:grid-cols-2">
           {values.map((v) => (
@@ -97,7 +96,7 @@ function AboutPage() {
       </section>
 
       <section className="container-eh pb-12">
-        <h2 className="text-2xl font-bold">আমাদের যাত্রা</h2>
+        <h2 className="text-2xl font-bold">Our Journey</h2>
         <ol className="mt-6 space-y-4 border-l border-border pl-6">
           {milestones.map((m) => (
             <li key={m.year} className="relative">
@@ -110,9 +109,9 @@ function AboutPage() {
       </section>
 
       <section className="container-eh pb-16">
-        <h2 className="text-2xl font-bold">টিম ও মেন্টর</h2>
+        <h2 className="text-2xl font-bold">Team & Mentors</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          {bn(instructors.length)} জন ইন্ডাস্ট্রি বিশেষজ্ঞ নিয়মিত ক্লাস ও মেন্টরিং করেন।
+          {instructors.length} industry experts run regular classes and mentoring sessions.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           {instructors.map((i) => (
@@ -127,7 +126,7 @@ function AboutPage() {
           ))}
         </div>
         <Button asChild className="mt-8 bg-spark text-accent-foreground">
-          <Link to="/courses">কোর্স দেখুন</Link>
+          <Link to="/courses">Browse Courses</Link>
         </Button>
       </section>
     </PublicShell>
