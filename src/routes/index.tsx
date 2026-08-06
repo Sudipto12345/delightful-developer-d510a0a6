@@ -1,24 +1,596 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  BadgeCheck,
+  BrainCircuit,
+  Briefcase,
+  CalendarClock,
+  CheckCircle2,
+  Code2,
+  Facebook,
+  Headphones,
+  Megaphone,
+  MessageSquareText,
+  Palette,
+  PlayCircle,
+  Quote,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  Trophy,
+  Users,
+  Wallet,
+} from "lucide-react";
+import { type ComponentType } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import certificateImg from "@/assets/certificate.jpg";
+import heroImg from "@/assets/hero-learners.jpg";
+import mentorImg from "@/assets/mentor.jpg";
+import { CourseCard } from "@/components/course/CourseCard";
+import { PublicShell } from "@/components/layout/PublicShell";
+import {
+  CobaltCube,
+  Counter,
+  Marquee,
+  Parallax,
+  Reveal,
+  Stagger,
+  StaggerItem,
+} from "@/components/motion/Motion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { categories, instructors } from "@/data/courses";
+import { events, faqs, posts, stats, testimonials } from "@/data/content";
+import { paymentMethods } from "@/data/users";
+import { bn, useStore } from "@/lib/store";
+
+const title = "ElevateHub Ltd — বাংলায় স্কিল শিখে ক্যারিয়ার গড়ুন";
+const description =
+  "বাংলাদেশের তরুণদের জন্য মোবাইল-ফার্স্ট অনলাইন লার্নিং প্ল্যাটফর্ম। ওয়েব ডেভেলপমেন্ট, ডিজাইন, ডিজিটাল মার্কেটিং, ফ্রিল্যান্সিং ও স্পোকেন ইংলিশ কোর্স — সম্পূর্ণ বাংলায়, মেন্টর সাপোর্টসহ।";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "EducationalOrganization",
+          name: "ElevateHub Ltd",
+          url: "/",
+          description,
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "ঢাকা",
+            addressCountry: "BD",
+          },
+        }),
+      },
+    ],
+  }),
+  component: HomePage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const iconMap: Record<string, ComponentType<{ className?: string }>> = {
+  Code2,
+  Palette,
+  Megaphone,
+  Briefcase,
+  BrainCircuit,
+  MessageSquareText,
+};
+
+function SectionHead({
+  eyebrow,
+  title: heading,
+  description: desc,
+  center = true,
+}: {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  center?: boolean;
+}) {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <Reveal className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-medium text-accent">
+        <Sparkles className="h-3.5 w-3.5" /> {eyebrow}
+      </span>
+      <h2 className="mt-4 text-2xl font-extrabold sm:text-4xl">{heading}</h2>
+      {desc && <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{desc}</p>}
+    </Reveal>
+  );
+}
+
+function HomePage() {
+  const { courses } = useStore();
+  const published = courses.filter((c) => c.published);
+  const featured = published.slice(0, 6);
+
+  return (
+    <PublicShell>
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 grid-noise opacity-40" aria-hidden="true" />
+        <div
+          className="absolute -top-40 -left-32 h-96 w-96 rounded-full bg-cobalt opacity-40 blur-3xl"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute top-20 -right-24 h-80 w-80 rounded-full bg-spark opacity-20 blur-3xl"
+          aria-hidden="true"
+        />
+
+        <div className="container-eh relative grid gap-10 py-12 sm:py-20 lg:grid-cols-2 lg:items-center">
+          <div>
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-xs font-medium text-accent"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-accent" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              নতুন ব্যাচ চলছে — আসন সীমিত
+            </motion.span>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.05 }}
+              className="mt-5 text-4xl leading-[1.1] font-extrabold sm:text-6xl"
+            >
+              বাংলায় শিখুন,
+              <br />
+              <span className="text-gradient">দক্ষতায় এগিয়ে যান</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
+            >
+              ঘরে বসে মোবাইল দিয়েই শিখুন ওয়েব ডেভেলপমেন্ট, ডিজাইন, মার্কেটিং ও ফ্রিল্যান্সিং। ইন্ডাস্ট্রি
+              মেন্টর, লাইভ সাপোর্ট আর রিয়েল প্রজেক্ট — সবকিছু এক প্ল্যাটফর্মে।
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="mt-7 flex flex-col gap-3 sm:flex-row"
+            >
+              <Button asChild size="lg" className="h-12 bg-spark text-accent-foreground">
+                <Link to="/courses">
+                  কোর্স দেখুন <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-12">
+                <Link to="/consultation">
+                  <PlayCircle className="mr-1 h-4 w-4" /> ফ্রি কনসালটেশন
+                </Link>
+              </Button>
+            </motion.div>
+
+            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {stats.map((s) => (
+                <div key={s.label} className="rounded-xl border border-border bg-card/60 p-3">
+                  <p className="text-xl font-extrabold text-accent sm:text-2xl">
+                    <Counter to={s.value} suffix={s.suffix} />
+                  </p>
+                  <p className="text-xs text-muted-foreground">{s.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7 }}
+              className="relative overflow-hidden rounded-3xl border border-border glow"
+            >
+              <img
+                src={heroImg}
+                alt="অনলাইনে শিখছেন বাংলাদেশি শিক্ষার্থীরা"
+                width={1200}
+                height={1200}
+                className="h-full w-full object-cover"
+              />
+            </motion.div>
+            <CobaltCube className="absolute -top-10 -left-8 hidden lg:block" />
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-5 left-4 rounded-2xl border border-border bg-card/90 p-3 backdrop-blur soft-shadow"
+            >
+              <p className="flex items-center gap-2 text-xs font-medium">
+                <BadgeCheck className="h-4 w-4 text-success" /> ৪২,০০০+ শিক্ষার্থী শিখছেন
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+        <div className="border-y border-border/60 bg-surface/40">
+          <div className="container-eh">
+            <Marquee
+              items={[
+                "সম্পূর্ণ বাংলায় ক্লাস",
+                "লাইফটাইম অ্যাক্সেস",
+                "বিকাশ · নগদ · রকেট পেমেন্ট",
+                "ভেরিফায়েড সার্টিফিকেট",
+                "লাইভ মেন্টর সাপোর্ট",
+                "মোবাইল ফ্রেন্ডলি",
+                "রিয়েল প্রজেক্ট",
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* CATEGORIES */}
+      <section className="container-eh py-16 sm:py-24">
+        <SectionHead
+          eyebrow="ক্যাটাগরি"
+          title="আপনার আগ্রহের ক্ষেত্র বেছে নিন"
+          description="প্রতিটি ক্যাটাগরিতে রয়েছে ধাপে ধাপে সাজানো লার্নিং পাথ ও ইন্ডাস্ট্রি মেন্টর।"
+        />
+        <Stagger className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+          {categories.map((cat) => {
+            const Icon = iconMap[cat.icon] ?? Code2;
+            return (
+              <StaggerItem key={cat.slug}>
+                <Link
+                  to="/categories/$slug"
+                  params={{ slug: cat.slug }}
+                  className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-primary-soft/60 sm:p-6"
+                >
+                  <span
+                    className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${cat.color}`}
+                  >
+                    <Icon className="h-5 w-5 text-white" />
+                  </span>
+                  <h3 className="text-base font-bold sm:text-lg">{cat.name}</h3>
+                  <p className="text-xs text-muted-foreground sm:text-sm">{cat.tagline}</p>
+                  <span className="mt-auto text-xs font-medium text-primary-soft group-hover:underline">
+                    কোর্স দেখুন →
+                  </span>
+                </Link>
+              </StaggerItem>
+            );
+          })}
+        </Stagger>
+      </section>
+
+      {/* FEATURED COURSES */}
+      <section className="relative py-16 sm:py-24">
+        <div className="absolute inset-0 grid-noise opacity-20" aria-hidden="true" />
+        <div className="container-eh relative">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <SectionHead
+              center={false}
+              eyebrow="জনপ্রিয় কোর্স"
+              title="যেসব কোর্সে শিক্ষার্থীরা সবচেয়ে বেশি সফল"
+            />
+            <Button asChild variant="outline" className="w-full sm:w-auto">
+              <Link to="/courses">সব কোর্স দেখুন</Link>
+            </Button>
+          </div>
+          <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((c) => (
+              <StaggerItem key={c.id} className="h-full">
+                <CourseCard course={c} />
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* WHY US */}
+      <section className="container-eh py-16 sm:py-24">
+        <SectionHead
+          eyebrow="কেন ElevateHub"
+          title="আমরা শুধু ভিডিও দিই না, দক্ষতা তৈরি করি"
+          description="বাংলাদেশের বাস্তবতা মাথায় রেখে তৈরি — কম ইন্টারনেট, মোবাইল ডিভাইস আর ব্যস্ত রুটিনের জন্যও উপযোগী।"
+        />
+        <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: Smartphone, t: "মোবাইল ফার্স্ট", d: "কম ডেটাতেও স্মুথ ভিডিও, অফলাইন নোট ও ছোট স্ক্রিনে পড়ার উপযোগী ডিজাইন।" },
+            { icon: Users, t: "লাইভ মেন্টর সাপোর্ট", d: "সপ্তাহে দুইদিন লাইভ কিউএ ও ব্যাচভিত্তিক সাপোর্ট গ্রুপ।" },
+            { icon: Wallet, t: "সহজ পেমেন্ট", d: "বিকাশ, নগদ, রকেট বা ব্যাংক — ম্যানুয়াল ভেরিফিকেশন মাত্র ২ ঘণ্টায়।" },
+            { icon: Trophy, t: "রিয়েল প্রজেক্ট", d: "প্রতিটি কোর্সে পোর্টফোলিও-উপযোগী প্রজেক্ট ও কোড রিভিউ।" },
+            { icon: ShieldCheck, t: "ভেরিফায়েড সার্টিফিকেট", d: "ইউনিক আইডি দিয়ে যাচাইযোগ্য ডিজিটাল সার্টিফিকেট।" },
+            { icon: Headphones, t: "ক্যারিয়ার গাইডেন্স", d: "সিভি রিভিউ, ইন্টারভিউ প্র্যাকটিস ও ফ্রিল্যান্সিং গাইড।" },
+          ].map((f) => (
+            <StaggerItem key={f.t}>
+              <div className="h-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary-soft/50">
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-secondary">
+                  <f.icon className="h-5 w-5 text-accent" />
+                </span>
+                <h3 className="mt-4 text-lg font-bold">{f.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.d}</p>
+              </div>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </section>
+
+      {/* LEARNING PATH */}
+      <section className="relative overflow-hidden border-y border-border/60 bg-surface/30 py-16 sm:py-24">
+        <div className="container-eh">
+          <SectionHead
+            eyebrow="লার্নিং পাথ"
+            title="শূন্য থেকে ক্যারিয়ার — ৫টি ধাপ"
+            description="প্রতিটি ধাপে নির্দিষ্ট লক্ষ্য, অ্যাসাইনমেন্ট ও মেন্টর চেকপয়েন্ট।"
+          />
+          <div className="mt-12 grid gap-6 lg:grid-cols-5">
+            {[
+              { n: "০১", t: "স্কিল নির্বাচন", d: "ফ্রি কাউন্সেলিং সেশনে আপনার জন্য সঠিক কোর্স ঠিক করুন।" },
+              { n: "০২", t: "ফাউন্ডেশন", d: "বেসিক কনসেপ্ট বাংলায় শিখুন, প্রতিদিন ৩০ মিনিট।" },
+              { n: "০৩", t: "প্র্যাকটিস", d: "অ্যাসাইনমেন্ট ও কুইজে হাতে-কলমে দক্ষতা যাচাই।" },
+              { n: "০৪", t: "রিয়েল প্রজেক্ট", d: "পোর্টফোলিওর জন্য পূর্ণাঙ্গ প্রজেক্ট তৈরি।" },
+              { n: "০৫", t: "ক্যারিয়ার", d: "সিভি, ইন্টারভিউ ও মার্কেটপ্লেস প্রস্তুতি।" },
+            ].map((step, i) => (
+              <Reveal key={step.n} delay={i * 0.08}>
+                <div className="relative h-full rounded-2xl border border-border bg-card p-5">
+                  <span className="text-3xl font-extrabold text-gradient">{step.n}</span>
+                  <h3 className="mt-3 text-base font-bold">{step.t}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{step.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MENTORS */}
+      <section className="container-eh py-16 sm:py-24">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <Parallax amount={30}>
+            <div className="overflow-hidden rounded-3xl border border-border">
+              <img
+                src={mentorImg}
+                alt="ইন্ডাস্ট্রি মেন্টর ক্লাস নিচ্ছেন"
+                loading="lazy"
+                width={1024}
+                height={1024}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </Parallax>
+          <div>
+            <SectionHead
+              center={false}
+              eyebrow="মেন্টর প্যানেল"
+              title="যারা ইন্ডাস্ট্রিতে কাজ করছেন, তারাই শেখাচ্ছেন"
+              description="প্রত্যেক মেন্টর কমপক্ষে ৫ বছরের বাস্তব অভিজ্ঞতাসম্পন্ন।"
+            />
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {instructors.slice(0, 4).map((m, i) => (
+                <Reveal key={m.id} delay={i * 0.06}>
+                  <Link
+                    to="/instructors/$slug"
+                    params={{ slug: m.slug }}
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 transition-colors hover:border-primary-soft/60"
+                  >
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-cobalt text-sm font-bold">
+                      {m.name.slice(0, 1)}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-semibold">{m.name}</span>
+                      <span className="block truncate text-xs text-muted-foreground">{m.title}</span>
+                    </span>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+            <Button asChild variant="outline" className="mt-6">
+              <Link to="/instructors">সব মেন্টর দেখুন</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="relative overflow-hidden border-y border-border/60 bg-surface/30 py-16 sm:py-24">
+        <div className="container-eh">
+          <SectionHead
+            eyebrow="সফলতার গল্প"
+            title="তাদের গল্পই আমাদের পরিচয়"
+            description="দেশের ৬৪ জেলা থেকে শিক্ষার্থীরা শিখে ক্যারিয়ার বদলাচ্ছেন।"
+          />
+          <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {testimonials.map((t) => (
+              <StaggerItem key={t.name}>
+                <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-5">
+                  <Quote className="h-6 w-6 text-accent" />
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{t.text}</p>
+                  <div className="mt-4 border-t border-border pt-3">
+                    <p className="text-sm font-semibold">{t.name}</p>
+                    <p className="text-xs text-muted-foreground">{t.role}</p>
+                    <Badge className="mt-2 bg-success/15 text-success">{t.result}</Badge>
+                  </div>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* PAYMENT */}
+      <section className="container-eh py-16 sm:py-24">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
+            <SectionHead
+              center={false}
+              eyebrow="সহজ পেমেন্ট"
+              title="বিকাশ, নগদ, রকেট বা ব্যাংক — যেভাবে আপনার সুবিধা"
+              description="পেমেন্ট করে ট্রানজেকশন আইডি সাবমিট করুন। আমাদের টিম যাচাই করে সর্বোচ্চ ২ ঘণ্টার মধ্যে কোর্স চালু করে দেবে।"
+            />
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {paymentMethods.map((p, i) => (
+                <Reveal key={p.id} delay={i * 0.06}>
+                  <div className="rounded-2xl border border-border bg-card p-4">
+                    <span
+                      className="inline-block h-2 w-10 rounded-full"
+                      style={{ backgroundColor: p.color }}
+                    />
+                    <p className="mt-3 text-sm font-bold">{p.name}</p>
+                    <p className="mt-1 text-xs break-all text-muted-foreground">{p.number}</p>
+                    <p className="text-xs text-muted-foreground">{p.type}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
+              {["কোনো হিডেন চার্জ নেই", "৭ দিনের মধ্যে রিফান্ড সুবিধা", "প্রতিটি পেমেন্টের ডিজিটাল রশিদ"].map(
+                (li) => (
+                  <li key={li} className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-success" /> {li}
+                  </li>
+                ),
+              )}
+            </ul>
+          </div>
+          <Parallax amount={26}>
+            <div className="overflow-hidden rounded-3xl border border-border">
+              <img
+                src={certificateImg}
+                alt="কোর্স সম্পন্নের ভেরিফায়েড সার্টিফিকেট"
+                loading="lazy"
+                width={1024}
+                height={1024}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </Parallax>
+        </div>
+      </section>
+
+      {/* EVENTS */}
+      <section className="border-y border-border/60 bg-surface/30 py-16 sm:py-24">
+        <div className="container-eh">
+          <SectionHead
+            eyebrow="আসন্ন ইভেন্ট"
+            title="ফ্রি ওয়েবিনার ও বুটক্যাম্প"
+            description="প্রতি মাসে অনলাইন ও অফলাইনে ফ্রি সেশন — আসন সীমিত।"
+          />
+          <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
+            {events.map((e) => (
+              <StaggerItem key={e.title}>
+                <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-5">
+                  <CalendarClock className="h-5 w-5 text-accent" />
+                  <h3 className="mt-3 text-base font-bold">{e.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {e.date} · {e.time}
+                  </p>
+                  <p className="text-sm text-muted-foreground">{e.mode}</p>
+                  <p className="mt-3 text-xs text-accent">আসন বাকি {bn(e.seats)}</p>
+                  <Button asChild size="sm" className="mt-4 w-full">
+                    <Link to="/events">রেজিস্টার করুন</Link>
+                  </Button>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* BLOG */}
+      <section className="container-eh py-16 sm:py-24">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <SectionHead center={false} eyebrow="ব্লগ" title="শেখার রিসোর্স ও গাইড" />
+          <Button asChild variant="outline" className="w-full sm:w-auto">
+            <Link to="/blog">সব লেখা</Link>
+          </Button>
+        </div>
+        <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
+          {posts.slice(0, 3).map((p) => (
+            <StaggerItem key={p.slug}>
+              <Link
+                to="/blog/$slug"
+                params={{ slug: p.slug }}
+                className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-1 hover:border-primary-soft/60"
+              >
+                <Badge variant="secondary" className="w-fit">
+                  {p.category}
+                </Badge>
+                <h3 className="mt-3 text-base font-bold">{p.title}</h3>
+                <p className="mt-2 line-clamp-3 flex-1 text-sm text-muted-foreground">{p.excerpt}</p>
+                <p className="mt-4 text-xs text-muted-foreground">
+                  {p.date} · {p.readTime}
+                </p>
+              </Link>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </section>
+
+      {/* FAQ */}
+      <section className="container-eh pb-16 sm:pb-24">
+        <SectionHead eyebrow="সাধারণ প্রশ্ন" title="যা জানতে চান" />
+        <Reveal className="mx-auto mt-10 max-w-3xl">
+          <Accordion type="single" collapsible className="rounded-2xl border border-border bg-card px-4">
+            {faqs.map((f, i) => (
+              <AccordionItem key={f.q} value={`i-${i}`}>
+                <AccordionTrigger className="text-left text-sm font-semibold">{f.q}</AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
+      </section>
+
+      {/* CTA */}
+      <section className="container-eh pb-20">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-cobalt p-8 text-center sm:p-14">
+            <div className="absolute inset-0 grid-noise opacity-30" aria-hidden="true" />
+            <div className="relative">
+              <h2 className="text-2xl font-extrabold sm:text-4xl">আজই আপনার শেখা শুরু হোক</h2>
+              <p className="mx-auto mt-3 max-w-xl text-sm text-white/80 sm:text-base">
+                ফ্রি অ্যাকাউন্ট খুলে প্রিভিউ ক্লাস দেখুন। পছন্দ হলে তবেই এনরোল করুন।
+              </p>
+              <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+                <Button asChild size="lg" className="h-12 bg-accent text-accent-foreground">
+                  <Link to="/auth/register">ফ্রি রেজিস্ট্রেশন</Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="h-12 border-white/30 bg-white/10 text-white"
+                >
+                  <a href="https://facebook.com" target="_blank" rel="noreferrer">
+                    <Facebook className="mr-1 h-4 w-4" /> কমিউনিটিতে যোগ দিন
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+    </PublicShell>
   );
 }

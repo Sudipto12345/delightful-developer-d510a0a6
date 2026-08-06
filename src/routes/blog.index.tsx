@@ -1,0 +1,79 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+
+import { PageHero, PublicShell } from "@/components/layout/PublicShell";
+import { Stagger, StaggerItem } from "@/components/motion/Motion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { posts } from "@/data/content";
+
+const title = "ব্লগ ও ক্যারিয়ার গাইড — ElevateHub Ltd";
+const description =
+  "ফ্রিল্যান্সিং, ওয়েব ডেভেলপমেন্ট, ডিজাইন ও ডিজিটাল মার্কেটিং নিয়ে বাংলায় বাস্তবমুখী গাইড ও টিপস।";
+
+export const Route = createFileRoute("/blog/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/blog" },
+    ],
+    links: [{ rel: "canonical", href: "/blog" }],
+  }),
+  component: BlogIndex,
+});
+
+function BlogIndex() {
+  const cats = ["সব", ...Array.from(new Set(posts.map((p) => p.category)))];
+  const [cat, setCat] = useState("সব");
+  const list = cat === "সব" ? posts : posts.filter((p) => p.category === cat);
+
+  return (
+    <PublicShell>
+      <PageHero
+        eyebrow="ব্লগ"
+        title="শেখার পথে কাজে লাগবে এমন লেখা"
+        description="প্রতি সপ্তাহে নতুন গাইড — ক্যারিয়ার, স্কিল ও ফ্রিল্যান্সিং নিয়ে।"
+      />
+      <section className="container-eh py-12">
+        <div className="flex gap-2 overflow-x-auto pb-2">
+          {cats.map((c) => (
+            <Button
+              key={c}
+              size="sm"
+              variant={c === cat ? "default" : "outline"}
+              className="shrink-0"
+              onClick={() => setCat(c)}
+            >
+              {c}
+            </Button>
+          ))}
+        </div>
+
+        <Stagger className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((p) => (
+            <StaggerItem key={p.slug} className="h-full">
+              <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary-soft/60">
+                <Badge variant="secondary" className="w-fit">
+                  {p.category}
+                </Badge>
+                <h2 className="mt-3 text-lg leading-snug font-bold">
+                  <Link to="/blog/$slug" params={{ slug: p.slug }} className="story-link">
+                    {p.title}
+                  </Link>
+                </h2>
+                <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{p.excerpt}</p>
+                <p className="mt-auto pt-4 text-xs text-muted-foreground">
+                  {p.author} · {p.date} · {p.readTime}
+                </p>
+              </article>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </section>
+    </PublicShell>
+  );
+}
