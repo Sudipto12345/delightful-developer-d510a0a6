@@ -60,7 +60,7 @@ const initialState: State = {
 };
 
 const now = () =>
-  new Date().toLocaleString("bn-BD", { dateStyle: "medium", timeStyle: "short" });
+  new Date().toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" });
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>(initialState);
