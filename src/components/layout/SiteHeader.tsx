@@ -15,8 +15,8 @@ import {
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/lib/store";
 import { useTheme } from "@/lib/theme";
+import { useAuth } from "@/hooks/useAuth";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -31,7 +31,7 @@ const navItems = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const { session } = useStore();
+  const { session } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
   return (
