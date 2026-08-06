@@ -19,14 +19,14 @@ import { useStore } from "@/lib/store";
 import { useTheme } from "@/lib/theme";
 
 const navItems = [
-  { to: "/", label: "হোম" },
-  { to: "/courses", label: "কোর্সসমূহ" },
-  { to: "/instructors", label: "মেন্টর" },
-  { to: "/events", label: "ইভেন্ট" },
-  { to: "/blog", label: "ব্লগ" },
-  { to: "/corporate", label: "কর্পোরেট" },
-  { to: "/about", label: "আমাদের সম্পর্কে" },
-  { to: "/contact", label: "যোগাযোগ" },
+  { to: "/", label: "Home" },
+  { to: "/courses", label: "Courses" },
+  { to: "/instructors", label: "Mentors" },
+  { to: "/events", label: "Events" },
+  { to: "/blog", label: "Blog" },
+  { to: "/corporate", label: "For Teams" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
 ] as const;
 
 export function SiteHeader() {
@@ -67,25 +67,25 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <button
             onClick={toggleTheme}
-            aria-label={theme === "dark" ? "লাইট মোড চালু করুন" : "ডার্ক মোড চালু করুন"}
-            title={theme === "dark" ? "লাইট মোড" : "ডার্ক মোড"}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            title={theme === "dark" ? "Light mode" : "Dark mode"}
             className="grid h-10 w-10 place-items-center rounded-xl border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
           >
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
             <Link to={session ? "/dashboard" : "/auth/login"}>
-              {session ? "ড্যাশবোর্ড" : "লগইন"}
+              {session ? "Dashboard" : "Log in"}
             </Link>
           </Button>
           <Button asChild size="sm" className="hidden bg-spark text-accent-foreground sm:inline-flex">
             <Link to="/courses">
-              <Sparkles className="mr-1 h-4 w-4" /> শেখা শুরু করুন
+              <Sparkles className="mr-1 h-4 w-4" /> Start learning
             </Link>
           </Button>
           <button
             onClick={() => setOpen((v) => !v)}
-            aria-label="মেনু"
+            aria-label="Menu"
             className="grid h-10 w-10 place-items-center rounded-xl border border-border lg:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -118,12 +118,12 @@ export function SiteHeader() {
               <div className="mt-2 grid grid-cols-2 gap-2">
                 <Button asChild variant="outline">
                   <Link to="/auth/login" onClick={() => setOpen(false)}>
-                    লগইন
+                    Log in
                   </Link>
                 </Button>
                 <Button asChild className="bg-spark text-accent-foreground">
                   <Link to="/auth/register" onClick={() => setOpen(false)}>
-                    রেজিস্ট্রেশন
+                    Sign up
                   </Link>
                 </Button>
               </div>
@@ -136,10 +136,10 @@ export function SiteHeader() {
 }
 
 const mobileTabs = [
-  { to: "/", label: "হোম", icon: Home },
-  { to: "/courses", label: "কোর্স", icon: BookOpen },
-  { to: "/dashboard", label: "আমার", icon: LayoutDashboard },
-  { to: "/contact", label: "যোগাযোগ", icon: Phone },
+  { to: "/", label: "Home", icon: Home },
+  { to: "/courses", label: "Courses", icon: BookOpen },
+  { to: "/dashboard", label: "My hub", icon: LayoutDashboard },
+  { to: "/contact", label: "Contact", icon: Phone },
 ] as const;
 
 export function MobileTabBar() {
