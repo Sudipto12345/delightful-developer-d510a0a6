@@ -6,14 +6,17 @@ import {
   Home,
   LayoutDashboard,
   Menu,
+  Moon,
   Phone,
   Sparkles,
+  Sun,
   X,
 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/store";
+import { useTheme } from "@/lib/theme";
 
 const navItems = [
   { to: "/", label: "হোম" },
@@ -29,6 +32,7 @@ const navItems = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { session } = useStore();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
@@ -61,6 +65,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "লাইট মোড চালু করুন" : "ডার্ক মোড চালু করুন"}
+            title={theme === "dark" ? "লাইট মোড" : "ডার্ক মোড"}
+            className="grid h-10 w-10 place-items-center rounded-xl border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+          >
+            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
             <Link to={session ? "/dashboard" : "/auth/login"}>
               {session ? "ড্যাশবোর্ড" : "লগইন"}
