@@ -98,12 +98,10 @@ export function SiteHeader() {
 
       <div className="container-eh flex h-16 items-center justify-between gap-3">
         <Link to="/" className="group flex min-w-0 items-center gap-2.5">
-          <span
-            className="relative grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-spark soft-shadow transition-transform duration-300 group-hover:-rotate-6"
-            style={{ clipPath: "polygon(14% 0, 100% 0, 86% 100%, 0 100%)" }}
-          >
-            <GraduationCap className="h-5 w-5 text-accent-foreground" />
+          <span className="relative grid h-9 w-9 shrink-0 place-items-center transition-transform duration-300 group-hover:-rotate-6">
+            <img src={logoMark} alt="ElevateHub Ltd logo" width={36} height={36} className="h-9 w-9" />
           </span>
+
           <span className="min-w-0">
             <span className="block truncate text-base leading-tight font-bold">ElevateHub</span>
             <span className="block text-[10px] tracking-[0.18em] text-muted-foreground uppercase">
