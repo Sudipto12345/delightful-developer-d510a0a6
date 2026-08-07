@@ -22,7 +22,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
-import { type ComponentType } from "react";
+import { type ComponentType, type ReactNode } from "react";
 
 import certificateImg from "@/assets/certificate.jpg";
 import heroImg from "@/assets/hero-learners.jpg";
