@@ -17,6 +17,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/hooks/useAuth";
+import { useStore } from "@/lib/store";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -32,6 +33,8 @@ const navItems = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { session } = useAuth();
+  const { session: storeSession } = useStore();
+  const isLoggedIn = Boolean(session || storeSession);
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -74,8 +77,16 @@ export function SiteHeader() {
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
-            <Link to={session ? "/dashboard" : "/auth/login"}>
-              {session ? "Dashboard" : "Log in"}
+            {isLoggedIn && (
+              <Link
+                to="/admin"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Admin
+              </Link>
+            )}
+            <Link to={isLoggedIn ? "/dashboard" : "/auth/login"}>
+              {isLoggedIn ? "Dashboard" : "Log in"}
             </Link>
           </Button>
           <Button asChild size="sm" className="hidden bg-spark text-accent-foreground sm:inline-flex">
