@@ -26,6 +26,9 @@ import { type ComponentType } from "react";
 
 import certificateImg from "@/assets/certificate.jpg";
 import heroImg from "@/assets/hero-learners.jpg";
+import heroLoop from "@/assets/hero-loop.mp4.asset.json";
+import sectionLoop from "@/assets/section-loop.mp4.asset.json";
+
 import mentorImg from "@/assets/mentor.jpg";
 import { CourseCard } from "@/components/course/CourseCard";
 import { PublicShell } from "@/components/layout/PublicShell";
@@ -130,7 +133,22 @@ function HomePage() {
     <PublicShell>
       {/* HERO */}
       <section className="relative overflow-hidden">
+        <video
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+          src={heroLoop.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background"
+          aria-hidden="true"
+        />
         <div className="absolute inset-0 grid-noise opacity-40" aria-hidden="true" />
+
         <div
           className="absolute -top-40 -left-32 h-96 w-96 rounded-full bg-cobalt opacity-40 blur-3xl"
           aria-hidden="true"
@@ -255,6 +273,40 @@ function HomePage() {
           </div>
         </div>
         <KanthaDivider className="mt-1" segments={22} />
+      </section>
+
+      {/* CINEMATIC SHOWREEL */}
+      <section className="relative border-y border-border/60">
+        <div className="container-eh py-12 sm:py-16">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <h2 className="text-2xl font-extrabold sm:text-4xl">
+              A Learning Experience Built for <span className="text-gradient">Momentum</span>
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+              Live cohorts, hands-on projects, and mentors from global product teams — designed to
+              keep you moving forward every single week.
+            </p>
+          </Reveal>
+          <Reveal className="mt-8">
+            <div className="relative overflow-hidden rounded-3xl border border-border glow">
+              <video
+                className="aspect-video h-full w-full object-cover"
+                src={sectionLoop.url}
+                poster={heroImg}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-label="ElevateHub learning experience showreel"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 to-transparent"
+                aria-hidden="true"
+              />
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* CATEGORIES */}

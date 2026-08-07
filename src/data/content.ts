@@ -25,7 +25,7 @@ export const posts: BlogPost[] = [
     ],
   },
   {
-    slug: "web-development-roadmap-bangla",
+    slug: "web-development-roadmap",
     title: "The Web Development Roadmap: Step by Step",
     excerpt: "The right order to learn everything from HTML to full stack, and where not to waste your time.",
     category: "Web Development",
@@ -39,7 +39,7 @@ export const posts: BlogPost[] = [
     ],
   },
   {
-    slug: "facebook-ads-budget-bangladesh",
+    slug: "facebook-ads-budget-guide",
     title: "Facebook Ads on a Small Budget: Strategies for Small Businesses",
     excerpt: "How to run a profitable campaign even with a small daily budget.",
     category: "Digital Marketing",
@@ -67,7 +67,7 @@ export const posts: BlogPost[] = [
     ],
   },
   {
-    slug: "ai-tools-productivity-bangla",
+    slug: "ai-tools-productivity",
     title: "Boost Your Study and Work Speed with AI Tools",
     excerpt: "A list of essential AI tools for students and professionals.",
     category: "Data & AI",
