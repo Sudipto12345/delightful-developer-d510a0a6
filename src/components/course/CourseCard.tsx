@@ -29,7 +29,7 @@ export function CourseCard({ course }: { course: Course }) {
           height={640}
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-transparent" />
         <div className="absolute inset-0 grid-noise opacity-20" />
         <div className="absolute -right-6 -bottom-8 h-28 w-28 rounded-full bg-spark opacity-40 blur-2xl transition-transform duration-500 group-hover:scale-125" />
 
