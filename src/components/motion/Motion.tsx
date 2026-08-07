@@ -79,7 +79,7 @@ export function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
     return spring.on("change", (v) => {
       if (ref.current) {
         ref.current.textContent =
-          Math.round(v).toLocaleString("bn-BD", { maximumFractionDigits: 0 }) + suffix;
+          Math.round(v).toLocaleString("en-US", { maximumFractionDigits: 0 }) + suffix;
       }
     });
   }, [spring, suffix]);
