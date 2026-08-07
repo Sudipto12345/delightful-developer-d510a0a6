@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { PageHero, PublicShell } from "./PublicShell";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Motion";
 
 export function LegalPage({
   eyebrow,
@@ -19,19 +20,19 @@ export function LegalPage({
     <PublicShell>
       <PageHero eyebrow={eyebrow} title={title} description={updated} />
       <section className="container-eh max-w-3xl py-12">
-        <div className="space-y-8">
+        <Stagger className="space-y-8">
           {sections.map((s) => (
-            <div key={s.heading}>
+            <StaggerItem key={s.heading}>
               <h2 className="text-xl font-bold">{s.heading}</h2>
               <div className="mt-3 space-y-3 leading-relaxed text-muted-foreground">
                 {s.body.map((p) => (
                   <p key={p}>{p}</p>
                 ))}
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
-        {children}
+        </Stagger>
+        {children && <Reveal delay={0.1}>{children}</Reveal>}
       </section>
     </PublicShell>
   );

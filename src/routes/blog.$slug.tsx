@@ -4,6 +4,7 @@ import { PublicShell } from "@/components/layout/PublicShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getPost, posts, type BlogPost } from "@/data/content";
+import { Reveal } from "@/components/motion/Motion";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
@@ -50,38 +51,48 @@ function BlogDetail() {
   return (
     <PublicShell>
       <article className="container-eh max-w-3xl py-12">
-        <Badge variant="secondary">{post.category}</Badge>
-        <h1 className="mt-4 text-3xl leading-tight font-extrabold sm:text-4xl">{post.title}</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          {post.author} · {post.date} · {post.readTime} read
-        </p>
-        <div className="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground">
-          {post.body.map((para) => (
-            <p key={para}>{para}</p>
-          ))}
-        </div>
-
-        <div className="mt-10 rounded-2xl border border-border bg-card p-6">
-          <h2 className="text-lg font-bold">Ready to start learning?</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Check out the course you're interested in and start your journey today.
+        <Reveal>
+          <Badge variant="secondary">{post.category}</Badge>
+          <h1 className="mt-4 text-3xl leading-tight font-extrabold sm:text-4xl">{post.title}</h1>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {post.author} · {post.date} · {post.readTime} read
           </p>
-          <Button asChild className="mt-4 bg-spark text-accent-foreground">
-            <Link to="/courses">Browse Courses</Link>
-          </Button>
-        </div>
+          <div className="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground">
+            {post.body.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className="mt-10 rounded-2xl border border-border bg-card p-6">
+            <h2 className="text-lg font-bold">Ready to start learning?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Check out the course you're interested in and start your journey today.
+            </p>
+            <Button asChild className="mt-4 bg-spark text-accent-foreground">
+              <Link to="/courses">Browse Courses</Link>
+            </Button>
+          </div>
+        </Reveal>
 
         <h2 className="mt-12 text-xl font-bold">Read More</h2>
-        <ul className="mt-4 space-y-3">
-          {related.map((p) => (
-            <li key={p.slug} className="rounded-xl border border-border bg-card p-4">
-              <Link to="/blog/$slug" params={{ slug: p.slug }} className="font-semibold story-link">
-                {p.title}
-              </Link>
-              <p className="mt-1 text-sm text-muted-foreground">{p.excerpt}</p>
-            </li>
-          ))}
-        </ul>
+        <Reveal delay={0.15}>
+          <ul className="mt-4 space-y-3">
+            {related.map((p) => (
+              <li key={p.slug} className="rounded-xl border border-border bg-card p-4">
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: p.slug }}
+                  className="font-semibold story-link"
+                >
+                  {p.title}
+                </Link>
+                <p className="mt-1 text-sm text-muted-foreground">{p.excerpt}</p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </article>
     </PublicShell>
   );

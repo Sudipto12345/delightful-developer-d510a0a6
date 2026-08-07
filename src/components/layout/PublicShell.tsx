@@ -1,13 +1,26 @@
 import type { ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 
 import { MobileTabBar, SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
+import { AmbientBackground } from "@/components/motion/Motion";
 
 export function PublicShell({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
   return (
     <div className="min-h-screen bg-background">
+      <AmbientBackground />
       <SiteHeader />
-      <main>{children}</main>
+      <motion.main
+        key={pathname}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {children}
+      </motion.main>
       <SiteFooter />
       <MobileTabBar />
     </div>
