@@ -450,6 +450,18 @@ function HomePage() {
           eyebrow="Categories"
           title="Choose Your Field of Interest"
           description="Every category comes with a step-by-step learning path and industry mentors."
+          aside={
+            <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+              <p className="text-sm font-bold">Not sure where to start?</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Take a 2-minute skill match with an advisor and get a personalised roadmap plus a
+                20% first-course credit.
+              </p>
+              <Button asChild size="sm" className="mt-3 bg-spark text-accent-foreground">
+                <Link to="/consultation">Get my roadmap</Link>
+              </Button>
+            </div>
+          }
         />
         <Stagger className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {categories.map((cat) => {
@@ -482,16 +494,28 @@ function HomePage() {
       <section className="relative py-16 sm:py-24">
         <div className="absolute inset-0 grid-noise opacity-20" aria-hidden="true" />
         <div className="container-eh relative">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <SectionHead
-              center={false}
-              eyebrow="Popular Courses"
-              title="The Courses Driving the Most Career Wins"
-            />
-            <Button asChild variant="outline" className="w-full sm:w-auto">
-              <Link to="/courses">View All Courses</Link>
-            </Button>
-          </div>
+          <SectionHead
+            eyebrow="Popular Courses"
+            title="The Courses Driving the Most Career Wins"
+            description="Hand-picked programs with the highest completion and hiring outcomes this quarter."
+            aside={
+              <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+                <p className="text-sm font-bold">Bundle & save 40%</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Enroll in any two courses this week and the second one is half price — refundable
+                  for 7 days.
+                </p>
+                <div className="mt-3 flex gap-2">
+                  <Button asChild size="sm" className="bg-spark text-accent-foreground">
+                    <Link to="/pricing">See bundles</Link>
+                  </Button>
+                  <Button asChild size="sm" variant="outline">
+                    <Link to="/courses">All courses</Link>
+                  </Button>
+                </div>
+              </div>
+            }
+          />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((c) => (
               <StaggerItem key={c.id} className="h-full">
@@ -508,6 +532,18 @@ function HomePage() {
           eyebrow="Why ElevateHub"
           title="We Don't Just Stream Videos — We Build Skills"
           description="Designed for real life — low bandwidth, mobile devices, and busy schedules, wherever you are."
+          aside={
+            <div className="overflow-hidden rounded-2xl border border-border">
+              <img
+                src={workspaceImg}
+                alt="Laptop workspace used by an ElevateHub learner"
+                loading="lazy"
+                width={1408}
+                height={912}
+                className="h-40 w-full object-cover"
+              />
+            </div>
+          }
         />
         <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
@@ -562,6 +598,18 @@ function HomePage() {
             eyebrow="Learning Path"
             title="Zero to Career — 5 Steps"
             description="Every step has clear goals, assignments, and mentor checkpoints."
+            aside={
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-border bg-card/70 p-4">
+                  <p className="text-2xl font-extrabold text-accent">12 wks</p>
+                  <p className="text-xs text-muted-foreground">Average time to job-ready</p>
+                </div>
+                <div className="rounded-2xl border border-border bg-card/70 p-4">
+                  <p className="text-2xl font-extrabold text-accent">89%</p>
+                  <p className="text-xs text-muted-foreground">Complete their capstone</p>
+                </div>
+              </div>
+            }
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-5">
             {[
@@ -656,6 +704,18 @@ function HomePage() {
             eyebrow="Success Stories"
             title="Their Stories Are Our Proof"
             description="Learners in 60+ countries are transforming their careers with us."
+            aside={
+              <div className="overflow-hidden rounded-2xl border border-border">
+                <img
+                  src={learnerImg}
+                  alt="A learner working through a course module at home"
+                  loading="lazy"
+                  width={1200}
+                  height={1408}
+                  className="h-40 w-full object-cover"
+                />
+              </div>
+            }
           />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {testimonials.map((t) => (
@@ -736,6 +796,17 @@ function HomePage() {
             eyebrow="Upcoming Events"
             title="Free Webinars & Bootcamps"
             description="Free sessions online and in person every month — seats are limited."
+            aside={
+              <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+                <p className="text-sm font-bold">Can't make it live?</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Every session is recorded and sent to registered attendees within 24 hours.
+                </p>
+                <Button asChild size="sm" variant="outline" className="mt-3">
+                  <Link to="/events">Reserve a seat</Link>
+                </Button>
+              </div>
+            }
           />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
             {events.map((e) => (
@@ -760,12 +831,16 @@ function HomePage() {
 
       {/* BLOG */}
       <section className="container-eh py-16 sm:py-24">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <SectionHead center={false} eyebrow="Blog" title="Learning Resources & Guides" />
-          <Button asChild variant="outline" className="w-full sm:w-auto">
-            <Link to="/blog">View All Posts</Link>
-          </Button>
-        </div>
+        <SectionHead
+          eyebrow="Blog"
+          title="Learning Resources & Guides"
+          description="Playbooks, salary breakdowns and portfolio teardowns from our mentor network."
+          aside={
+            <Button asChild variant="outline" className="w-full sm:w-auto">
+              <Link to="/blog">View All Posts</Link>
+            </Button>
+          }
+        />
         <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
           {posts.slice(0, 3).map((p) => (
             <StaggerItem key={p.slug}>
