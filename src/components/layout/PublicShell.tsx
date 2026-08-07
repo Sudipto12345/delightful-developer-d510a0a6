@@ -15,12 +15,13 @@ export function PublicShell({ children }: { children: ReactNode }) {
       <SiteHeader />
       <motion.main
         key={pathname}
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 24, filter: "blur(8px)", scale: 0.995 }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
       </motion.main>
+
       <SiteFooter />
       <MobileTabBar />
     </div>

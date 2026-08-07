@@ -1,7 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  ArrowRight,
   BookOpen,
+  ChevronDown,
   GraduationCap,
   Home,
   LayoutDashboard,
@@ -19,19 +21,61 @@ import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { useStore } from "@/lib/store";
 
-const navItems = [
+type NavChild = { to: string; label: string; desc: string };
+type NavItem = { to: string; label: string; children?: NavChild[] };
+
+const navItems: NavItem[] = [
+  { to: "/", label: "Home" },
+  {
+    to: "/courses",
+    label: "Learn",
+    children: [
+      { to: "/courses", label: "All Courses", desc: "Browse the full catalog by skill and level" },
+      { to: "/categories/web-development", label: "Web Development", desc: "Full-stack, React, APIs" },
+      { to: "/categories/graphic-design", label: "Design", desc: "Brand, UI/UX and visual craft" },
+      { to: "/categories/digital-marketing", label: "Marketing", desc: "Growth, ads and analytics" },
+      { to: "/categories/data-ai", label: "Data & AI", desc: "Python, analytics, AI at work" },
+      { to: "/pricing", label: "Pricing", desc: "Plans, bundles and refunds" },
+    ],
+  },
+  {
+    to: "/instructors",
+    label: "Community",
+    children: [
+      { to: "/instructors", label: "Mentors", desc: "Meet the industry practitioners" },
+      { to: "/events", label: "Events", desc: "Live webinars and bootcamps" },
+      { to: "/blog", label: "Blog", desc: "Guides, playbooks and career tips" },
+      { to: "/consultation", label: "Free Consultation", desc: "Talk to an advisor in 15 minutes" },
+    ],
+  },
+  {
+    to: "/corporate",
+    label: "Company",
+    children: [
+      { to: "/corporate", label: "For Teams", desc: "Upskill your whole organization" },
+      { to: "/about", label: "About Us", desc: "Our story, mission and standards" },
+      { to: "/faq", label: "FAQ", desc: "Answers to the common questions" },
+      { to: "/contact", label: "Contact", desc: "Talk to our support team" },
+    ],
+  },
+];
+
+const mobileNav: { to: string; label: string }[] = [
   { to: "/", label: "Home" },
   { to: "/courses", label: "Courses" },
   { to: "/instructors", label: "Mentors" },
   { to: "/events", label: "Events" },
   { to: "/blog", label: "Blog" },
+  { to: "/pricing", label: "Pricing" },
   { to: "/corporate", label: "For Teams" },
   { to: "/about", label: "About" },
+  { to: "/faq", label: "FAQ" },
   { to: "/contact", label: "Contact" },
-] as const;
+];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState<string | null>(null);
   const { session } = useAuth();
   const { session: storeSession } = useStore();
   const isLoggedIn = Boolean(session || storeSession);
@@ -52,7 +96,7 @@ export function SiteHeader() {
         />
       </div>
 
-      <div className="container-eh grid h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+      <div className="container-eh flex h-16 items-center justify-between gap-3">
         <Link to="/" className="group flex min-w-0 items-center gap-2.5">
           <span
             className="relative grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-spark soft-shadow transition-transform duration-300 group-hover:-rotate-6"
@@ -68,29 +112,77 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-0.5 lg:flex">
+        <nav
+          className="relative hidden items-center gap-0.5 lg:flex"
+          onMouseLeave={() => setMenu(null)}
+        >
           {navItems.map((item) => {
             const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+            const isOpen = menu === item.label;
             return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-foreground ${
-                  active ? "text-foreground" : "text-muted-foreground"
-                }`}
-              >
-                {item.label}
-                {active && (
-                  <motion.span
-                    layoutId="nav-active-pill"
-                    className="absolute inset-x-1.5 -bottom-[1px] h-[2px] rounded-full bg-spark"
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                  />
-                )}
-              </Link>
+              <div key={item.label} onMouseEnter={() => setMenu(item.children ? item.label : null)}>
+                <Link
+                  to={item.to}
+                  className={`relative flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-foreground ${
+                    active ? "text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  {item.label}
+                  {item.children && (
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  )}
+                  {active && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      className="absolute inset-x-1.5 -bottom-[1px] h-[2px] rounded-full bg-spark"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    />
+                  )}
+                </Link>
+
+                <AnimatePresence>
+                  {isOpen && item.children && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: 6, filter: "blur(4px)" }}
+                      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute top-full left-1/2 z-50 w-[560px] -translate-x-1/2 pt-3"
+                    >
+                      <div className="grid grid-cols-2 gap-1 rounded-2xl border border-border bg-card/95 p-2 backdrop-blur-xl soft-shadow">
+                        {item.children.map((child, i) => (
+                          <motion.div
+                            key={child.to}
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.03 * i, duration: 0.25 }}
+                          >
+                            <Link
+                              to={child.to}
+                              onClick={() => setMenu(null)}
+                              className="group flex h-full flex-col gap-0.5 rounded-xl px-3 py-2.5 transition-colors hover:bg-secondary"
+                            >
+                              <span className="flex items-center gap-1.5 text-sm font-semibold">
+                                {child.label}
+                                <ArrowRight className="h-3.5 w-3.5 -translate-x-1 text-accent opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                              </span>
+                              <span className="text-xs leading-snug text-muted-foreground">
+                                {child.desc}
+                              </span>
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             );
           })}
         </nav>
+
 
         <div className="flex items-center gap-2">
           <button
@@ -140,8 +232,8 @@ export function SiteHeader() {
             transition={{ duration: 0.25 }}
             className="overflow-hidden border-t border-border/60 lg:hidden"
           >
-            <div className="container-eh grid gap-1 py-3">
-              {navItems.map((item, i) => {
+            <div className="container-eh grid gap-1 py-3 sm:grid-cols-2">
+              {mobileNav.map((item, i) => {
                 const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
                 return (
                   <motion.div
@@ -163,7 +255,7 @@ export function SiteHeader() {
                   </motion.div>
                 );
               })}
-              <div className="mt-2 grid grid-cols-2 gap-2">
+              <div className="mt-2 grid grid-cols-2 gap-2 sm:col-span-2">
                 <Button asChild variant="outline">
                   <Link to="/auth/login" onClick={() => setOpen(false)}>
                     Log in
