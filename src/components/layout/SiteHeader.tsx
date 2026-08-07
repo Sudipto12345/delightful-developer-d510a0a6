@@ -36,12 +36,28 @@ export function SiteHeader() {
   const { session: storeSession } = useStore();
   const isLoggedIn = Boolean(session || storeSession);
   const { theme, toggleTheme } = useTheme();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      {/* Speed-line accent strip — youth/sports energy, diagonal cut */}
+      <div className="relative h-[3px] overflow-hidden bg-spark">
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(115deg, transparent 0 18px, color-mix(in oklab, white 55%, transparent) 18px 20px)",
+          }}
+          aria-hidden="true"
+        />
+      </div>
+
       <div className="container-eh grid h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-        <Link to="/" className="flex min-w-0 items-center gap-2.5">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-spark soft-shadow">
+        <Link to="/" className="group flex min-w-0 items-center gap-2.5">
+          <span
+            className="relative grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-spark soft-shadow transition-transform duration-300 group-hover:-rotate-6"
+            style={{ clipPath: "polygon(14% 0, 100% 0, 86% 100%, 0 100%)" }}
+          >
             <GraduationCap className="h-5 w-5 text-accent-foreground" />
           </span>
           <span className="min-w-0">
@@ -52,19 +68,28 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              activeProps={{ className: "text-foreground bg-secondary" }}
-              inactiveProps={{ className: "text-muted-foreground" }}
-              className="rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-foreground"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-0.5 lg:flex">
+          {navItems.map((item) => {
+            const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-foreground ${
+                  active ? "text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                {item.label}
+                {active && (
+                  <motion.span
+                    layoutId="nav-active-pill"
+                    className="absolute inset-x-1.5 -bottom-[1px] h-[2px] rounded-full bg-spark"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -72,7 +97,7 @@ export function SiteHeader() {
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             title={theme === "dark" ? "Light mode" : "Dark mode"}
-            className="grid h-10 w-10 place-items-center rounded-xl border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
           >
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
@@ -86,7 +111,11 @@ export function SiteHeader() {
               {isLoggedIn ? "Dashboard" : "Log in"}
             </Link>
           </Button>
-          <Button asChild size="sm" className="hidden bg-spark text-accent-foreground sm:inline-flex">
+          <Button
+            asChild
+            size="sm"
+            className="hidden bg-spark text-accent-foreground sm:inline-flex"
+          >
             <Link to="/courses">
               <Sparkles className="mr-1 h-4 w-4" /> Start learning
             </Link>
@@ -94,7 +123,8 @@ export function SiteHeader() {
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
-            className="grid h-10 w-10 place-items-center rounded-xl border border-border lg:hidden"
+            aria-expanded={open}
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border lg:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -111,18 +141,28 @@ export function SiteHeader() {
             className="overflow-hidden border-t border-border/60 lg:hidden"
           >
             <div className="container-eh grid gap-1 py-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                  className="rounded-lg px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
-                  activeProps={{ className: "bg-secondary text-foreground" }}
-                  activeOptions={{ exact: item.to === "/" }}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item, i) => {
+                const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+                return (
+                  <motion.div
+                    key={item.to}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.2, delay: i * 0.03 }}
+                  >
+                    <Link
+                      to={item.to}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center justify-between rounded-lg px-3 py-3 text-sm font-medium hover:bg-secondary hover:text-foreground ${
+                        active ? "bg-secondary text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      {item.label}
+                      {active && <span className="h-1.5 w-1.5 rounded-full bg-accent" />}
+                    </Link>
+                  </motion.div>
+                );
+              })}
               <div className="mt-2 grid grid-cols-2 gap-2">
                 <Button asChild variant="outline">
                   <Link to="/auth/login" onClick={() => setOpen(false)}>
@@ -161,8 +201,15 @@ export function MobileTabBar() {
             <li key={tab.to}>
               <Link
                 to={tab.to}
-                className="flex min-h-[56px] flex-col items-center justify-center gap-1 text-[11px]"
+                className="relative flex min-h-[56px] flex-col items-center justify-center gap-1 text-[11px]"
               >
+                {active && (
+                  <motion.span
+                    layoutId="tab-active-dash"
+                    className="absolute top-0 h-[2px] w-8 rounded-full bg-spark"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  />
+                )}
                 <tab.icon
                   className={`h-5 w-5 ${active ? "text-accent" : "text-muted-foreground"}`}
                 />

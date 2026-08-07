@@ -32,6 +32,11 @@ export function PageHero({
         className="absolute -top-32 -right-24 h-72 w-72 rounded-full bg-cobalt opacity-30 blur-3xl"
         aria-hidden="true"
       />
+      <div
+        className="absolute inset-x-0 top-0 h-1 bg-spark"
+        style={{ clipPath: "polygon(0 0, 92% 0, 100% 100%, 8% 100%)" }}
+        aria-hidden="true"
+      />
       <div className="container-eh relative py-14 sm:py-20">
         {eyebrow && (
           <span className="inline-flex items-center rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-medium text-accent">
