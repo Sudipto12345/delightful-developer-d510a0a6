@@ -26,6 +26,9 @@ import { type ComponentType } from "react";
 
 import certificateImg from "@/assets/certificate.jpg";
 import heroImg from "@/assets/hero-learners.jpg";
+import heroLoop from "@/assets/hero-loop.mp4.asset.json";
+import sectionLoop from "@/assets/section-loop.mp4.asset.json";
+
 import mentorImg from "@/assets/mentor.jpg";
 import { CourseCard } from "@/components/course/CourseCard";
 import { PublicShell } from "@/components/layout/PublicShell";
