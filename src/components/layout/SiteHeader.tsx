@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BookOpen,
   ChevronDown,
-  GraduationCap,
   Home,
   LayoutDashboard,
   Menu,
@@ -16,6 +15,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import logoMark from "@/assets/logo-mark.png";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/hooks/useAuth";
