@@ -743,10 +743,11 @@ function HomePage() {
           <div>
             <SectionHead
               center={false}
-              eyebrow="Easy Payments"
-              title="Card, PayPal, or Bank Transfer — Whatever Works for You"
-              description="Complete your payment and submit your transaction ID. Our team verifies it and unlocks your course within 2 hours."
+              eyebrow="Enrollment"
+              title="Free Enrollment During Our Global Launch"
+              description="Reserve a seat, get your orientation schedule instantly, and start learning. An admin reviews each request — anything still pending after one hour is approved automatically."
             />
+
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {paymentMethods.map((p, i) => (
                 <Reveal key={p.id} delay={i * 0.06}>
