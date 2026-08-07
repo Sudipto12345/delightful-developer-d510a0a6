@@ -10,7 +10,7 @@ export type PanelNavItem = {
   id: string;
   label: string;
   icon: ComponentType<{ className?: string }>;
-  badge?: number;
+  badge?: number | undefined;
 };
 
 type PanelShellProps = {
