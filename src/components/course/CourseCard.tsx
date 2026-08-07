@@ -21,8 +21,18 @@ export function CourseCard({ course }: { course: Course }) {
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary-soft/60 hover:glow"
     >
       <div className="relative aspect-[16/9] overflow-hidden bg-cobalt">
-        <div className="absolute inset-0 grid-noise opacity-30" />
-        <div className="absolute -right-6 -bottom-8 h-28 w-28 rounded-full bg-spark opacity-50 blur-2xl transition-transform duration-500 group-hover:scale-125" />
+        <img
+          src={getCourseImage(course.slug)}
+          alt={`${course.title} course cover`}
+          loading="lazy"
+          width={1024}
+          height={640}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/10" />
+        <div className="absolute inset-0 grid-noise opacity-20" />
+        <div className="absolute -right-6 -bottom-8 h-28 w-28 rounded-full bg-spark opacity-40 blur-2xl transition-transform duration-500 group-hover:scale-125" />
+
         <div className="relative flex h-full flex-col justify-between p-4">
           <div className="flex items-center gap-2">
             {course.badge && (
