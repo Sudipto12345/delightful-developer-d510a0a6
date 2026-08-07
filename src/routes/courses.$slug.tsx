@@ -23,7 +23,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { getCourseImage } from "@/data/courseImages";
 import type { Course } from "@/data/courses";
+
 import { courses, getCourse, getInstructor } from "@/data/courses";
 import { useStore } from "@/lib/store";
 
