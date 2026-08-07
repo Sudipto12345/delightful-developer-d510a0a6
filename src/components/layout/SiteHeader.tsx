@@ -93,7 +93,7 @@ export function SiteHeader() {
         />
       </div>
 
-      <div className="container-eh grid h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+      <div className="container-eh flex h-16 items-center justify-between gap-3">
         <Link to="/" className="group flex min-w-0 items-center gap-2.5">
           <span
             className="relative grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-spark soft-shadow transition-transform duration-300 group-hover:-rotate-6"
@@ -109,29 +109,77 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-0.5 lg:flex">
+        <nav
+          className="relative hidden items-center gap-0.5 lg:flex"
+          onMouseLeave={() => setMenu(null)}
+        >
           {navItems.map((item) => {
             const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+            const isOpen = menu === item.label;
             return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-foreground ${
-                  active ? "text-foreground" : "text-muted-foreground"
-                }`}
-              >
-                {item.label}
-                {active && (
-                  <motion.span
-                    layoutId="nav-active-pill"
-                    className="absolute inset-x-1.5 -bottom-[1px] h-[2px] rounded-full bg-spark"
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                  />
-                )}
-              </Link>
+              <div key={item.label} onMouseEnter={() => setMenu(item.children ? item.label : null)}>
+                <Link
+                  to={item.to}
+                  className={`relative flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-foreground ${
+                    active ? "text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  {item.label}
+                  {item.children && (
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  )}
+                  {active && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      className="absolute inset-x-1.5 -bottom-[1px] h-[2px] rounded-full bg-spark"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    />
+                  )}
+                </Link>
+
+                <AnimatePresence>
+                  {isOpen && item.children && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: 6, filter: "blur(4px)" }}
+                      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute top-full left-1/2 z-50 w-[560px] -translate-x-1/2 pt-3"
+                    >
+                      <div className="grid grid-cols-2 gap-1 rounded-2xl border border-border bg-card/95 p-2 backdrop-blur-xl soft-shadow">
+                        {item.children.map((child, i) => (
+                          <motion.div
+                            key={child.to}
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.03 * i, duration: 0.25 }}
+                          >
+                            <Link
+                              to={child.to}
+                              onClick={() => setMenu(null)}
+                              className="group flex h-full flex-col gap-0.5 rounded-xl px-3 py-2.5 transition-colors hover:bg-secondary"
+                            >
+                              <span className="flex items-center gap-1.5 text-sm font-semibold">
+                                {child.label}
+                                <ArrowRight className="h-3.5 w-3.5 -translate-x-1 text-accent opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                              </span>
+                              <span className="text-xs leading-snug text-muted-foreground">
+                                {child.desc}
+                              </span>
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             );
           })}
         </nav>
+
 
         <div className="flex items-center gap-2">
           <button
