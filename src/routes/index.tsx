@@ -765,10 +765,11 @@ function HomePage() {
             </div>
             <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
               {[
-                "No hidden charges",
-                "7-day refund policy",
-                "Digital receipt for every payment",
+                "No card required during launch",
+                "Auto-approval within 60 minutes",
+                "Live orientation session scheduled for you",
               ].map((li) => (
+
                 <li key={li} className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-success" /> {li}
                 </li>
