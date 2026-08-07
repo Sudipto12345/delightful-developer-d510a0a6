@@ -204,8 +204,21 @@ function CourseDetail() {
 
           {/* Sticky enroll card */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-2xl border border-border bg-card p-5 soft-shadow">
+            <div className="overflow-hidden rounded-2xl border border-border bg-card soft-shadow">
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <img
+                  src={getCourseImage(course.slug)}
+                  alt={`${course.title} preview`}
+                  width={1024}
+                  height={640}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
+                <PlayCircle className="absolute inset-0 m-auto h-12 w-12 text-accent drop-shadow" />
+              </div>
+              <div className="p-5">
               <div className="flex items-end gap-2">
+
                 <span className="text-3xl font-extrabold text-accent">${course.price.toLocaleString("en-US")}</span>
                 {course.oldPrice && (
                   <span className="pb-1 text-sm text-muted-foreground line-through">
