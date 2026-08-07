@@ -19,16 +19,57 @@ import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { useStore } from "@/lib/store";
 
-const navItems = [
+type NavChild = { to: string; label: string; desc: string };
+type NavItem = { to: string; label: string; children?: NavChild[] };
+
+const navItems: NavItem[] = [
+  { to: "/", label: "Home" },
+  {
+    to: "/courses",
+    label: "Learn",
+    children: [
+      { to: "/courses", label: "All Courses", desc: "Browse the full catalog by skill and level" },
+      { to: "/categories/web-development", label: "Web Development", desc: "Full-stack, React, APIs" },
+      { to: "/categories/graphic-design", label: "Design", desc: "Brand, UI/UX and visual craft" },
+      { to: "/categories/digital-marketing", label: "Marketing", desc: "Growth, ads and analytics" },
+      { to: "/categories/data-ai", label: "Data & AI", desc: "Python, analytics, AI at work" },
+      { to: "/pricing", label: "Pricing", desc: "Plans, bundles and refunds" },
+    ],
+  },
+  {
+    to: "/instructors",
+    label: "Community",
+    children: [
+      { to: "/instructors", label: "Mentors", desc: "Meet the industry practitioners" },
+      { to: "/events", label: "Events", desc: "Live webinars and bootcamps" },
+      { to: "/blog", label: "Blog", desc: "Guides, playbooks and career tips" },
+      { to: "/consultation", label: "Free Consultation", desc: "Talk to an advisor in 15 minutes" },
+    ],
+  },
+  {
+    to: "/corporate",
+    label: "Company",
+    children: [
+      { to: "/corporate", label: "For Teams", desc: "Upskill your whole organization" },
+      { to: "/about", label: "About Us", desc: "Our story, mission and standards" },
+      { to: "/faq", label: "FAQ", desc: "Answers to the common questions" },
+      { to: "/contact", label: "Contact", desc: "Talk to our support team" },
+    ],
+  },
+];
+
+const mobileNav: { to: string; label: string }[] = [
   { to: "/", label: "Home" },
   { to: "/courses", label: "Courses" },
   { to: "/instructors", label: "Mentors" },
   { to: "/events", label: "Events" },
   { to: "/blog", label: "Blog" },
+  { to: "/pricing", label: "Pricing" },
   { to: "/corporate", label: "For Teams" },
   { to: "/about", label: "About" },
+  { to: "/faq", label: "FAQ" },
   { to: "/contact", label: "Contact" },
-] as const;
+];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
