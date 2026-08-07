@@ -17,10 +17,15 @@ export type EnrollmentRequest = {
   userName: string;
   phone: string;
   courseId: string;
-  method: "bank" | "paypal" | "wise" | "invoice";
+  method: "bank" | "paypal" | "wise" | "invoice" | "free";
   trxId: string;
   amount: number;
   createdAt: string;
+  /** epoch ms used by the 1-hour auto-approval scheduler */
+  createdAtMs?: number;
+  /** ISO date of the scheduled orientation session */
+  scheduledFor?: string;
+  courseTitle?: string;
   status: "pending" | "approved" | "rejected";
 };
 
