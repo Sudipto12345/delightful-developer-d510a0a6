@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Smartphone,
   Sparkles,
+  Star,
   Trophy,
   Users,
   Wallet,
@@ -30,6 +31,11 @@ import heroLoop from "@/assets/hero-loop.mp4.asset.json";
 import sectionLoop from "@/assets/section-loop.mp4.asset.json";
 
 import mentorImg from "@/assets/mentor.jpg";
+import teamImg from "@/assets/premium-team.jpg";
+import learnerImg from "@/assets/premium-learner.jpg";
+import mentorSessionImg from "@/assets/premium-mentor-session.jpg";
+import workspaceImg from "@/assets/premium-workspace.jpg";
+import { getCourseImage } from "@/data/courseImages";
 import { CourseCard } from "@/components/course/CourseCard";
 import { PublicShell } from "@/components/layout/PublicShell";
 import {
@@ -41,7 +47,6 @@ import {
   Stagger,
   StaggerItem,
 } from "@/components/motion/Motion";
-import { KanthaDivider, KanthaMotif } from "@/components/motion/NakshiKantha";
 import {
   Accordion,
   AccordionContent,
