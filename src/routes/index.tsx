@@ -143,7 +143,7 @@ function HomePage() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <video
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.28]"
           src={heroLoop.url}
           autoPlay
           muted
@@ -157,7 +157,6 @@ function HomePage() {
           aria-hidden="true"
         />
         <div className="absolute inset-0 grid-noise opacity-40" aria-hidden="true" />
-
         <div
           className="absolute -top-40 -left-32 h-96 w-96 rounded-full bg-cobalt opacity-40 blur-3xl"
           aria-hidden="true"
@@ -167,7 +166,7 @@ function HomePage() {
           aria-hidden="true"
         />
 
-        <div className="container-eh relative grid gap-10 py-12 sm:py-20 lg:grid-cols-2 lg:items-center">
+        <div className="container-eh relative grid gap-12 py-12 sm:py-20 lg:grid-cols-[1.05fr_1fr] lg:items-center">
           <div>
             <motion.span
               initial={{ opacity: 0, y: 12 }}
@@ -179,18 +178,18 @@ function HomePage() {
                 <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-accent" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-              New Cohort Now Enrolling — Limited Seats
+              New Cohort Now Enrolling — Save 40% This Week
             </motion.span>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
-              className="mt-5 text-4xl leading-[1.1] font-extrabold sm:text-6xl"
+              className="mt-5 text-4xl leading-[1.05] font-extrabold sm:text-6xl"
             >
-              Learn Smart,
+              Career-Grade Skills,
               <br />
-              <span className="text-gradient">Level Up Your Skills</span>
+              <span className="text-gradient">Taught by Practitioners</span>
             </motion.h1>
 
             <motion.p
@@ -199,9 +198,9 @@ function HomePage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
-              Learn web development, design, marketing, and freelancing — anytime, anywhere, right
-              from your phone. Industry mentors, live support, and real projects, all on one
-              platform.
+              Live cohorts in web development, design, marketing, data and AI. Real projects, code
+              reviews, and mentors from global product teams — on desktop or straight from your
+              phone.
             </motion.p>
 
             <motion.div
@@ -212,15 +211,28 @@ function HomePage() {
             >
               <Button asChild size="lg" className="h-12 bg-spark text-accent-foreground">
                 <Link to="/courses">
-                  Browse Courses <ArrowRight className="ml-1 h-4 w-4" />
+                  Explore Courses <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-12">
                 <Link to="/consultation">
-                  <PlayCircle className="mr-1 h-4 w-4" /> Free Consultation
+                  <PlayCircle className="mr-1 h-4 w-4" /> Book a Free Consultation
                 </Link>
               </Button>
             </motion.div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-muted-foreground">
+              {[
+                "4.9/5 average rating",
+                "Verified certificates",
+                "7-day money-back",
+                "Lifetime access",
+              ].map((t) => (
+                <span key={t} className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-4 w-4 text-success" /> {t}
+                </span>
+              ))}
+            </div>
 
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {stats.map((s) => (
@@ -234,30 +246,88 @@ function HomePage() {
             </div>
           </div>
 
+          {/* HERO COURSE SPOTLIGHT — multi-card marketing stack */}
           <div className="relative">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7 }}
-              className="relative overflow-hidden rounded-3xl border border-border glow"
+              className="relative overflow-hidden rounded-3xl border border-border bg-card/70 p-3 backdrop-blur-xl glow sm:p-4"
             >
-              <img
-                src={heroImg}
-                alt="Learners studying online from around the world"
-                width={1200}
-                height={1200}
-                className="h-full w-full object-cover"
-              />
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src={teamImg}
+                  alt="A team of learners collaborating on a project in a studio"
+                  width={1408}
+                  height={1008}
+                  className="h-44 w-full object-cover sm:h-56"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+                <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                  <Badge className="bg-spark text-accent-foreground">Live cohort</Badge>
+                  <Badge variant="secondary" className="bg-background/60 backdrop-blur">
+                    Starts Monday
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="mt-3 grid gap-2">
+                {published.slice(0, 3).map((c, i) => (
+                  <motion.div
+                    key={c.id}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.25 + i * 0.1 }}
+                  >
+                    <Link
+                      to="/courses/$slug"
+                      params={{ slug: c.slug }}
+                      className="group flex items-center gap-3 rounded-2xl border border-border bg-background/50 p-2.5 transition-all hover:-translate-y-0.5 hover:border-primary-soft/60"
+                    >
+                      <img
+                        src={getCourseImage(c.slug)}
+                        alt={`${c.title} cover`}
+                        loading="lazy"
+                        width={160}
+                        height={120}
+                        className="h-14 w-20 shrink-0 rounded-xl object-cover"
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold">{c.title}</span>
+                        <span className="mt-0.5 flex items-center gap-3 text-[11px] text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Star className="h-3 w-3 fill-accent text-accent" />
+                            {c.rating}
+                          </span>
+                          <span>{c.durationHours} hrs</span>
+                          <span>{c.students.toLocaleString("en-US")} enrolled</span>
+                        </span>
+                      </span>
+                      <span className="shrink-0 text-right">
+                        <span className="block text-sm font-bold text-accent">${c.price}</span>
+                        {c.oldPrice && (
+                          <span className="block text-[11px] text-muted-foreground line-through">
+                            ${c.oldPrice}
+                          </span>
+                        )}
+                      </span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              <Button asChild variant="outline" className="mt-3 w-full">
+                <Link to="/courses">
+                  See all {published.length} courses <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </Button>
             </motion.div>
-            <CobaltCube className="absolute -top-10 -left-8 hidden lg:block" />
-            <KanthaMotif
-              size={110}
-              className="absolute -top-6 -right-6 opacity-25 hidden md:block"
-            />
+
+            <CobaltCube className="absolute -top-12 -left-10 hidden lg:block" />
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-5 left-4 rounded-2xl border border-border bg-card/90 p-3 backdrop-blur soft-shadow"
+              className="absolute -bottom-5 -left-4 rounded-2xl border border-border bg-card/90 p-3 backdrop-blur soft-shadow"
             >
               <p className="flex items-center gap-2 text-xs font-medium">
                 <BadgeCheck className="h-4 w-4 text-success" /> 42,000+ learners and growing
@@ -281,42 +351,93 @@ function HomePage() {
             />
           </div>
         </div>
-        <KanthaDivider className="mt-1" segments={22} />
       </section>
 
-      {/* CINEMATIC SHOWREEL */}
-      <section className="relative border-y border-border/60">
-        <div className="container-eh py-12 sm:py-16">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-extrabold sm:text-4xl">
-              A Learning Experience Built for <span className="text-gradient">Momentum</span>
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-              Live cohorts, hands-on projects, and mentors from global product teams — designed to
-              keep you moving forward every single week.
-            </p>
-          </Reveal>
-          <Reveal className="mt-8">
-            <div className="relative overflow-hidden rounded-3xl border border-border glow">
-              <video
-                className="aspect-video h-full w-full object-cover"
-                src={sectionLoop.url}
-                poster={heroImg}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="none"
-                aria-label="ElevateHub learning experience showreel"
-              />
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 to-transparent"
-                aria-hidden="true"
-              />
+      {/* MOMENTUM — full-width split with hologram loop + proof */}
+      <section className="relative overflow-hidden border-b border-border/60">
+        <video
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
+          src={sectionLoop.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/60"
+          aria-hidden="true"
+        />
+        <div className="container-eh relative grid gap-10 py-16 sm:py-24 lg:grid-cols-2 lg:items-center">
+          <div>
+            <SectionHead
+              eyebrow="The ElevateHub Method"
+              title="A Learning Experience Built for Momentum"
+              description="Weekly live cohorts, hands-on builds and mentor checkpoints keep you shipping — not just watching videos."
+            />
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {[
+                { t: "Weekly live sessions", d: "Two mentor-led calls every week, recorded." },
+                { t: "Project code reviews", d: "Line-by-line feedback on everything you build." },
+                { t: "Career sprint", d: "Portfolio, resume and interview prep in the final module." },
+                { t: "Peer cohort", d: "Learn alongside a small accountable group." },
+              ].map((f, i) => (
+                <Reveal key={f.t} delay={i * 0.06}>
+                  <div className="h-full rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+                    <p className="text-sm font-bold">{f.t}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{f.d}</p>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </Reveal>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Button asChild className="bg-spark text-accent-foreground">
+                <Link to="/courses">Join the next cohort</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/events">See upcoming events</Link>
+              </Button>
+            </div>
+          </div>
+
+          <Parallax amount={24}>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="col-span-2 overflow-hidden rounded-3xl border border-border">
+                <img
+                  src={mentorSessionImg}
+                  alt="A mentor reviewing project work with two students"
+                  loading="lazy"
+                  width={1408}
+                  height={1008}
+                  className="h-56 w-full object-cover sm:h-64"
+                />
+              </div>
+              <div className="overflow-hidden rounded-3xl border border-border">
+                <img
+                  src={learnerImg}
+                  alt="A learner studying online at golden hour"
+                  loading="lazy"
+                  width={1200}
+                  height={1408}
+                  className="h-48 w-full object-cover"
+                />
+              </div>
+              <div className="overflow-hidden rounded-3xl border border-border">
+                <img
+                  src={workspaceImg}
+                  alt="A developer workspace with a laptop and notebook"
+                  loading="lazy"
+                  width={1408}
+                  height={912}
+                  className="h-48 w-full object-cover"
+                />
+              </div>
+            </div>
+          </Parallax>
         </div>
       </section>
+
 
       {/* CATEGORIES */}
       <section className="container-eh py-16 sm:py-24">
