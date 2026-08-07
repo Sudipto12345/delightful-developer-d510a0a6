@@ -813,7 +813,6 @@ function HomePage() {
 
       {/* CTA */}
       <section className="container-eh pb-20">
-        <KanthaDivider className="mb-8 text-accent/40" segments={22} />
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-border bg-cobalt p-8 text-center sm:p-14">
             <div className="absolute inset-0 grid-noise opacity-30" aria-hidden="true" />
