@@ -260,7 +260,9 @@ function CourseDetail() {
                   <Users className="h-4 w-4 text-accent" /> Mentor support group
                 </li>
               </ul>
+              </div>
             </div>
+
           </aside>
         </div>
       </section>
