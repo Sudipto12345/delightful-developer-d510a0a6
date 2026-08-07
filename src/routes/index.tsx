@@ -130,7 +130,22 @@ function HomePage() {
     <PublicShell>
       {/* HERO */}
       <section className="relative overflow-hidden">
+        <video
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+          src={heroLoop.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background"
+          aria-hidden="true"
+        />
         <div className="absolute inset-0 grid-noise opacity-40" aria-hidden="true" />
+
         <div
           className="absolute -top-40 -left-32 h-96 w-96 rounded-full bg-cobalt opacity-40 blur-3xl"
           aria-hidden="true"
