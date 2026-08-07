@@ -232,8 +232,8 @@ export function SiteHeader() {
             transition={{ duration: 0.25 }}
             className="overflow-hidden border-t border-border/60 lg:hidden"
           >
-            <div className="container-eh grid gap-1 py-3">
-              {navItems.map((item, i) => {
+            <div className="container-eh grid gap-1 py-3 sm:grid-cols-2">
+              {mobileNav.map((item, i) => {
                 const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
                 return (
                   <motion.div
