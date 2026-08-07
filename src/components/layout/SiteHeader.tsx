@@ -255,7 +255,7 @@ export function SiteHeader() {
                   </motion.div>
                 );
               })}
-              <div className="mt-2 grid grid-cols-2 gap-2">
+              <div className="mt-2 grid grid-cols-2 gap-2 sm:col-span-2">
                 <Button asChild variant="outline">
                   <Link to="/auth/login" onClick={() => setOpen(false)}>
                     Log in
