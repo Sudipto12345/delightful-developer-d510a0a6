@@ -59,6 +59,8 @@ const initialState: State = {
   wishlist: [],
 };
 
+export const AUTO_APPROVE_MS = 60 * 60 * 1000;
+
 const now = () =>
   new Date().toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" });
 
@@ -75,6 +77,42 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     }
     setHydrated(true);
   }, []);
+
+  // Auto-approval scheduler: any pending enrollment older than 1 hour is
+  // approved automatically. Admins can still approve/reject sooner.
+  useEffect(() => {
+    if (!hydrated) return;
+    const tick = () => {
+      const cutoff = Date.now() - AUTO_APPROVE_MS;
+      setState((s) => {
+        const due = s.requests.filter(
+          (r) => r.status === "pending" && (r.createdAtMs ?? 0) > 0 && (r.createdAtMs as number) <= cutoff,
+        );
+        if (due.length === 0) return s;
+        const dueCourseIds = due.map((r) => r.courseId);
+        return {
+          ...s,
+          requests: s.requests.map((r) =>
+            due.some((d) => d.id === r.id) ? { ...r, status: "approved" } : r,
+          ),
+          enrolled: Array.from(new Set([...s.enrolled, ...dueCourseIds])),
+          audit: [
+            ...due.map((r) => ({
+              id: `a-auto-${r.id}`,
+              actor: "System",
+              action: "Auto-approved after 1 hour",
+              target: r.trxId || r.courseTitle || r.courseId,
+              at: now(),
+            })),
+            ...s.audit,
+          ].slice(0, 40),
+        };
+      });
+    };
+    tick();
+    const t = setInterval(tick, 30_000);
+    return () => clearInterval(t);
+  }, [hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -112,7 +150,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
             {
               ...s,
               requests: [
-                { ...r, id, status: "pending", createdAt: now() },
+                { ...r, id, status: "pending", createdAt: now(), createdAtMs: Date.now() },
                 ...s.requests,
               ],
             },
