@@ -15,6 +15,7 @@ import { StoreProvider } from "../lib/store";
 import { AuthProvider } from "../hooks/useAuth";
 import { ThemeProvider, themeInitScript } from "../lib/theme";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { LogoLoader } from "../components/motion/LogoLoader";
 
 function NotFoundComponent() {
   return (
@@ -106,7 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap",
       },
 
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
     scripts: [
       {
@@ -116,7 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "Organization",
           name: "ElevateHub Ltd",
           url: "/",
-          logo: "/favicon.ico",
+          logo: "/favicon.png",
           sameAs: ["https://facebook.com", "https://youtube.com"],
         }),
       },
@@ -152,6 +153,7 @@ function RootComponent() {
         <AuthProvider>
           <StoreProvider>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <LogoLoader />
           <Outlet />
           <Toaster position="top-center" richColors />
           </StoreProvider>
