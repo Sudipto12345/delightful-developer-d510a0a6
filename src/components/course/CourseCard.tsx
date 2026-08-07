@@ -2,7 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { Clock, Star, Users } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { getCourseImage } from "@/data/courseImages";
 import { getInstructor, type Course } from "@/data/courses";
+
 
 const levelLabel: Record<Course["level"], string> = {
   beginner: "Beginner",
