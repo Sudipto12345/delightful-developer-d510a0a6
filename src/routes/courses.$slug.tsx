@@ -92,7 +92,7 @@ function CourseDetail() {
               {course.badge && <Badge className="bg-accent text-accent-foreground">{course.badge}</Badge>}
               <Badge variant="secondary">{levelLabel[course.level]}</Badge>
               <Badge variant="secondary">
-                {course.language === "bangla" ? "Fully in English" : "Bilingual"}
+                {course.language === "english" ? "Fully in English" : "Bilingual"}
               </Badge>
             </div>
             <h1 className="mt-4 text-3xl leading-tight font-extrabold sm:text-4xl">{course.title}</h1>

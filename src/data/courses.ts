@@ -18,7 +18,7 @@ export type Course = {
   subtitle: string;
   category: string; // category slug
   level: Level;
-  language: "bangla" | "banglish";
+  language: "english" | "bilingual";
   price: number;
   oldPrice?: number;
   durationHours: number;
@@ -197,7 +197,7 @@ export const courses: Course[] = [
     subtitle: "From HTML to React + Node.js — a complete, job-ready course",
     category: "web-development",
     level: "beginner",
-    language: "bangla",
+    language: "english",
     price: 79,
     oldPrice: 149,
     durationHours: 96,
@@ -252,7 +252,7 @@ export const courses: Course[] = [
     subtitle: "Figma, Illustrator, and brand identity",
     category: "graphic-design",
     level: "beginner",
-    language: "bangla",
+    language: "english",
     price: 59,
     oldPrice: 99,
     durationHours: 64,
@@ -298,7 +298,7 @@ export const courses: Course[] = [
     subtitle: "Facebook Ads, Google Ads, and SEO",
     category: "digital-marketing",
     level: "intermediate",
-    language: "banglish",
+    language: "bilingual",
     price: 69,
     oldPrice: 119,
     durationHours: 72,
@@ -338,7 +338,7 @@ export const courses: Course[] = [
     subtitle: "From your first order to a top-rated profile",
     category: "freelancing",
     level: "beginner",
-    language: "bangla",
+    language: "english",
     price: 45,
     oldPrice: 79,
     durationHours: 40,
@@ -375,7 +375,7 @@ export const courses: Course[] = [
     subtitle: "From zero to a data-driven career",
     category: "data-ai",
     level: "intermediate",
-    language: "banglish",
+    language: "bilingual",
     price: 75,
     oldPrice: 129,
     durationHours: 80,
@@ -411,7 +411,7 @@ export const courses: Course[] = [
     subtitle: "Speak English confidently in 90 days",
     category: "spoken-english",
     level: "beginner",
-    language: "bangla",
+    language: "english",
     price: 39,
     oldPrice: 65,
     durationHours: 48,
@@ -448,7 +448,7 @@ export const courses: Course[] = [
     subtitle: "From product thinking to high-fidelity prototype",
     category: "graphic-design",
     level: "advanced",
-    language: "banglish",
+    language: "bilingual",
     price: 85,
     durationHours: 58,
     lessonsCount: 110,
@@ -483,7 +483,7 @@ export const courses: Course[] = [
     subtitle: "Boost your productivity 10x with AI",
     category: "data-ai",
     level: "beginner",
-    language: "bangla",
+    language: "english",
     price: 25,
     oldPrice: 45,
     durationHours: 24,
