@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-import { PublicShell } from "@/components/layout/PublicShell";
+import { PanelShell } from "@/components/layout/PanelShell";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -74,70 +74,15 @@ function DashboardPage() {
   const user = session ?? { name: "Learner", email: "learner@example.com", role: "learner" as const };
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-sidebar md:flex">
-        <div className="flex h-16 items-center gap-3 border-b border-sidebar-border px-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary font-bold text-primary-foreground">
-            {user.name[0]}
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">{user.name}</p>
-            <p className="truncate text-xs text-muted-foreground">{user.email}</p>
-          </div>
-        </div>
-        <nav className="flex-1 space-y-1 p-3">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setTab(item.id)}
-              className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-                tab === item.id
-                  ? "bg-accent text-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-              }`}
-            >
-              <item.icon className="h-4 w-4 shrink-0" />
-              {item.label}
-            </button>
-          ))}
-        </nav>
-        <div className="border-t border-sidebar-border p-3">
-          <button
-            onClick={logout}
-            className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
-          >
-            <LogOut className="h-4 w-4" /> Log out
-          </button>
-          <Button asChild variant="outline" size="sm" className="mt-2 w-full">
-            <Link to="/">← Back to site</Link>
-          </Button>
-        </div>
-      </aside>
-
-      {/* Mobile top bar */}
-      <div className="fixed top-0 right-0 left-0 z-30 flex h-14 items-center justify-between border-b border-border bg-sidebar px-4 md:hidden">
-        <span className="font-bold text-accent">ElevateHub</span>
-        <div className="flex gap-2 overflow-x-auto">
-          {navItems.slice(0, 4).map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setTab(item.id)}
-              className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                tab === item.id
-                  ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground hover:bg-secondary"
-              }`}
-            >
-              <item.icon className="h-3.5 w-3.5" />
-              {item.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Content */}
-      <main className="flex-1 overflow-auto px-4 py-6 pt-20 md:px-10 md:pt-8">
+    <PanelShell
+      title={user.name}
+      subtitle={user.email}
+      items={navItems}
+      active={tab}
+      onSelect={setTab}
+      onLogout={logout}
+    >
+      <>
         {/* OVERVIEW */}
         {tab === "overview" && (
           <Stagger>
@@ -562,7 +507,7 @@ function DashboardPage() {
             </div>
           </div>
         )}
-      </main>
-    </div>
+      </>
+    </PanelShell>
   );
 }

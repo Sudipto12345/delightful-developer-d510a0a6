@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 
 import { Reveal } from "@/components/motion/Motion";
+import { PanelShell } from "@/components/layout/PanelShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,7 +36,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-const navItems = [
+const navItems: { id: string; label: string; icon: any; badge?: boolean }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "approvals", label: "Enrollment Approvals", icon: ClipboardList, badge: true },
   { id: "courses", label: "Course Manager", icon: BookMarked },
@@ -78,84 +79,15 @@ function AdminPage() {
   );
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-sidebar md:flex">
-        <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-5">
-          <div className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-xs font-bold text-primary-foreground">
-            A
-          </div>
-          <div>
-            <p className="text-sm font-bold">Admin Panel</p>
-            <p className="text-xs text-muted-foreground">ElevateHub Ltd</p>
-          </div>
-        </div>
-        <nav className="flex-1 space-y-1 p-3">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setTab(item.id)}
-              className={`relative flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-                tab === item.id
-                  ? "bg-accent text-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-              }`}
-            >
-              <item.icon className="h-4 w-4 shrink-0" />
-              {item.label}
-              {item.badge && pending.length > 0 && (
-                <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
-                  {pending.length}
-                </span>
-              )}
-            </button>
-          ))}
-        </nav>
-        <div className="border-t border-sidebar-border p-3 space-y-2">
-          <div className="flex items-center gap-3 px-4 py-2">
-            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-success text-xs font-bold text-success-foreground">
-              {(session?.name ?? "Admin")[0]}
-            </div>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">{session?.name ?? "Admin"}</p>
-              <p className="truncate text-xs text-muted-foreground">Platform Admin</p>
-            </div>
-          </div>
-          <button
-            onClick={logout}
-            className="flex w-full items-center gap-3 rounded-xl px-4 py-2 text-sm text-sidebar-foreground/50 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-          >
-            <LogOut className="h-4 w-4" /> Log out
-          </button>
-          <Button asChild variant="outline" size="sm" className="w-full">
-            <Link to="/">← Back to site</Link>
-          </Button>
-        </div>
-      </aside>
-
-      {/* Mobile tab bar */}
-      <div className="fixed top-0 right-0 left-0 z-30 flex h-14 items-center gap-1 overflow-x-auto border-b border-border bg-sidebar px-3 md:hidden">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setTab(item.id)}
-            className={`relative flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-              tab === item.id ? "bg-accent text-accent-foreground" : "text-muted-foreground"
-            }`}
-          >
-            <item.icon className="h-3.5 w-3.5" />
-            {item.label}
-            {item.badge && pending.length > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-white">
-                {pending.length}
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <main className="flex-1 overflow-auto px-4 py-6 pt-20 md:px-10 md:pt-8">
+    <PanelShell
+      title="Admin Panel"
+      subtitle={session?.name ?? "Platform Admin"}
+      items={navItems.map((i) => ({ ...i, badge: i.badge ? pending.length : undefined }))}
+      active={tab}
+      onSelect={setTab}
+      onLogout={logout}
+    >
+      <>
 
         {/* OVERVIEW */}
         {tab === "overview" && (
@@ -529,7 +461,7 @@ function AdminPage() {
           </div>
         )}
 
-      </main>
-    </div>
+      </>
+    </PanelShell>
   );
 }
