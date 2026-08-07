@@ -75,6 +75,7 @@ const mobileNav: { to: string; label: string }[] = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState<string | null>(null);
   const { session } = useAuth();
   const { session: storeSession } = useStore();
   const isLoggedIn = Boolean(session || storeSession);
