@@ -148,7 +148,7 @@ function HomePage() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <video
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.28]"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.55]"
           src={heroLoop.url}
           autoPlay
           muted
@@ -361,7 +361,7 @@ function HomePage() {
       {/* MOMENTUM — full-width split with hologram loop + proof */}
       <section className="relative overflow-hidden border-b border-border/60">
         <video
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40"
           src={sectionLoop.url}
           autoPlay
           muted
