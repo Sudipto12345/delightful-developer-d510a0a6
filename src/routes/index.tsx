@@ -275,6 +275,40 @@ function HomePage() {
         <KanthaDivider className="mt-1" segments={22} />
       </section>
 
+      {/* CINEMATIC SHOWREEL */}
+      <section className="relative border-y border-border/60">
+        <div className="container-eh py-12 sm:py-16">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <h2 className="text-2xl font-extrabold sm:text-4xl">
+              A Learning Experience Built for <span className="text-gradient">Momentum</span>
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+              Live cohorts, hands-on projects, and mentors from global product teams — designed to
+              keep you moving forward every single week.
+            </p>
+          </Reveal>
+          <Reveal className="mt-8">
+            <div className="relative overflow-hidden rounded-3xl border border-border glow">
+              <video
+                className="aspect-video h-full w-full object-cover"
+                src={sectionLoop.url}
+                poster={heroImg}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-label="ElevateHub learning experience showreel"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 to-transparent"
+                aria-hidden="true"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* CATEGORIES */}
       <section className="container-eh py-16 sm:py-24">
         <SectionHead
