@@ -27,6 +27,7 @@ import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
+import { Route as CheckoutSlugRouteImport } from './routes/checkout.$slug'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as InstructorsIndexRouteImport } from './routes/instructors.index'
@@ -121,6 +122,11 @@ const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
   path: '/categories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutSlugRoute = CheckoutSlugRouteImport.update({
+  id: '/checkout/$slug',
+  path: '/checkout/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
+  '/checkout/$slug': typeof CheckoutSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
+  '/checkout/$slug': typeof CheckoutSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/blog': typeof BlogIndexRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
+  '/checkout/$slug': typeof CheckoutSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/blog/$slug'
     | '/categories/$slug'
+    | '/checkout/$slug'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/blog/'
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/blog/$slug'
     | '/categories/$slug'
+    | '/checkout/$slug'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/blog'
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/blog/$slug'
     | '/categories/$slug'
+    | '/checkout/$slug'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/blog/'
@@ -302,6 +314,7 @@ export interface RootRouteChildren {
   AuthRegisterRoute: typeof AuthRegisterRoute
   BlogSlugRoute: typeof BlogSlugRoute
   CategoriesSlugRoute: typeof CategoriesSlugRoute
+  CheckoutSlugRoute: typeof CheckoutSlugRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   InstructorsSlugRoute: typeof InstructorsSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -437,6 +450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/$slug': {
+      id: '/checkout/$slug'
+      path: '/checkout/$slug'
+      fullPath: '/checkout/$slug'
+      preLoaderRoute: typeof CheckoutSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/': {
       id: '/courses/'
       path: '/courses'
@@ -497,6 +517,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRegisterRoute: AuthRegisterRoute,
   BlogSlugRoute: BlogSlugRoute,
   CategoriesSlugRoute: CategoriesSlugRoute,
+  CheckoutSlugRoute: CheckoutSlugRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   InstructorsSlugRoute: InstructorsSlugRoute,
   BlogIndexRoute: BlogIndexRoute,

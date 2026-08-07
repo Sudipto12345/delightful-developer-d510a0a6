@@ -21,6 +21,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { getCourse, getInstructor } from "@/data/courses";
+import { getCourseImage } from "@/data/courseImages";
+import { getCourseVideo } from "@/data/courseMedia";
 import { useStore } from "@/lib/store";
 
 const title = "My Dashboard — ElevateHub Ltd";
@@ -299,10 +301,17 @@ function DashboardPage() {
         {tab === "player" && activeCourse && (
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-4">
-              <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-cobalt flex items-center justify-center">
-                <div className="absolute inset-0 grid-noise opacity-30" />
-                <PlayCircle className="relative h-16 w-16 text-white/60" />
-                <span className="absolute bottom-3 right-3 rounded-md bg-black/50 px-2 py-1 text-[10px] font-mono text-white/60">
+              <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-cobalt">
+                <video
+                  key={activeCourse.slug}
+                  src={getCourseVideo(activeCourse.slug)}
+                  poster={getCourseImage(activeCourse.slug)}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="h-full w-full object-cover"
+                />
+                <span className="pointer-events-none absolute right-3 bottom-3 rounded-md bg-black/50 px-2 py-1 font-mono text-[10px] text-white/70">
                   {user.email}
                 </span>
               </div>

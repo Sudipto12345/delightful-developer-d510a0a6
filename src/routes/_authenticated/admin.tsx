@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { getCourse } from "@/data/courses";
-import { useStore } from "@/lib/store";
+import { AUTO_APPROVE_MS, useStore } from "@/lib/store";
 
 const title = "Admin Panel — ElevateHub Ltd";
 
@@ -37,12 +37,20 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 const navItems = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "approvals", label: "Payment Approvals", icon: ClipboardList, badge: true },
+  { id: "approvals", label: "Enrollment Approvals", icon: ClipboardList, badge: true },
   { id: "courses", label: "Course Manager", icon: BookMarked },
   { id: "students", label: "Students", icon: Users },
   { id: "audit", label: "Audit Log", icon: BarChart3 },
   { id: "settings", label: "Settings", icon: Settings },
 ];
+
+function autoApproveIn(createdAtMs?: number) {
+  if (!createdAtMs) return "—";
+  const left = createdAtMs + AUTO_APPROVE_MS - Date.now();
+  if (left <= 0) return "moments";
+  const mins = Math.ceil(left / 60000);
+  return mins >= 60 ? "60 min" : `${mins} min`;
+}
 
 function AdminPage() {
   const {
@@ -222,9 +230,10 @@ function AdminPage() {
         {/* APPROVALS */}
         {tab === "approvals" && (
           <div>
-            <h1 className="text-2xl font-extrabold">Payment Approvals</h1>
+            <h1 className="text-2xl font-extrabold">Enrollment Approvals</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Approve or reject transaction submissions. Every decision is logged.
+              Approve or reject enrollment requests. Anything left untouched is auto-approved one hour
+              after submission. Every decision is logged.
             </p>
 
             <div className="mt-6 rounded-2xl border border-border bg-card overflow-hidden">
@@ -246,6 +255,18 @@ function AdminPage() {
                       <p className="text-sm text-muted-foreground">{c?.title}</p>
                       <p className="mt-1 font-mono text-xs text-muted-foreground">
                         {r.trxId} · ${r.amount} · {r.method} · {r.createdAt}
+                      </p>
+                      {r.scheduledFor && (
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Orientation:{" "}
+                          {new Date(r.scheduledFor).toLocaleString("en-US", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                          })}
+                        </p>
+                      )}
+                      <p className="mt-1 text-xs font-medium text-accent">
+                        Auto-approves in {autoApproveIn(r.createdAtMs)}
                       </p>
                     </div>
                     <div className="flex gap-2 shrink-0">
