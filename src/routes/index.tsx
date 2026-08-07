@@ -104,25 +104,34 @@ function SectionHead({
   eyebrow,
   title: heading,
   description: desc,
-  center = true,
+  aside,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
   center?: boolean;
+  aside?: ReactNode;
 }) {
   return (
-    <Reveal className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-medium text-accent">
-        <Sparkles className="h-3.5 w-3.5" /> {eyebrow}
-      </span>
-      <h2 className="mt-4 text-2xl font-extrabold sm:text-4xl">{heading}</h2>
-      {desc && (
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{desc}</p>
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <Reveal className="max-w-2xl">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-medium text-accent">
+          <Sparkles className="h-3.5 w-3.5" /> {eyebrow}
+        </span>
+        <h2 className="mt-4 text-2xl font-extrabold sm:text-4xl">{heading}</h2>
+        {desc && (
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{desc}</p>
+        )}
+      </Reveal>
+      {aside && (
+        <Reveal delay={0.1} className="lg:max-w-md lg:shrink-0">
+          {aside}
+        </Reveal>
       )}
-    </Reveal>
+    </div>
   );
 }
+
 
 function HomePage() {
   const { courses } = useStore();
