@@ -1,7 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  ArrowRight,
   BookOpen,
+  ChevronDown,
   GraduationCap,
   Home,
   LayoutDashboard,
