@@ -38,6 +38,7 @@ import {
   Stagger,
   StaggerItem,
 } from "@/components/motion/Motion";
+import { KanthaDivider, KanthaMotif } from "@/components/motion/NakshiKantha";
 import {
   Accordion,
   AccordionContent,
@@ -113,7 +114,9 @@ function SectionHead({
         <Sparkles className="h-3.5 w-3.5" /> {eyebrow}
       </span>
       <h2 className="mt-4 text-2xl font-extrabold sm:text-4xl">{heading}</h2>
-      {desc && <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{desc}</p>}
+      {desc && (
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{desc}</p>
+      )}
     </Reveal>
   );
 }
@@ -169,8 +172,9 @@ function HomePage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
-              Learn web development, design, marketing, and freelancing — anytime, anywhere, right from
-              your phone. Industry mentors, live support, and real projects, all on one platform.
+              Learn web development, design, marketing, and freelancing — anytime, anywhere, right
+              from your phone. Industry mentors, live support, and real projects, all on one
+              platform.
             </motion.p>
 
             <motion.div
@@ -219,6 +223,10 @@ function HomePage() {
               />
             </motion.div>
             <CobaltCube className="absolute -top-10 -left-8 hidden lg:block" />
+            <KanthaMotif
+              size={110}
+              className="absolute -top-6 -right-6 opacity-25 hidden md:block"
+            />
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -246,6 +254,7 @@ function HomePage() {
             />
           </div>
         </div>
+        <KanthaDivider className="mt-1" segments={22} />
       </section>
 
       {/* CATEGORIES */}
@@ -315,12 +324,36 @@ function HomePage() {
         />
         <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { icon: Smartphone, t: "Mobile First", d: "Smooth video even on low data, offline notes, and a design built for small screens." },
-            { icon: Users, t: "Live Mentor Support", d: "Live Q&A twice a week plus cohort-based support groups." },
-            { icon: Wallet, t: "Easy Global Payments", d: "Cards, PayPal, and popular digital wallets — verified in under 2 hours." },
-            { icon: Trophy, t: "Real Projects", d: "Portfolio-ready projects and code reviews in every course." },
-            { icon: ShieldCheck, t: "Verified Certificates", d: "Digital certificates with a unique ID you can verify anywhere." },
-            { icon: Headphones, t: "Career Guidance", d: "Resume reviews, interview practice, and freelancing guides." },
+            {
+              icon: Smartphone,
+              t: "Mobile First",
+              d: "Smooth video even on low data, offline notes, and a design built for small screens.",
+            },
+            {
+              icon: Users,
+              t: "Live Mentor Support",
+              d: "Live Q&A twice a week plus cohort-based support groups.",
+            },
+            {
+              icon: Wallet,
+              t: "Easy Global Payments",
+              d: "Cards, PayPal, and popular digital wallets — verified in under 2 hours.",
+            },
+            {
+              icon: Trophy,
+              t: "Real Projects",
+              d: "Portfolio-ready projects and code reviews in every course.",
+            },
+            {
+              icon: ShieldCheck,
+              t: "Verified Certificates",
+              d: "Digital certificates with a unique ID you can verify anywhere.",
+            },
+            {
+              icon: Headphones,
+              t: "Career Guidance",
+              d: "Resume reviews, interview practice, and freelancing guides.",
+            },
           ].map((f) => (
             <StaggerItem key={f.t}>
               <div className="h-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary-soft/50">
@@ -345,11 +378,27 @@ function HomePage() {
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-5">
             {[
-              { n: "01", t: "Pick Your Skill", d: "Find the right course for you in a free counseling session." },
-              { n: "02", t: "Foundation", d: "Master the basics in clear, simple lessons — just 30 minutes a day." },
-              { n: "03", t: "Practice", d: "Prove your skills hands-on with assignments and quizzes." },
+              {
+                n: "01",
+                t: "Pick Your Skill",
+                d: "Find the right course for you in a free counseling session.",
+              },
+              {
+                n: "02",
+                t: "Foundation",
+                d: "Master the basics in clear, simple lessons — just 30 minutes a day.",
+              },
+              {
+                n: "03",
+                t: "Practice",
+                d: "Prove your skills hands-on with assignments and quizzes.",
+              },
               { n: "04", t: "Real Project", d: "Build a full project for your portfolio." },
-              { n: "05", t: "Career", d: "Get ready with your resume, interviews, and marketplace profile." },
+              {
+                n: "05",
+                t: "Career",
+                d: "Get ready with your resume, interviews, and marketplace profile.",
+              },
             ].map((step, i) => (
               <Reveal key={step.n} delay={i * 0.08}>
                 <div className="relative h-full rounded-2xl border border-border bg-card p-5">
@@ -398,7 +447,9 @@ function HomePage() {
                     </span>
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-semibold">{m.name}</span>
-                      <span className="block truncate text-xs text-muted-foreground">{m.title}</span>
+                      <span className="block truncate text-xs text-muted-foreground">
+                        {m.title}
+                      </span>
                     </span>
                   </Link>
                 </Reveal>
@@ -424,7 +475,9 @@ function HomePage() {
               <StaggerItem key={t.name}>
                 <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-5">
                   <Quote className="h-6 w-6 text-accent" />
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{t.text}</p>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {t.text}
+                  </p>
                   <div className="mt-4 border-t border-border pt-3">
                     <p className="text-sm font-semibold">{t.name}</p>
                     <p className="text-xs text-muted-foreground">{t.role}</p>
@@ -463,13 +516,15 @@ function HomePage() {
               ))}
             </div>
             <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
-              {["No hidden charges", "7-day refund policy", "Digital receipt for every payment"].map(
-                (li) => (
-                  <li key={li} className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-success" /> {li}
-                  </li>
-                ),
-              )}
+              {[
+                "No hidden charges",
+                "7-day refund policy",
+                "Digital receipt for every payment",
+              ].map((li) => (
+                <li key={li} className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-success" /> {li}
+                </li>
+              ))}
             </ul>
           </div>
           <Parallax amount={26}>
@@ -536,7 +591,9 @@ function HomePage() {
                   {p.category}
                 </Badge>
                 <h3 className="mt-3 text-base font-bold">{p.title}</h3>
-                <p className="mt-2 line-clamp-3 flex-1 text-sm text-muted-foreground">{p.excerpt}</p>
+                <p className="mt-2 line-clamp-3 flex-1 text-sm text-muted-foreground">
+                  {p.excerpt}
+                </p>
                 <p className="mt-4 text-xs text-muted-foreground">
                   {p.date} · {p.readTime}
                 </p>
@@ -550,10 +607,16 @@ function HomePage() {
       <section className="container-eh pb-16 sm:pb-24">
         <SectionHead eyebrow="FAQ" title="Common Questions, Answered" />
         <Reveal className="mx-auto mt-10 max-w-3xl">
-          <Accordion type="single" collapsible className="rounded-2xl border border-border bg-card px-4">
+          <Accordion
+            type="single"
+            collapsible
+            className="rounded-2xl border border-border bg-card px-4"
+          >
             {faqs.map((f, i) => (
               <AccordionItem key={f.q} value={`i-${i}`}>
-                <AccordionTrigger className="text-left text-sm font-semibold">{f.q}</AccordionTrigger>
+                <AccordionTrigger className="text-left text-sm font-semibold">
+                  {f.q}
+                </AccordionTrigger>
                 <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
               </AccordionItem>
             ))}
@@ -563,6 +626,7 @@ function HomePage() {
 
       {/* CTA */}
       <section className="container-eh pb-20">
+        <KanthaDivider className="mb-8 text-accent/40" segments={22} />
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-border bg-cobalt p-8 text-center sm:p-14">
             <div className="absolute inset-0 grid-noise opacity-30" aria-hidden="true" />
