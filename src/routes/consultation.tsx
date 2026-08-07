@@ -128,7 +128,7 @@ function ConsultationPage() {
                     className="mt-1.5 h-11"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    placeholder="+1 (415) 555-0100"
+                    placeholder="+1 (386) 296-1378"
                   />
                   {errors["phone"] && (
                     <p className="mt-1 text-xs text-destructive">{errors["phone"]}</p>
