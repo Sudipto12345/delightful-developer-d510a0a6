@@ -13,7 +13,7 @@ import { Reveal } from "@/components/motion/Motion";
 
 const title = "Contact Us — ElevateHub Ltd";
 const description =
-  "Have a question about enrollment, courses, or payments? Get in touch with us. London office, hotline, and chat support.";
+  "Have a question about enrollment, courses, or payments? Get in touch with us. New York office, hotline, and chat support.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -92,7 +92,7 @@ function ContactPage() {
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className="mt-1.5 h-11"
-                  placeholder="+1 (415) 555-0100"
+                  placeholder="+1 (386) 296-1378"
                 />
                 {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
               </div>
@@ -134,18 +134,16 @@ function ContactPage() {
               <h2 className="font-semibold">Direct Contact</h2>
               <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
                 <li className="flex gap-3">
-                  <Phone className="h-4 w-4 shrink-0 text-accent" /> Hotline: +1 (415) 555-0100
+                  <Phone className="h-4 w-4 shrink-0 text-accent" /> Hotline: +1 (386) 296-1378
                 </li>
                 <li className="flex gap-3">
-                  <MessageCircle className="h-4 w-4 shrink-0 text-accent" /> WhatsApp: +1 (415)
-                  555-0199
+                  <MessageCircle className="h-4 w-4 shrink-0 text-accent" /> WhatsApp: +1 (386) 296-1378
                 </li>
                 <li className="flex gap-3">
                   <Mail className="h-4 w-4 shrink-0 text-accent" /> support@elevatehubltd.com
                 </li>
                 <li className="flex gap-3">
-                  <MapPin className="h-4 w-4 shrink-0 text-accent" /> 20 Fenchurch St, London, EC3M
-                  3BY
+                  <MapPin className="h-4 w-4 shrink-0 text-accent" /> 76-30 46th Ave, Elmhurst, NY 11374
                 </li>
               </ul>
             </div>

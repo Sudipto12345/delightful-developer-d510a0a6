@@ -166,12 +166,12 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
             <li className="flex gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-              <span>20 Fenchurch Street, London EC3M 3BY, United Kingdom</span>
+              <span>76-30 46th Ave, Elmhurst, NY 11374, USA</span>
             </li>
             <li className="flex gap-2">
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-              <a href="tel:+14155550100" className="transition-colors hover:text-foreground">
-                +1 (415) 555-0100
+              <a href="tel:+13862961378" className="transition-colors hover:text-foreground">
+                +1 (386) 296-1378
               </a>
             </li>
             <li className="flex gap-2">

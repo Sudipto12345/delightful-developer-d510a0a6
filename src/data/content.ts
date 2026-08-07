@@ -101,7 +101,7 @@ export const getPost = (slug: string) => posts.find((p) => p.slug === slug);
 export const testimonials = [
   {
     name: "Ryan Hastings",
-    role: "Junior Web Developer, London",
+    role: "Junior Web Developer, New York",
     text: "Six months ago I knew nothing. With ElevateHub's courses and mentor support, I'm now working at a software company.",
     result: "Landed a job: $2,800/mo",
   },
@@ -168,10 +168,10 @@ export const events = [
     seats: 500,
   },
   {
-    title: "Career Bootcamp — London",
+    title: "Career Bootcamp — New York",
     date: "September 20, 2026",
     time: "10:00 AM",
-    mode: "In person, Central London",
+    mode: "In person, Elmhurst, NY",
     seats: 120,
   },
   {
