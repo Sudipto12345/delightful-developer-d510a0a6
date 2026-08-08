@@ -35,8 +35,8 @@ export type Course = {
   modules: Module[];
   nextBatch: string;
   imageKey?: string;
-  imageUrl?: string;
-  videoUrl?: string;
+  imageUrl?: string | undefined;
+  videoUrl?: string | undefined;
 };
 
 export type Category = {
@@ -45,7 +45,7 @@ export type Category = {
   tagline: string;
   icon: string;
   color: string;
-  imageUrl?: string;
+  imageUrl?: string | undefined;
 };
 
 export type Instructor = {
@@ -60,7 +60,7 @@ export type Instructor = {
   rating: number;
   skills: string[];
   approved: boolean;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
 };
 
 export const categories: Category[] = [
