@@ -4,38 +4,71 @@ import { Award, Star, Users } from "lucide-react";
 import { CourseCard } from "@/components/course/CourseCard";
 import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Badge } from "@/components/ui/badge";
-import { courses, instructors, type Instructor } from "@/data/courses";
+import { type Instructor } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Motion";
 
+const titleCase = (slug: string) =>
+  slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
 export const Route = createFileRoute("/instructors/$slug")({
-  loader: ({ params }) => {
-    const instructor = instructors.find((i) => i.slug === params.slug);
-    if (!instructor) throw notFound();
-    return { instructor };
-  },
-  head: ({ loaderData }) => {
-    if (!loaderData)
-      return { meta: [{ title: "Mentor Not Found" }, { name: "robots", content: "noindex" }] };
-    const i = loaderData.instructor;
-    const t = `${i.name} — ${i.title} | ElevateHub Ltd`;
+  head: ({ params }) => {
+    const name = titleCase(params.slug);
+    const t = `${name} — Mentor at ElevateHub Ltd`;
+    const description = `${name} teaches at ElevateHub Ltd. See their background, skills, ratings, and the courses they mentor.`;
     return {
       meta: [
         { title: t },
-        { name: "description", content: i.bio },
+        { name: "description", content: description },
         { property: "og:title", content: t },
-        { property: "og:description", content: i.bio },
+        { property: "og:description", content: description },
         { property: "og:type", content: "profile" },
-        { property: "og:url", content: `/instructors/${i.slug}` },
+        { property: "og:url", content: `/instructors/${params.slug}` },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/instructors/${i.slug}` }],
+      links: [{ rel: "canonical", href: `/instructors/${params.slug}` }],
     };
   },
+  notFoundComponent: () => (
+    <PublicShell>
+      <div className="container-eh py-24 text-center">
+        <h1 className="text-2xl font-bold">Mentor not found</h1>
+      </div>
+    </PublicShell>
+  ),
+  errorComponent: () => (
+    <PublicShell>
+      <div className="container-eh py-24 text-center">
+        <h1 className="text-2xl font-bold">Something went wrong</h1>
+      </div>
+    </PublicShell>
+  ),
   component: InstructorDetail,
 });
 
 function InstructorDetail() {
-  const { instructor } = Route.useLoaderData() as { instructor: Instructor };
-  const list = courses.filter((c) => c.instructorId === instructor.id && c.published);
+  const { slug } = Route.useParams();
+  const { instructors, courses } = useCatalog();
+  const instructor = instructors.find((i) => i.slug === slug) as Instructor | undefined;
+
+  if (instructors.length > 0 && !instructor) throw notFound();
+  if (!instructor) {
+    return (
+      <PublicShell>
+        <div className="container-eh py-24">
+          <div className="h-8 w-1/2 animate-pulse rounded bg-muted" />
+        </div>
+      </PublicShell>
+    );
+  }
+
+  const list = courses.filter(
+    (c) => (c.instructorId === instructor.id || c.instructorId === instructor.slug) && c.published,
+  );
+
 
   return (
     <PublicShell>
