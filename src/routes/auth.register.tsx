@@ -146,22 +146,8 @@ function RegisterPage() {
               <h1 className="text-2xl font-extrabold sm:text-3xl">Create your account</h1>
               <p className="mt-2 text-sm text-muted-foreground">Start learning in less than a minute.</p>
 
-              <Button
-                type="button"
-                variant="outline"
-                className="mt-7 h-12 w-full gap-2"
-                onClick={handleGoogle}
-                disabled={googleLoading}
-              >
-                {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
-                Continue with Google
-              </Button>
+              <div className="mt-7" />
 
-              <div className="my-6 flex items-center gap-3">
-                <div className="h-px flex-1 bg-border" />
-                <span className="text-xs text-muted-foreground">OR</span>
-                <div className="h-px flex-1 bg-border" />
-              </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-1.5">
