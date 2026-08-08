@@ -37,8 +37,13 @@ export const categoryImages: Record<string, string> = {
   "svc-business": freelancingImg,
 };
 
-export const getCourseImage = (slug: string, imageKey?: string) =>
-  courseImages[slug] ?? (imageKey ? categoryImages[imageKey] : undefined) ?? webImg;
+/**
+ * Database URLs always win; bundled art is only a fallback while the catalog
+ * query is still in flight.
+ */
+export const getCourseImage = (slug: string, imageKey?: string, url?: string) =>
+  url || courseImages[slug] || (imageKey ? categoryImages[imageKey] : undefined) || webImg;
 
-export const getCategoryImage = (slug: string) => categoryImages[slug] ?? webImg;
+export const getCategoryImage = (slug: string, url?: string) =>
+  url || categoryImages[slug] || webImg;
 
