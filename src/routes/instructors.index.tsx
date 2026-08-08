@@ -60,28 +60,29 @@ function InstructorsPage() {
                   </div>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-
-                <p className="mt-4 line-clamp-3 text-sm text-muted-foreground">{i.bio}</p>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {i.skills.slice(0, 4).map((s) => (
-                    <Badge key={s} variant="secondary" className="text-[11px]">
-                      {s}
-                    </Badge>
-                  ))}
+                  <p className="line-clamp-3 text-sm text-muted-foreground">{i.bio}</p>
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {i.skills.slice(0, 4).map((s) => (
+                      <Badge key={s} variant="secondary" className="rounded-sm text-[11px]">
+                        {s}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="mt-auto flex items-center justify-between border-t border-border pt-4 text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-accent text-accent" />
+                      {i.rating.toLocaleString("en-US")}
+                    </span>
+                    <span>{i.students.toLocaleString("en-US")} students</span>
+                  </div>
+                  <Button asChild variant="outline" size="sm" className="mt-4">
+                    <Link to="/instructors/$slug" params={{ slug: i.slug }}>
+                      View Profile
+                    </Link>
+                  </Button>
                 </div>
-                <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-accent text-accent" />
-                    {i.rating.toLocaleString("en-US")}
-                  </span>
-                  <span>{i.students.toLocaleString("en-US")} students</span>
-                </div>
-                <Button asChild variant="outline" size="sm" className="mt-4">
-                  <Link to="/instructors/$slug" params={{ slug: i.slug }}>
-                    View Profile
-                  </Link>
-                </Button>
               </article>
+
             </StaggerItem>
           ))}
         </Stagger>
