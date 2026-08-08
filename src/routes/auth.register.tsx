@@ -27,23 +27,12 @@ export const Route = createFileRoute("/auth/register")({
   component: RegisterPage,
 });
 
-function GoogleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M21.35 11.1h-9.17v2.98h5.27c-.23 1.4-1.65 4.1-5.27 4.1a5.78 5.78 0 0 1 0-11.56c1.64 0 2.75.7 3.38 1.3l2.3-2.22C16.42 4.2 14.5 3.3 12.18 3.3a8.7 8.7 0 1 0 0 17.4c5 0 8.34-3.52 8.34-8.48 0-.57-.06-1-.17-1.12Z"
-      />
-    </svg>
-  );
-}
-
 function RegisterPage() {
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -53,7 +42,7 @@ function RegisterPage() {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -66,28 +55,14 @@ function RegisterPage() {
       toast.error(error.message);
       return;
     }
+    if (data.session) {
+      toast.success("Account created. Welcome!");
+      void navigate({ to: "/dashboard" });
+      return;
+    }
     setSubmitted(true);
   }
 
-  async function handleGoogle() {
-    setGoogleLoading(true);
-    try {
-      const { lovable } = await import("@/integrations/lovable/index");
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
-      });
-      if (result.error) {
-        toast.error(result.error.message ?? "Google sign-in failed");
-        setGoogleLoading(false);
-        return;
-      }
-      if (result.redirected) return;
-      setGoogleLoading(false);
-    } catch {
-      toast.error("Google sign-in is not available right now.");
-      setGoogleLoading(false);
-    }
-  }
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
