@@ -88,7 +88,7 @@ function ConsultationPage() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-success/40 bg-card p-8 text-center"
+              className="rounded-sm border border-success/40 bg-card p-8 text-center"
             >
               <h2 className="text-xl font-bold text-success">Booking Confirmed</h2>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -106,7 +106,7 @@ function ConsultationPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-border bg-card p-6"
+              className="rounded-sm border border-border bg-card p-6"
               noValidate
             >
               <div className="grid gap-4 sm:grid-cols-2">

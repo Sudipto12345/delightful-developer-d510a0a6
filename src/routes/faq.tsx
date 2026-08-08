@@ -57,7 +57,7 @@ function FaqPage() {
           <Accordion
             type="single"
             collapsible
-            className="rounded-2xl border border-border bg-card px-4"
+            className="rounded-sm border border-border bg-card px-4"
           >
             {faqs.map((f, i) => (
               <AccordionItem key={f.q} value={`f-${i}`}>
@@ -68,7 +68,7 @@ function FaqPage() {
           </Accordion>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="mt-8 rounded-2xl border border-border bg-card p-6 text-center">
+          <div className="mt-8 rounded-sm border border-border bg-card p-6 text-center">
             <p className="font-semibold">Still have questions?</p>
             <Button asChild className="mt-4 bg-spark text-accent-foreground">
               <Link to="/contact">Contact Us</Link>

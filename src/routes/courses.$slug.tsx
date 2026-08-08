@@ -165,7 +165,7 @@ function CourseDetail() {
                 type="single"
                 collapsible
                 defaultValue="m-0"
-                className="mt-4 rounded-2xl border border-border bg-card px-4"
+                className="mt-4 rounded-sm border border-border bg-card px-4"
               >
                 {course.modules.map((m, i) => (
                   <AccordionItem key={m.title} value={`m-${i}`}>
@@ -212,7 +212,7 @@ function CourseDetail() {
             {instructor && (
               <Reveal className="mt-10">
                 <h2 className="text-xl font-bold">Mentor</h2>
-                <div className="mt-4 rounded-2xl border border-border bg-card p-5">
+                <div className="mt-4 rounded-sm border border-border bg-card p-5">
                   <div className="flex items-center gap-3">
                     <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-cobalt font-bold">
                       {instructor.name.slice(0, 1)}
@@ -235,7 +235,7 @@ function CourseDetail() {
 
           {/* Sticky enroll card */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="overflow-hidden rounded-2xl border border-border bg-card soft-shadow">
+            <div className="overflow-hidden rounded-sm border border-border bg-card soft-shadow">
               <div className="relative aspect-[16/9] overflow-hidden bg-cobalt">
                 <video
                   src={getCourseVideo(course.slug, course.videoUrl)}

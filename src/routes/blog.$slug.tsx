@@ -65,7 +65,7 @@ function BlogDetail() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="mt-10 rounded-2xl border border-border bg-card p-6">
+          <div className="mt-10 rounded-sm border border-border bg-card p-6">
             <h2 className="text-lg font-bold">Ready to start learning?</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Check out the course you're interested in and start your journey today.

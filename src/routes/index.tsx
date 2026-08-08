@@ -258,9 +258,9 @@ function HomePage() {
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7 }}
-              className="relative overflow-hidden rounded-3xl border border-border bg-card/70 p-3 backdrop-blur-xl glow sm:p-4"
+              className="relative overflow-hidden rounded-sm border border-border bg-card/70 p-3 backdrop-blur-xl glow sm:p-4"
             >
-              <div className="relative overflow-hidden rounded-2xl">
+              <div className="relative overflow-hidden rounded-sm">
                 <img
                   src={teamImg}
                   alt="A team of learners collaborating on a project in a studio"
@@ -288,7 +288,7 @@ function HomePage() {
                     <Link
                       to="/courses/$slug"
                       params={{ slug: c.slug }}
-                      className="group flex items-center gap-3 rounded-2xl border border-border bg-background/50 p-2.5 transition-all hover:-translate-y-0.5 hover:border-primary-soft/60"
+                      className="group flex items-center gap-3 rounded-sm border border-border bg-background/50 p-2.5 transition-all hover:-translate-y-0.5 hover:border-primary-soft/60"
                     >
                       <img
                         src={getCourseImage(c.slug, c.imageKey, c.imageUrl)}
@@ -333,7 +333,7 @@ function HomePage() {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-5 -left-4 rounded-2xl border border-border bg-card/90 p-3 backdrop-blur soft-shadow"
+              className="absolute -bottom-5 -left-4 rounded-sm border border-border bg-card/90 p-3 backdrop-blur soft-shadow"
             >
               <p className="flex items-center gap-2 text-xs font-medium">
                 <BadgeCheck className="h-4 w-4 text-success" /> 42,000+ learners and growing
@@ -390,7 +390,7 @@ function HomePage() {
                 { t: "Peer cohort", d: "Learn alongside a small accountable group." },
               ].map((f, i) => (
                 <Reveal key={f.t} delay={i * 0.06}>
-                  <div className="h-full rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+                  <div className="h-full rounded-sm border border-border bg-card/70 p-4 backdrop-blur">
                     <p className="text-sm font-bold">{f.t}</p>
                     <p className="mt-1 text-xs text-muted-foreground">{f.d}</p>
                   </div>
@@ -409,7 +409,7 @@ function HomePage() {
 
           <Parallax amount={24}>
             <div className="grid grid-cols-2 gap-3">
-              <div className="col-span-2 overflow-hidden rounded-3xl border border-border">
+              <div className="col-span-2 overflow-hidden rounded-sm border border-border">
                 <img
                   src={mentorSessionImg}
                   alt="A mentor reviewing project work with two students"
@@ -419,7 +419,7 @@ function HomePage() {
                   className="h-56 w-full object-cover sm:h-64"
                 />
               </div>
-              <div className="overflow-hidden rounded-3xl border border-border">
+              <div className="overflow-hidden rounded-sm border border-border">
                 <img
                   src={learnerImg}
                   alt="A learner studying online at golden hour"
@@ -429,7 +429,7 @@ function HomePage() {
                   className="h-48 w-full object-cover"
                 />
               </div>
-              <div className="overflow-hidden rounded-3xl border border-border">
+              <div className="overflow-hidden rounded-sm border border-border">
                 <img
                   src={workspaceImg}
                   alt="A developer workspace with a laptop and notebook"
@@ -452,7 +452,7 @@ function HomePage() {
           title="Choose Your Field of Interest"
           description="Every category comes with a step-by-step learning path and industry mentors."
           aside={
-            <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+            <div className="rounded-sm border border-border bg-card/70 p-4 backdrop-blur">
               <p className="text-sm font-bold">Not sure where to start?</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 Take a 2-minute skill match with an advisor and get a personalised roadmap plus a
@@ -472,7 +472,7 @@ function HomePage() {
                 <Link
                   to="/categories/$slug"
                   params={{ slug: cat.slug }}
-                  className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-primary-soft/60 sm:p-6"
+                  className="group flex h-full flex-col gap-3 rounded-sm border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-primary-soft/60 sm:p-6"
                 >
                   <span
                     className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${cat.color}`}
@@ -500,7 +500,7 @@ function HomePage() {
             title="The Courses Driving the Most Career Wins"
             description="Hand-picked programs with the highest completion and hiring outcomes this quarter."
             aside={
-              <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+              <div className="rounded-sm border border-border bg-card/70 p-4 backdrop-blur">
                 <p className="text-sm font-bold">Bundle & save 40%</p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Enroll in any two courses this week and the second one is half price — refundable
@@ -534,7 +534,7 @@ function HomePage() {
           title="We Don't Just Stream Videos — We Build Skills"
           description="Designed for real life — low bandwidth, mobile devices, and busy schedules, wherever you are."
           aside={
-            <div className="overflow-hidden rounded-2xl border border-border">
+            <div className="overflow-hidden rounded-sm border border-border">
               <img
                 src={workspaceImg}
                 alt="Laptop workspace used by an ElevateHub learner"
@@ -580,7 +580,7 @@ function HomePage() {
             },
           ].map((f) => (
             <StaggerItem key={f.t}>
-              <div className="h-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary-soft/50">
+              <div className="h-full rounded-sm border border-border bg-card p-5 transition-colors hover:border-primary-soft/50">
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-secondary">
                   <f.icon className="h-5 w-5 text-accent" />
                 </span>
@@ -601,11 +601,11 @@ function HomePage() {
             description="Every step has clear goals, assignments, and mentor checkpoints."
             aside={
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-border bg-card/70 p-4">
+                <div className="rounded-sm border border-border bg-card/70 p-4">
                   <p className="text-2xl font-extrabold text-accent">12 wks</p>
                   <p className="text-xs text-muted-foreground">Average time to job-ready</p>
                 </div>
-                <div className="rounded-2xl border border-border bg-card/70 p-4">
+                <div className="rounded-sm border border-border bg-card/70 p-4">
                   <p className="text-2xl font-extrabold text-accent">89%</p>
                   <p className="text-xs text-muted-foreground">Complete their capstone</p>
                 </div>
@@ -637,7 +637,7 @@ function HomePage() {
               },
             ].map((step, i) => (
               <Reveal key={step.n} delay={i * 0.08}>
-                <div className="relative h-full rounded-2xl border border-border bg-card p-5">
+                <div className="relative h-full rounded-sm border border-border bg-card p-5">
                   <span className="text-3xl font-extrabold text-gradient">{step.n}</span>
                   <h3 className="mt-3 text-base font-bold">{step.t}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{step.d}</p>
@@ -652,7 +652,7 @@ function HomePage() {
       <section className="container-eh py-16 sm:py-24">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <Parallax amount={30}>
-            <div className="overflow-hidden rounded-3xl border border-border">
+            <div className="overflow-hidden rounded-sm border border-border">
               <img
                 src={mentorImg}
                 alt="Industry mentor teaching a live class"
@@ -716,7 +716,7 @@ function HomePage() {
             title="Their Stories Are Our Proof"
             description="Learners in 60+ countries are transforming their careers with us."
             aside={
-              <div className="overflow-hidden rounded-2xl border border-border">
+              <div className="overflow-hidden rounded-sm border border-border">
                 <img
                   src={learnerImg}
                   alt="A learner working through a course module at home"
@@ -731,7 +731,7 @@ function HomePage() {
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {testimonials.map((t) => (
               <StaggerItem key={t.name}>
-                <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-5">
+                <div className="flex h-full flex-col rounded-sm border border-border bg-card p-5">
                   <Quote className="h-6 w-6 text-accent" />
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
                     {t.text}
@@ -762,7 +762,7 @@ function HomePage() {
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {paymentMethods.map((p, i) => (
                 <Reveal key={p.id} delay={i * 0.06}>
-                  <div className="rounded-2xl border border-border bg-card p-4">
+                  <div className="rounded-sm border border-border bg-card p-4">
                     <span
                       className="inline-block h-2 w-10 rounded-full"
                       style={{ backgroundColor: p.color }}
@@ -788,7 +788,7 @@ function HomePage() {
             </ul>
           </div>
           <Parallax amount={26}>
-            <div className="overflow-hidden rounded-3xl border border-border">
+            <div className="overflow-hidden rounded-sm border border-border">
               <img
                 src={certificateImg}
                 alt="Verified certificate of course completion"
@@ -810,7 +810,7 @@ function HomePage() {
             title="Free Webinars & Bootcamps"
             description="Free sessions online and in person every month — seats are limited."
             aside={
-              <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+              <div className="rounded-sm border border-border bg-card/70 p-4 backdrop-blur">
                 <p className="text-sm font-bold">Can't make it live?</p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Every session is recorded and sent to registered attendees within 24 hours.
@@ -824,7 +824,7 @@ function HomePage() {
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
             {events.map((e) => (
               <StaggerItem key={e.title}>
-                <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-5">
+                <div className="flex h-full flex-col rounded-sm border border-border bg-card p-5">
                   <CalendarClock className="h-5 w-5 text-accent" />
                   <h3 className="mt-3 text-base font-bold">{e.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">
@@ -860,7 +860,7 @@ function HomePage() {
               <Link
                 to="/blog/$slug"
                 params={{ slug: p.slug }}
-                className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-1 hover:border-primary-soft/60"
+                className="flex h-full flex-col rounded-sm border border-border bg-card p-5 transition-all hover:-translate-y-1 hover:border-primary-soft/60"
               >
                 <Badge variant="secondary" className="w-fit">
                   {p.category}
@@ -885,7 +885,7 @@ function HomePage() {
           <Accordion
             type="single"
             collapsible
-            className="rounded-2xl border border-border bg-card px-4"
+            className="rounded-sm border border-border bg-card px-4"
           >
             {faqs.map((f, i) => (
               <AccordionItem key={f.q} value={`i-${i}`}>
@@ -902,7 +902,7 @@ function HomePage() {
       {/* CTA */}
       <section className="container-eh pb-20">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-cobalt p-8 text-center sm:p-14">
+          <div className="relative overflow-hidden rounded-sm border border-border bg-cobalt p-8 text-center sm:p-14">
             <div className="absolute inset-0 grid-noise opacity-30" aria-hidden="true" />
             <div className="relative">
               <h2 className="text-2xl font-extrabold sm:text-4xl">Start Learning Today</h2>

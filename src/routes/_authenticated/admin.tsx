@@ -104,7 +104,7 @@ function AdminPage() {
               ].map((k) => (
                 <div
                   key={k.label}
-                  className={`relative rounded-2xl border bg-card p-4 ${k.alert ? "border-destructive/50" : "border-border"}`}
+                  className={`relative rounded-sm border bg-card p-4 ${k.alert ? "border-destructive/50" : "border-border"}`}
                 >
                   {k.alert && (
                     <span className="absolute right-3 top-3 h-2 w-2 animate-pulse rounded-full bg-destructive" />
@@ -119,7 +119,7 @@ function AdminPage() {
             </div>
 
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              <div className="rounded-2xl border border-border bg-card p-5">
+              <div className="rounded-sm border border-border bg-card p-5">
                 <div className="flex items-center justify-between">
                   <h2 className="font-bold">Approval Queue</h2>
                   <button onClick={() => setTab("approvals")} className="text-xs text-accent font-medium">
@@ -143,7 +143,7 @@ function AdminPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border bg-card p-5">
+              <div className="rounded-sm border border-border bg-card p-5">
                 <h2 className="font-bold mb-4">Recent Activity</h2>
                 <div className="space-y-4">
                   {audit.slice(0, 5).map((a) => (
@@ -168,7 +168,7 @@ function AdminPage() {
               after submission. Every decision is logged.
             </p>
 
-            <div className="mt-6 rounded-2xl border border-border bg-card overflow-hidden">
+            <div className="mt-6 rounded-sm border border-border bg-card overflow-hidden">
               {pending.length === 0 && (
                 <div className="p-10 text-center text-muted-foreground">
                   <CheckCircle2 className="mx-auto mb-3 h-8 w-8 text-success opacity-60" />
@@ -226,7 +226,7 @@ function AdminPage() {
             </div>
 
             <h2 className="mt-8 font-bold">Resolved</h2>
-            <div className="mt-3 rounded-2xl border border-border bg-card divide-y divide-border overflow-hidden">
+            <div className="mt-3 rounded-sm border border-border bg-card divide-y divide-border overflow-hidden">
               {requests.filter((r) => r.status !== "pending").map((r) => {
                 const c = getCourse(r.courseId);
                 return (
@@ -258,7 +258,7 @@ function AdminPage() {
               <h1 className="text-2xl font-extrabold">Course Manager</h1>
               <Button size="sm">+ New Course</Button>
             </div>
-            <div className="mt-6 overflow-x-auto rounded-2xl border border-border bg-card">
+            <div className="mt-6 overflow-x-auto rounded-sm border border-border bg-card">
               <table className="w-full min-w-[600px] text-sm">
                 <thead>
                   <tr className="border-b border-border">
@@ -330,7 +330,7 @@ function AdminPage() {
                 className="pl-10 rounded-full"
               />
             </div>
-            <div className="mt-5 overflow-x-auto rounded-2xl border border-border bg-card">
+            <div className="mt-5 overflow-x-auto rounded-sm border border-border bg-card">
               <table className="w-full min-w-[600px] text-sm">
                 <thead>
                   <tr className="border-b border-border">
@@ -390,7 +390,7 @@ function AdminPage() {
             <p className="mt-1 text-sm text-muted-foreground">
               Every approval, rejection, and admin action — immutable.
             </p>
-            <div className="mt-6 rounded-2xl border border-border bg-card divide-y divide-border overflow-hidden">
+            <div className="mt-6 rounded-sm border border-border bg-card divide-y divide-border overflow-hidden">
               {audit.map((a) => (
                 <div
                   key={a.id}
@@ -411,7 +411,7 @@ function AdminPage() {
           <div className="max-w-xl">
             <h1 className="text-2xl font-extrabold">Platform Settings</h1>
             <div className="mt-6 space-y-4">
-              <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+              <div className="rounded-sm border border-border bg-card p-6 space-y-4">
                 <h2 className="font-bold">Branding</h2>
                 {[
                   { label: "Platform name", value: "ElevateHub Ltd" },
@@ -428,7 +428,7 @@ function AdminPage() {
                 ))}
               </div>
 
-              <div className="rounded-2xl border border-border bg-card p-6">
+              <div className="rounded-sm border border-border bg-card p-6">
                 <h2 className="font-bold mb-3">Manual Payment Instructions</h2>
                 <p className="text-xs text-muted-foreground mb-3">
                   Shown to learners after submitting a payment request.
@@ -440,7 +440,7 @@ function AdminPage() {
                 />
               </div>
 
-              <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
+              <div className="rounded-sm border border-border bg-card p-6 space-y-3">
                 <h2 className="font-bold">Notifications</h2>
                 {[
                   { label: "Email on every new payment request", on: true },

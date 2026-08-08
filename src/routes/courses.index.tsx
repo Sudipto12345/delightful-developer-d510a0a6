@@ -83,7 +83,7 @@ function CoursesPage() {
       />
 
       <section className="container-eh py-8 sm:py-12">
-        <div className="grid gap-3 rounded-2xl border border-border bg-card p-4">
+        <div className="grid gap-3 rounded-sm border border-border bg-card p-4">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
             <div className="relative min-w-0">
               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

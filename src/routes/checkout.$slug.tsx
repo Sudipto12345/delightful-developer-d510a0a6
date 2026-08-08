@@ -93,7 +93,7 @@ function CheckoutPage() {
             </p>
 
             {submitted || already ? (
-              <Reveal className="mt-8 rounded-2xl border border-success/40 bg-success/10 p-6">
+              <Reveal className="mt-8 rounded-sm border border-success/40 bg-success/10 p-6">
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-6 w-6 text-success" />
                   <p className="text-lg font-bold">Enrollment request received</p>
@@ -118,7 +118,7 @@ function CheckoutPage() {
                 </div>
               </Reveal>
             ) : (
-              <form onSubmit={onSubmit} className="mt-8 max-w-xl space-y-5 rounded-2xl border border-border bg-card p-6">
+              <form onSubmit={onSubmit} className="mt-8 max-w-xl space-y-5 rounded-sm border border-border bg-card p-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full name</Label>
                   <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jordan Miles" />
@@ -155,7 +155,7 @@ function CheckoutPage() {
           </div>
 
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="overflow-hidden rounded-2xl border border-border bg-card soft-shadow">
+            <div className="overflow-hidden rounded-sm border border-border bg-card soft-shadow">
               <img
                 src={getCourseImage(course.slug, course.imageKey, course.imageUrl)}
                 alt={`${course.title} cover`}

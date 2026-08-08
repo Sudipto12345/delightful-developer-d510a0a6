@@ -100,7 +100,7 @@ function InstructorDetail() {
 
       <section className="container-eh py-12">
         <Reveal>
-          <div className="rounded-2xl border border-border bg-card p-6">
+          <div className="rounded-sm border border-border bg-card p-6">
             <h2 className="text-lg font-bold">About</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">{instructor.bio}</p>
             <div className="mt-5 flex flex-wrap gap-2">

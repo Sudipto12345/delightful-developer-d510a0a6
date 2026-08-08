@@ -161,7 +161,7 @@ export function SiteHeader() {
                       transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute top-full left-1/2 z-50 w-[560px] -translate-x-1/2 pt-3"
                     >
-                      <div className="grid grid-cols-2 gap-1 rounded-2xl border border-border bg-card/95 p-2 backdrop-blur-xl soft-shadow">
+                      <div className="grid grid-cols-2 gap-1 rounded-sm border border-border bg-card/95 p-2 backdrop-blur-xl soft-shadow">
                         {item.children.map((child, i) => (
                           <motion.div
                             key={child.to}
