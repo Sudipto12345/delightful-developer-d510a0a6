@@ -32,6 +32,7 @@ export type Catalog = {
   categories: Category[];
   serviceCategories: ServiceCategory[];
   services: Service[];
+  loading: boolean;
 };
 
 type Row = Record<string, unknown>;
@@ -48,6 +49,7 @@ function mapCategory(r: Row): ServiceCategory {
     icon: str(r["icon"], "Sparkles"),
     color: str(r["color"]),
     kind: str(r["kind"], "course") === "service" ? "service" : "course",
+    imageUrl: str(r["image_url"]) || undefined,
   };
 }
 
@@ -64,6 +66,7 @@ function mapInstructor(r: Row): Instructor {
     rating: num(r["rating"], 4.8),
     skills: list(r["skills"]),
     approved: r["approved"] !== false,
+    avatarUrl: str(r["avatar_url"]) || undefined,
   };
 }
 
@@ -93,6 +96,8 @@ function mapCourse(r: Row): Course {
     modules,
     nextBatch: str(r["next_batch"]),
     imageKey: str(r["image_key"], str(r["category_slug"])),
+    imageUrl: str(r["image_url"]) || undefined,
+    videoUrl: str(r["video_url"]) || undefined,
   };
 }
 
@@ -116,16 +121,17 @@ export const seedCatalog: Catalog = {
   categories: seedCategories,
   serviceCategories: [],
   services: [],
+  loading: true,
 };
 
 export function useCatalog(): Catalog {
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["catalog"],
     queryFn: () => fetchCatalog(),
     staleTime: 5 * 60 * 1000,
   });
 
-  if (!data) return seedCatalog;
+  if (!data) return { ...seedCatalog, loading: isPending };
 
   const categories = (data.categories as Row[]).map(mapCategory);
   const courses = (data.courses as Row[]).map(mapCourse);
@@ -139,5 +145,6 @@ export function useCatalog(): Catalog {
       : seedCategories,
     serviceCategories: categories.filter((c) => c.kind === "service"),
     services: (data.services as Row[]).map(mapService),
+    loading: false,
   };
 }

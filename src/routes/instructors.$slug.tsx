@@ -73,24 +73,34 @@ function InstructorDetail() {
   return (
     <PublicShell>
       <PageHero eyebrow="Mentor Profile" title={instructor.name} description={instructor.title}>
-        <div className="mt-6 flex flex-wrap gap-3 text-sm">
-          <span className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5">
-            <Star className="h-4 w-4 fill-accent text-accent" />{" "}
-            {instructor.rating.toLocaleString("en-US")} rating
-          </span>
-          <span className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5">
-            <Users className="h-4 w-4 text-accent" /> {instructor.students.toLocaleString("en-US")}{" "}
-            students
-          </span>
-          <span className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5">
-            <Award className="h-4 w-4 text-accent" /> {instructor.experience} experience
-          </span>
+        <div className="mt-6 grid gap-6 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
+          {instructor.avatarUrl ? (
+            <img
+              src={instructor.avatarUrl}
+              alt={`${instructor.name}, ${instructor.title}`}
+              className="h-40 w-40 rounded-sm object-cover soft-shadow"
+            />
+          ) : null}
+          <div className="flex flex-wrap gap-3 text-sm">
+            <span className="flex items-center gap-1.5 rounded-sm border border-border bg-card px-3 py-1.5">
+              <Star className="h-4 w-4 fill-accent text-accent" />{" "}
+              {instructor.rating.toLocaleString("en-US")} rating
+            </span>
+            <span className="flex items-center gap-1.5 rounded-sm border border-border bg-card px-3 py-1.5">
+              <Users className="h-4 w-4 text-accent" />{" "}
+              {instructor.students.toLocaleString("en-US")} students
+            </span>
+            <span className="flex items-center gap-1.5 rounded-sm border border-border bg-card px-3 py-1.5">
+              <Award className="h-4 w-4 text-accent" /> {instructor.experience} experience
+            </span>
+          </div>
         </div>
+
       </PageHero>
 
       <section className="container-eh py-12">
         <Reveal>
-          <div className="rounded-2xl border border-border bg-card p-6">
+          <div className="rounded-sm border border-border bg-card p-6">
             <h2 className="text-lg font-bold">About</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">{instructor.bio}</p>
             <div className="mt-5 flex flex-wrap gap-2">

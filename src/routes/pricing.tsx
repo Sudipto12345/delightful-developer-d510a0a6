@@ -77,7 +77,7 @@ function PricingPage() {
           {plans.map((p) => (
             <StaggerItem key={p.name} className="h-full">
               <div
-                className={`flex h-full flex-col rounded-2xl border p-6 ${
+                className={`flex h-full flex-col rounded-sm border p-6 ${
                   p.popular ? "border-accent bg-card soft-shadow" : "border-border bg-card"
                 }`}
               >
@@ -105,7 +105,7 @@ function PricingPage() {
           ))}
         </Stagger>
 
-        <div className="mt-10 rounded-2xl border border-border bg-card p-6">
+        <div className="mt-10 rounded-sm border border-border bg-card p-6">
           <h2 className="text-lg font-bold">Student & Group Discounts</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             20% off with a valid student ID. Up to 30% corporate discount for groups enrolling

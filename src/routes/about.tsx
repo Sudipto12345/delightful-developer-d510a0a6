@@ -69,7 +69,7 @@ function AboutPage() {
       <section className="container-eh py-12">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="rounded-2xl border border-border bg-card p-5 text-center">
+            <div key={s.label} className="rounded-sm border border-border bg-card p-5 text-center">
               <p className="text-3xl font-extrabold text-accent">
                 <Counter to={s.value} suffix={s.suffix} />
               </p>
@@ -86,7 +86,7 @@ function AboutPage() {
         <Stagger className="mt-6 grid gap-4 sm:grid-cols-2">
           {values.map((v) => (
             <StaggerItem key={v.title}>
-              <div className="h-full rounded-2xl border border-border bg-card p-5">
+              <div className="h-full rounded-sm border border-border bg-card p-5">
                 <v.icon className="h-6 w-6 text-accent" />
                 <h3 className="mt-3 font-semibold">{v.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{v.text}</p>

@@ -103,7 +103,7 @@ function DashboardPage() {
                   { icon: Award, label: "Completed", value: enrolledCourses.filter((c) => (progress[c.id] ?? 0) === 100).length },
                   { icon: Clock, label: "Pending", value: pendingReqs.length },
                 ].map((s) => (
-                  <div key={s.label} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+                  <div key={s.label} className="flex items-center gap-3 rounded-sm border border-border bg-card p-4">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-secondary">
                       <s.icon className="h-5 w-5 text-accent" />
                     </span>
@@ -119,7 +119,7 @@ function DashboardPage() {
             <StaggerItem>
               <h2 className="mt-8 text-lg font-bold">Your Enrollments</h2>
               {enrolledCourses.length === 0 ? (
-                <div className="mt-4 rounded-2xl border border-border bg-card p-8 text-center text-muted-foreground">
+                <div className="mt-4 rounded-sm border border-border bg-card p-8 text-center text-muted-foreground">
                   <BookOpen className="mx-auto mb-3 h-8 w-8 opacity-40" />
                   <p className="text-sm">No active enrollments yet.</p>
                   <Button asChild size="sm" className="mt-4">
@@ -133,7 +133,7 @@ function DashboardPage() {
                     return (
                       <div
                         key={c.id}
-                        className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center"
+                        className="flex flex-col gap-3 rounded-sm border border-border bg-card p-4 sm:flex-row sm:items-center"
                       >
                         <div className="flex-1 min-w-0">
                           <p className="font-semibold truncate">{c.title}</p>
@@ -171,7 +171,7 @@ function DashboardPage() {
                     return (
                       <div
                         key={r.id}
-                        className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4"
+                        className="flex items-center justify-between gap-4 rounded-sm border border-border bg-card p-4"
                       >
                         <div>
                           <p className="text-sm font-semibold">{c?.title}</p>
@@ -195,7 +195,7 @@ function DashboardPage() {
             <h1 className="text-2xl font-extrabold">My Courses</h1>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {enrolledCourses.length === 0 ? (
-                <div className="col-span-full rounded-2xl border border-border bg-card p-10 text-center text-muted-foreground">
+                <div className="col-span-full rounded-sm border border-border bg-card p-10 text-center text-muted-foreground">
                   <p className="text-sm">No courses yet — browse the catalog.</p>
                   <Button asChild size="sm" className="mt-4">
                     <Link to="/courses">Browse Courses</Link>
@@ -205,7 +205,7 @@ function DashboardPage() {
                 enrolledCourses.map((c) => {
                   const pct = progress[c.id] ?? 0;
                   return (
-                    <div key={c.id} className="flex flex-col rounded-2xl border border-border bg-card overflow-hidden">
+                    <div key={c.id} className="flex flex-col rounded-sm border border-border bg-card overflow-hidden">
                       <div className="relative h-28 bg-cobalt flex items-center justify-center">
                         <p className="text-3xl font-extrabold text-white/90 drop-shadow">
                           {c.title.split(" ").slice(0, 2).map((w) => w[0]).join("")}
@@ -246,11 +246,11 @@ function DashboardPage() {
         {tab === "player" && activeCourse && (
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-4">
-              <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-cobalt">
+              <div className="relative aspect-video overflow-hidden rounded-sm border border-border bg-cobalt">
                 <video
                   key={activeCourse.slug}
-                  src={getCourseVideo(activeCourse.slug)}
-                  poster={getCourseImage(activeCourse.slug)}
+                  src={getCourseVideo(activeCourse.slug, activeCourse.videoUrl)}
+                  poster={getCourseImage(activeCourse.slug, activeCourse.imageKey, activeCourse.imageUrl)}
                   controls
                   playsInline
                   preload="metadata"
@@ -285,7 +285,7 @@ function DashboardPage() {
                     : "Mark complete"}
                 </Button>
                 <Button variant="outline" size="sm" asChild>
-                  <Link to={`/courses/${activeCourse.slug}`}>Course page</Link>
+                  <Link to="/courses/$slug" params={{ slug: activeCourse.slug }}>Course page</Link>
                 </Button>
               </div>
 
@@ -310,7 +310,7 @@ function DashboardPage() {
             </div>
 
             {/* Curriculum sidebar */}
-            <div className="max-h-[70vh] overflow-y-auto rounded-2xl border border-border bg-card">
+            <div className="max-h-[70vh] overflow-y-auto rounded-sm border border-border bg-card">
               <div className="sticky top-0 border-b border-border bg-card p-4">
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
                   Curriculum · {Math.round(progress[activeCourse.id] ?? 0)}% done
@@ -357,13 +357,13 @@ function DashboardPage() {
             <p className="mt-1 text-sm text-muted-foreground">Earned automatically at 100% course completion.</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {enrolledCourses.filter((c) => (progress[c.id] ?? 0) === 100).length === 0 ? (
-                <div className="col-span-full rounded-2xl border border-dashed border-border bg-card p-10 text-center text-muted-foreground">
+                <div className="col-span-full rounded-sm border border-dashed border-border bg-card p-10 text-center text-muted-foreground">
                   <Award className="mx-auto mb-3 h-10 w-10 opacity-30" />
                   <p className="text-sm">Complete a course to earn your first certificate.</p>
                 </div>
               ) : (
                 enrolledCourses.filter((c) => (progress[c.id] ?? 0) === 100).map((c) => (
-                  <div key={c.id} className="rounded-2xl border-2 border-dashed border-accent/50 bg-card p-6">
+                  <div key={c.id} className="rounded-sm border-2 border-dashed border-accent/50 bg-card p-6">
                     <div className="flex items-center gap-3">
                       <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-accent">
                         <Award className="h-5 w-5" />
@@ -389,7 +389,7 @@ function DashboardPage() {
           <div>
             <h1 className="text-2xl font-extrabold">Wishlist</h1>
             {wishlistCourses.length === 0 ? (
-              <div className="mt-6 rounded-2xl border border-border bg-card p-10 text-center text-muted-foreground">
+              <div className="mt-6 rounded-sm border border-border bg-card p-10 text-center text-muted-foreground">
                 <Heart className="mx-auto mb-3 h-8 w-8 opacity-30" />
                 <p className="text-sm">No saved courses yet — tap the heart icon on any course page.</p>
               </div>
@@ -398,8 +398,8 @@ function DashboardPage() {
                 {wishlistCourses.map((c) => (
                   <Link
                     key={c.id}
-                    to={`/courses/${c.slug}`}
-                    className="flex flex-col rounded-2xl border border-border bg-card overflow-hidden hover:-translate-y-1 transition-transform"
+                    to="/courses/$slug" params={{ slug: c.slug }}
+                    className="flex flex-col rounded-sm border border-border bg-card overflow-hidden hover:-translate-y-1 transition-transform"
                   >
                     <div className="h-24 bg-cobalt flex items-center justify-center">
                       <p className="text-2xl font-extrabold text-white/80">{c.title.split(" ").slice(0, 2).map((w) => w[0]).join("")}</p>
@@ -427,7 +427,7 @@ function DashboardPage() {
               ].map((b) => (
                 <div
                   key={b.type}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 flex-wrap"
+                  className="flex items-center justify-between gap-4 rounded-sm border border-border bg-card p-4 flex-wrap"
                 >
                   <div>
                     <p className="font-semibold">{b.type}</p>
@@ -462,7 +462,7 @@ function DashboardPage() {
                 <Badge variant="secondary" className="mt-1 capitalize">{user.role}</Badge>
               </div>
             </div>
-            <div className="mt-8 space-y-4 rounded-2xl border border-border bg-card p-6">
+            <div className="mt-8 space-y-4 rounded-sm border border-border bg-card p-6">
               {[
                 { label: "Full name", value: user.name },
                 { label: "Email address", value: user.email },
@@ -494,7 +494,7 @@ function DashboardPage() {
                 { label: "Weekly progress report", on: false },
                 { label: "Marketing emails", on: false },
               ].map((s) => (
-                <div key={s.label} className="flex items-center justify-between rounded-2xl border border-border bg-card p-4">
+                <div key={s.label} className="flex items-center justify-between rounded-sm border border-border bg-card p-4">
                   <span className="text-sm">{s.label}</span>
                   <div className={`relative h-6 w-11 rounded-full transition-colors ${s.on ? "bg-success" : "bg-secondary"}`}>
                     <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${s.on ? "translate-x-5" : "translate-x-0.5"}`} />

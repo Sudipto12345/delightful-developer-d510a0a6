@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { CourseCard } from "@/components/course/CourseCard";
+import { CourseCard, CourseCardSkeleton } from "@/components/course/CourseCard";
 import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/courses/")({
 });
 
 function CoursesPage() {
-  const { categories } = useCatalog();
+  const { categories, loading } = useCatalog();
   const { courses } = useStore();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("all");
@@ -83,7 +83,7 @@ function CoursesPage() {
       />
 
       <section className="container-eh py-8 sm:py-12">
-        <div className="grid gap-3 rounded-2xl border border-border bg-card p-4">
+        <div className="grid gap-3 rounded-sm border border-border bg-card p-4">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
             <div className="relative min-w-0">
               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -166,22 +166,38 @@ function CoursesPage() {
           </Button>
         </div>
 
-        {filtered.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-dashed border-border p-10 text-center">
+        {loading ? (
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <CourseCardSkeleton key={i} featured={i === 0} />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="mt-10 border border-dashed border-border p-10 text-center">
             <p className="font-semibold">No courses found</p>
             <p className="mt-2 text-sm text-muted-foreground">
               Try a different keyword or filter.
             </p>
           </div>
         ) : (
-          <Stagger className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((c) => (
-              <StaggerItem key={c.id} className="h-full">
-                <CourseCard course={c} />
-              </StaggerItem>
-            ))}
+          <Stagger className="mt-6 grid auto-rows-auto grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+            {filtered.map((c, i) => {
+              // Editorial rhythm: every 7th pair breaks the grid into a wide feature.
+              const feature = i % 7 === 0;
+              return (
+                <StaggerItem
+                  key={c.id}
+                  className={`h-full ${
+                    feature ? "sm:col-span-2 lg:col-span-4" : "lg:col-span-2"
+                  }`}
+                >
+                  <CourseCard course={c} featured={feature} />
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         )}
+
       </section>
     </PublicShell>
   );

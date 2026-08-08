@@ -39,37 +39,50 @@ function InstructorsPage() {
         <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {instructors.map((i) => (
             <StaggerItem key={i.id} className="h-full">
-              <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary-soft/60">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-cobalt text-lg font-bold">
-                    {i.name.slice(0, 1)}
-                  </span>
-                  <div className="min-w-0">
-                    <h2 className="truncate font-semibold">{i.name}</h2>
-                    <p className="truncate text-sm text-muted-foreground">{i.title}</p>
+              <article className="flex h-full flex-col overflow-hidden rounded-sm border border-border bg-card transition-colors hover:border-accent/50">
+                <div className="relative aspect-[4/3] overflow-hidden bg-surface-2">
+                  {i.avatarUrl ? (
+                    <img
+                      src={i.avatarUrl}
+                      alt={`${i.name}, ${i.title}`}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    />
+                  ) : (
+                    <span className="absolute inset-0 grid place-items-center bg-cobalt text-3xl font-bold">
+                      {i.name.slice(0, 1)}
+                    </span>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+                  <div className="absolute right-4 bottom-3 left-4">
+                    <h2 className="truncate font-display font-bold">{i.name}</h2>
+                    <p className="truncate text-xs text-muted-foreground">{i.title}</p>
                   </div>
                 </div>
-                <p className="mt-4 line-clamp-3 text-sm text-muted-foreground">{i.bio}</p>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {i.skills.slice(0, 4).map((s) => (
-                    <Badge key={s} variant="secondary" className="text-[11px]">
-                      {s}
-                    </Badge>
-                  ))}
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="line-clamp-3 text-sm text-muted-foreground">{i.bio}</p>
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {i.skills.slice(0, 4).map((s) => (
+                      <Badge key={s} variant="secondary" className="rounded-sm text-[11px]">
+                        {s}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="mt-auto flex items-center justify-between border-t border-border pt-4 text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-accent text-accent" />
+                      {i.rating.toLocaleString("en-US")}
+                    </span>
+                    <span>{i.students.toLocaleString("en-US")} students</span>
+                  </div>
+                  <Button asChild variant="outline" size="sm" className="mt-4">
+                    <Link to="/instructors/$slug" params={{ slug: i.slug }}>
+                      View Profile
+                    </Link>
+                  </Button>
                 </div>
-                <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-accent text-accent" />
-                    {i.rating.toLocaleString("en-US")}
-                  </span>
-                  <span>{i.students.toLocaleString("en-US")} students</span>
-                </div>
-                <Button asChild variant="outline" size="sm" className="mt-4">
-                  <Link to="/instructors/$slug" params={{ slug: i.slug }}>
-                    View Profile
-                  </Link>
-                </Button>
               </article>
+
             </StaggerItem>
           ))}
         </Stagger>

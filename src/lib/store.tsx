@@ -82,14 +82,19 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   // Courses come from the database. Locally created/edited courses (admin
   // panel) are merged on top of the published catalog.
+  // `catalog.courses` is a fresh array each render, so key the merge off a
+  // stable signature to avoid an infinite state loop.
+  const catalogKey = catalog.courses.map((c) => c.slug).join("|");
   useEffect(() => {
-    if (catalog.courses.length === 0) return;
+    if (!catalogKey) return;
     setState((s) => {
       const dbSlugs = new Set(catalog.courses.map((c) => c.slug));
       const local = s.courses.filter((c) => !dbSlugs.has(c.slug) && c.id.startsWith("c-local"));
       return { ...s, courses: [...local, ...catalog.courses] };
     });
-  }, [catalog.courses]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalogKey]);
+
 
 
   // Auto-approval scheduler: any pending enrollment older than 1 hour is

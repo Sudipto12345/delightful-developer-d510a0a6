@@ -69,7 +69,7 @@ function ContactPage() {
         <Reveal>
           <form
             onSubmit={submit}
-            className="rounded-2xl border border-border bg-card p-6"
+            className="rounded-sm border border-border bg-card p-6"
             noValidate
           >
             <h2 className="text-lg font-bold">Send a Message</h2>
@@ -130,7 +130,7 @@ function ContactPage() {
 
         <aside>
           <Reveal delay={0.12} className="space-y-4">
-            <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="rounded-sm border border-border bg-card p-5">
               <h2 className="font-semibold">Direct Contact</h2>
               <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
                 <li className="flex gap-3">
@@ -147,7 +147,7 @@ function ContactPage() {
                 </li>
               </ul>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="rounded-sm border border-border bg-card p-5">
               <h2 className="font-semibold">Support Hours</h2>
               <p className="mt-2 text-sm text-muted-foreground">
                 Mon – Fri: 10:00 AM – 9:00 PM

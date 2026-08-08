@@ -56,7 +56,7 @@ function BlogIndex() {
         <Stagger className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((p) => (
             <StaggerItem key={p.slug} className="h-full">
-              <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary-soft/60">
+              <article className="flex h-full flex-col rounded-sm border border-border bg-card p-5 transition-colors hover:border-primary-soft/60">
                 <Badge variant="secondary" className="w-fit">
                   {p.category}
                 </Badge>

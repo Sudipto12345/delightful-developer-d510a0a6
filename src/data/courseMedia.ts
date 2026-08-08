@@ -18,6 +18,7 @@ export const courseVideos: Record<string, string> = {
   "ai-tools-for-work": sectionLoop.url,
 };
 
-export const getCourseVideo = (slug: string) => courseVideos[slug] ?? heroLoop.url;
+export const getCourseVideo = (slug: string, url?: string) =>
+  url || courseVideos[slug] || heroLoop.url;
 
-export const getCoursePoster = (slug: string) => getCourseImage(slug);
+export const getCoursePoster = (slug: string, url?: string) => getCourseImage(slug, undefined, url);

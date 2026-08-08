@@ -43,7 +43,7 @@ function CorporatePage() {
         <Stagger className="grid gap-4 sm:grid-cols-2">
           {offerings.map((o) => (
             <StaggerItem key={o.title}>
-              <div className="h-full rounded-2xl border border-border bg-card p-5">
+              <div className="h-full rounded-sm border border-border bg-card p-5">
                 <o.icon className="h-6 w-6 text-accent" />
                 <h2 className="mt-3 font-semibold">{o.title}</h2>
                 <p className="mt-2 text-sm text-muted-foreground">{o.text}</p>
@@ -52,7 +52,7 @@ function CorporatePage() {
           ))}
         </Stagger>
 
-        <div className="mt-10 rounded-2xl border border-border bg-card p-6">
+        <div className="mt-10 rounded-sm border border-border bg-card p-6">
           <h2 className="text-lg font-bold">How to Get Started</h2>
           <ol className="mt-4 space-y-3 text-sm text-muted-foreground">
             <li>1. Contact us and tell us what you need.</li>

@@ -126,7 +126,7 @@ export function CobaltCube({ className = "" }: { className?: string }) {
           ].map((t) => (
             <div
               key={t}
-              className="absolute inset-0 rounded-2xl border border-primary-soft/40 bg-cobalt/40 backdrop-blur-[1px]"
+              className="absolute inset-0 rounded-sm border border-primary-soft/40 bg-cobalt/40 backdrop-blur-[1px]"
               style={{ transform: t, opacity: 0.55 }}
             />
           ))}
