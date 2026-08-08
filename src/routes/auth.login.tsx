@@ -67,25 +67,8 @@ function LoginPage() {
     void navigate({ to: "/dashboard" });
   }
 
-  async function handleGoogle() {
-    setGoogleLoading(true);
-    try {
-      const { lovable } = await import("@/integrations/lovable/index");
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
-      });
-      if (result.error) {
-        toast.error(result.error.message ?? "Google sign-in failed");
-        setGoogleLoading(false);
-        return;
-      }
-      if (result.redirected) return;
-      setGoogleLoading(false);
-    } catch {
-      toast.error("Google sign-in is not available right now.");
-      setGoogleLoading(false);
-    }
-  }
+
+
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
