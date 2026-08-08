@@ -139,6 +139,7 @@ function SectionHead({
 
 
 function HomePage() {
+  const { categories, instructors } = useCatalog();
   const { courses } = useStore();
   const published = courses.filter((c) => c.published);
   const featured = published.slice(0, 6);
