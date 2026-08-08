@@ -285,7 +285,7 @@ function DashboardPage() {
                     : "Mark complete"}
                 </Button>
                 <Button variant="outline" size="sm" asChild>
-                  <Link to={`/courses/${activeCourse.slug}`}>Course page</Link>
+                  <Link to="/courses/$slug" params={{ slug: activeCourse.slug }}>Course page</Link>
                 </Button>
               </div>
 
@@ -398,7 +398,7 @@ function DashboardPage() {
                 {wishlistCourses.map((c) => (
                   <Link
                     key={c.id}
-                    to={`/courses/${c.slug}`}
+                    to="/courses/$slug" params={{ slug: c.slug }}
                     className="flex flex-col rounded-2xl border border-border bg-card overflow-hidden hover:-translate-y-1 transition-transform"
                   >
                     <div className="h-24 bg-cobalt flex items-center justify-center">

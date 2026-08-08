@@ -402,7 +402,7 @@ function HomePage() {
                 <Link to="/courses">Join the next cohort</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link to="/events">See upcoming events</Link>
+                <Link to="/consultation">See upcoming events</Link>
               </Button>
             </div>
           </div>
@@ -806,7 +806,7 @@ function HomePage() {
                   Every session is recorded and sent to registered attendees within 24 hours.
                 </p>
                 <Button asChild size="sm" variant="outline" className="mt-3">
-                  <Link to="/events">Reserve a seat</Link>
+                  <Link to="/consultation">Reserve a seat</Link>
                 </Button>
               </div>
             }
@@ -823,7 +823,7 @@ function HomePage() {
                   <p className="text-sm text-muted-foreground">{e.mode}</p>
                   <p className="mt-3 text-xs text-accent">{e.seats} seats left</p>
                   <Button asChild size="sm" className="mt-4 w-full">
-                    <Link to="/events">Register Now</Link>
+                    <Link to="/consultation">Register Now</Link>
                   </Button>
                 </div>
               </StaggerItem>
