@@ -29,6 +29,7 @@ import { getCourseVideo } from "@/data/courseMedia";
 import type { Course } from "@/data/courses";
 
 import { courses, getCourse, getInstructor } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import { useStore } from "@/lib/store";
 
 const titleCase = (slug: string) =>
