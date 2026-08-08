@@ -166,22 +166,38 @@ function CoursesPage() {
           </Button>
         </div>
 
-        {filtered.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-dashed border-border p-10 text-center">
+        {loading ? (
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <CourseCardSkeleton key={i} featured={i === 0} />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="mt-10 border border-dashed border-border p-10 text-center">
             <p className="font-semibold">No courses found</p>
             <p className="mt-2 text-sm text-muted-foreground">
               Try a different keyword or filter.
             </p>
           </div>
         ) : (
-          <Stagger className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((c) => (
-              <StaggerItem key={c.id} className="h-full">
-                <CourseCard course={c} />
-              </StaggerItem>
-            ))}
+          <Stagger className="mt-6 grid auto-rows-auto grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+            {filtered.map((c, i) => {
+              // Editorial rhythm: every 7th pair breaks the grid into a wide feature.
+              const feature = i % 7 === 0;
+              return (
+                <StaggerItem
+                  key={c.id}
+                  className={`h-full ${
+                    feature ? "sm:col-span-2 lg:col-span-4" : "lg:col-span-2"
+                  }`}
+                >
+                  <CourseCard course={c} featured={feature} />
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         )}
+
       </section>
     </PublicShell>
   );
