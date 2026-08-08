@@ -27,7 +27,7 @@ export type Course = {
   reviewsCount: number;
   students: number;
   instructorId: string;
-  badge?: string;
+  badge?: string | undefined;
   published: boolean;
   outcomes: string[];
   requirements: string[];
