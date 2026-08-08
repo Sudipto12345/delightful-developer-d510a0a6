@@ -75,6 +75,7 @@ const mobileNav: { to: string; label: string }[] = [
   { to: "/", label: "Home" },
   { to: "/courses", label: "Courses" },
   { to: "/instructors", label: "Mentors" },
+  { to: "/services", label: "Services" },
   { to: "/events", label: "Events" },
   { to: "/blog", label: "Blog" },
   { to: "/pricing", label: "Pricing" },
