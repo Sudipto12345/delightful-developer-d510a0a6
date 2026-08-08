@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { CourseCard } from "@/components/course/CourseCard";
+import { CourseCard, CourseCardSkeleton } from "@/components/course/CourseCard";
 import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/courses/")({
 });
 
 function CoursesPage() {
-  const { categories } = useCatalog();
+  const { categories, loading } = useCatalog();
   const { courses } = useStore();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("all");
