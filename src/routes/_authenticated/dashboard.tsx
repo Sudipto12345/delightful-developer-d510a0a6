@@ -249,8 +249,8 @@ function DashboardPage() {
               <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-cobalt">
                 <video
                   key={activeCourse.slug}
-                  src={getCourseVideo(activeCourse.slug)}
-                  poster={getCourseImage(activeCourse.slug)}
+                  src={getCourseVideo(activeCourse.slug, activeCourse.videoUrl)}
+                  poster={getCourseImage(activeCourse.slug, activeCourse.imageKey, activeCourse.imageUrl)}
                   controls
                   playsInline
                   preload="metadata"

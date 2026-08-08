@@ -291,7 +291,7 @@ function HomePage() {
                       className="group flex items-center gap-3 rounded-2xl border border-border bg-background/50 p-2.5 transition-all hover:-translate-y-0.5 hover:border-primary-soft/60"
                     >
                       <img
-                        src={getCourseImage(c.slug)}
+                        src={getCourseImage(c.slug, c.imageKey, c.imageUrl)}
                         alt={`${c.title} cover`}
                         loading="lazy"
                         width={160}

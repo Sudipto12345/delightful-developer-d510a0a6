@@ -238,8 +238,8 @@ function CourseDetail() {
             <div className="overflow-hidden rounded-2xl border border-border bg-card soft-shadow">
               <div className="relative aspect-[16/9] overflow-hidden bg-cobalt">
                 <video
-                  src={getCourseVideo(course.slug)}
-                  poster={getCourseImage(course.slug)}
+                  src={getCourseVideo(course.slug, course.videoUrl)}
+                  poster={getCourseImage(course.slug, course.imageKey, course.imageUrl)}
                   controls
                   playsInline
                   preload="metadata"

@@ -157,7 +157,7 @@ function CheckoutPage() {
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <div className="overflow-hidden rounded-2xl border border-border bg-card soft-shadow">
               <img
-                src={getCourseImage(course.slug)}
+                src={getCourseImage(course.slug, course.imageKey, course.imageUrl)}
                 alt={`${course.title} cover`}
                 width={1024}
                 height={640}
