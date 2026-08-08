@@ -3,7 +3,8 @@ import { Clock, Star, Users } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { getCourseImage } from "@/data/courseImages";
-import { getInstructor, type Course } from "@/data/courses";
+import { type Course } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 
 
 const levelLabel: Record<Course["level"], string> = {
@@ -13,7 +14,11 @@ const levelLabel: Record<Course["level"], string> = {
 };
 
 export function CourseCard({ course }: { course: Course }) {
-  const instructor = getInstructor(course.instructorId);
+  const { instructors } = useCatalog();
+  const instructor = instructors.find(
+    (i) => i.id === course.instructorId || i.slug === course.instructorId,
+  );
+
   return (
     <Link
       to="/courses/$slug"
