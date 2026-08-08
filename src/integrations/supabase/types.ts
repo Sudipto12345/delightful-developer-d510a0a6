@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           color: string
           icon: string
+          image_url: string
           kind: string
           name: string
           slug: string
@@ -27,6 +28,7 @@ export type Database = {
         Insert: {
           color?: string
           icon?: string
+          image_url?: string
           kind?: string
           name: string
           slug: string
@@ -36,6 +38,7 @@ export type Database = {
         Update: {
           color?: string
           icon?: string
+          image_url?: string
           kind?: string
           name?: string
           slug?: string
@@ -52,6 +55,7 @@ export type Database = {
           duration_hours: number
           id: string
           image_key: string
+          image_url: string
           instructor_slug: string
           language: string
           lessons_count: number
@@ -70,6 +74,7 @@ export type Database = {
           students: number
           subtitle: string
           title: string
+          video_url: string
         }
         Insert: {
           badge?: string | null
@@ -78,6 +83,7 @@ export type Database = {
           duration_hours?: number
           id?: string
           image_key?: string
+          image_url?: string
           instructor_slug: string
           language?: string
           lessons_count?: number
@@ -96,6 +102,7 @@ export type Database = {
           students?: number
           subtitle?: string
           title: string
+          video_url?: string
         }
         Update: {
           badge?: string | null
@@ -104,6 +111,7 @@ export type Database = {
           duration_hours?: number
           id?: string
           image_key?: string
+          image_url?: string
           instructor_slug?: string
           language?: string
           lessons_count?: number
@@ -122,6 +130,7 @@ export type Database = {
           students?: number
           subtitle?: string
           title?: string
+          video_url?: string
         }
         Relationships: []
       }
@@ -170,6 +179,7 @@ export type Database = {
       instructors: {
         Row: {
           approved: boolean
+          avatar_url: string
           bio: string
           courses_count: number
           experience: string
@@ -184,6 +194,7 @@ export type Database = {
         }
         Insert: {
           approved?: boolean
+          avatar_url?: string
           bio?: string
           courses_count?: number
           experience?: string
@@ -198,6 +209,7 @@ export type Database = {
         }
         Update: {
           approved?: boolean
+          avatar_url?: string
           bio?: string
           courses_count?: number
           experience?: string
