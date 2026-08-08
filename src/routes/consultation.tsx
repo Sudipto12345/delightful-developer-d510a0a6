@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { categories } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 
 const title = "Free Career Consultation — ElevateHub Ltd";
 const description =
@@ -53,6 +53,7 @@ const slots = [
 ];
 
 function ConsultationPage() {
+  const { categories } = useCatalog();
   const [form, setForm] = useState({ name: "", phone: "", interest: "", slot: "", note: "" });
   const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
   const [done, setDone] = useState(false);
