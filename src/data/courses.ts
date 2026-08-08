@@ -34,6 +34,7 @@ export type Course = {
   description: string;
   modules: Module[];
   nextBatch: string;
+  imageKey?: string;
 };
 
 export type Category = {
