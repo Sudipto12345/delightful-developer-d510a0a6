@@ -48,6 +48,7 @@ function mapCategory(r: Row): ServiceCategory {
     icon: str(r["icon"], "Sparkles"),
     color: str(r["color"]),
     kind: str(r["kind"], "course") === "service" ? "service" : "course",
+    imageUrl: str(r["image_url"]) || undefined,
   };
 }
 
@@ -64,6 +65,7 @@ function mapInstructor(r: Row): Instructor {
     rating: num(r["rating"], 4.8),
     skills: list(r["skills"]),
     approved: r["approved"] !== false,
+    avatarUrl: str(r["avatar_url"]) || undefined,
   };
 }
 
@@ -93,6 +95,8 @@ function mapCourse(r: Row): Course {
     modules,
     nextBatch: str(r["next_batch"]),
     imageKey: str(r["image_key"], str(r["category_slug"])),
+    imageUrl: str(r["image_url"]) || undefined,
+    videoUrl: str(r["video_url"]) || undefined,
   };
 }
 
