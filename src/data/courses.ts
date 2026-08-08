@@ -20,7 +20,7 @@ export type Course = {
   level: Level;
   language: "english" | "bilingual";
   price: number;
-  oldPrice?: number;
+  oldPrice?: number | undefined;
   durationHours: number;
   lessonsCount: number;
   rating: number;
