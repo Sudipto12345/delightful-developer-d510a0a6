@@ -67,6 +67,7 @@ const now = () =>
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>(initialState);
   const [hydrated, setHydrated] = useState(false);
+  const catalog = useCatalog();
 
   useEffect(() => {
     try {
@@ -77,6 +78,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     }
     setHydrated(true);
   }, []);
+
+  // Courses come from the database. Locally created/edited courses (admin
+  // panel) are merged on top of the published catalog.
+  useEffect(() => {
+    if (catalog.courses.length === 0) return;
+    setState((s) => {
+      const dbSlugs = new Set(catalog.courses.map((c) => c.slug));
+      const local = s.courses.filter((c) => !dbSlugs.has(c.slug) && c.id.startsWith("c-local"));
+      return { ...s, courses: [...local, ...catalog.courses] };
+    });
+  }, [catalog.courses]);
+
 
   // Auto-approval scheduler: any pending enrollment older than 1 hour is
   // approved automatically. Admins can still approve/reject sooner.
