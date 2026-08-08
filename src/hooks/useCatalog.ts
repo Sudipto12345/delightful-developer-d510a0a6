@@ -32,6 +32,7 @@ export type Catalog = {
   categories: Category[];
   serviceCategories: ServiceCategory[];
   services: Service[];
+  loading: boolean;
 };
 
 type Row = Record<string, unknown>;
@@ -120,16 +121,17 @@ export const seedCatalog: Catalog = {
   categories: seedCategories,
   serviceCategories: [],
   services: [],
+  loading: true,
 };
 
 export function useCatalog(): Catalog {
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["catalog"],
     queryFn: () => fetchCatalog(),
     staleTime: 5 * 60 * 1000,
   });
 
-  if (!data) return seedCatalog;
+  if (!data) return { ...seedCatalog, loading: isPending };
 
   const categories = (data.categories as Row[]).map(mapCategory);
   const courses = (data.courses as Row[]).map(mapCourse);
@@ -143,5 +145,6 @@ export function useCatalog(): Catalog {
       : seedCategories,
     serviceCategories: categories.filter((c) => c.kind === "service"),
     services: (data.services as Row[]).map(mapService),
+    loading: false,
   };
 }
