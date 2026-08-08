@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { courses as seedCourses, type Course } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import {
   auditLog as seedAudit,
   enrollmentRequests as seedRequests,
