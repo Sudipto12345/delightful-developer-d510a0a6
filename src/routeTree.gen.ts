@@ -33,6 +33,7 @@ import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as InstructorsIndexRouteImport } from './routes/instructors.index'
 import { Route as InstructorsSlugRouteImport } from './routes/instructors.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -153,6 +154,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -174,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/checkout/$slug': typeof CheckoutSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/checkout/$slug': typeof CheckoutSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/blog': typeof BlogIndexRoute
   '/courses': typeof CoursesIndexRoute
   '/instructors': typeof InstructorsIndexRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/checkout/$slug': typeof CheckoutSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
@@ -253,6 +262,7 @@ export interface FileRouteTypes {
     | '/checkout/$slug'
     | '/courses/$slug'
     | '/instructors/$slug'
+    | '/services/$slug'
     | '/blog/'
     | '/courses/'
     | '/instructors/'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/checkout/$slug'
     | '/courses/$slug'
     | '/instructors/$slug'
+    | '/services/$slug'
     | '/blog'
     | '/courses'
     | '/instructors'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/checkout/$slug'
     | '/courses/$slug'
     | '/instructors/$slug'
+    | '/services/$slug'
     | '/blog/'
     | '/courses/'
     | '/instructors/'
@@ -329,6 +341,7 @@ export interface RootRouteChildren {
   CheckoutSlugRoute: typeof CheckoutSlugRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   InstructorsSlugRoute: typeof InstructorsSlugRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   InstructorsIndexRoute: typeof InstructorsIndexRoute
@@ -505,6 +518,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -540,6 +560,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutSlugRoute: CheckoutSlugRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   InstructorsSlugRoute: InstructorsSlugRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   InstructorsIndexRoute: InstructorsIndexRoute,
