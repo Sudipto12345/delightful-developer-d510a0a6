@@ -55,7 +55,7 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { categories, instructors } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import { events, faqs, posts, stats, testimonials } from "@/data/content";
 import { paymentMethods } from "@/data/users";
 import { useStore } from "@/lib/store";
@@ -139,6 +139,7 @@ function SectionHead({
 
 
 function HomePage() {
+  const { categories, instructors } = useCatalog();
   const { courses } = useStore();
   const published = courses.filter((c) => c.published);
   const featured = published.slice(0, 6);

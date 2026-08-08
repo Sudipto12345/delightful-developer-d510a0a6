@@ -49,6 +49,16 @@ const navItems: NavItem[] = [
     ],
   },
   {
+    to: "/services",
+    label: "Services",
+    children: [
+      { to: "/services", label: "All Services", desc: "40 fixed-scope studio engagements" },
+      { to: "/services/brand-identity-package", label: "Brand Identity", desc: "Logo suites and brand systems" },
+      { to: "/services/business-website-development", label: "Websites", desc: "Business sites, stores, landing pages" },
+      { to: "/services/monthly-seo-management", label: "SEO & Growth", desc: "Audits, content and campaigns" },
+    ],
+  },
+  {
     to: "/corporate",
     label: "Company",
     children: [
@@ -60,10 +70,12 @@ const navItems: NavItem[] = [
   },
 ];
 
+
 const mobileNav: { to: string; label: string }[] = [
   { to: "/", label: "Home" },
   { to: "/courses", label: "Courses" },
   { to: "/instructors", label: "Mentors" },
+  { to: "/services", label: "Services" },
   { to: "/events", label: "Events" },
   { to: "/blog", label: "Blog" },
   { to: "/pricing", label: "Pricing" },

@@ -5,7 +5,7 @@ import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { instructors } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 
 const title = "Mentors & Instructors — ElevateHub Ltd";
 const description =
@@ -27,6 +27,7 @@ export const Route = createFileRoute("/instructors/")({
 });
 
 function InstructorsPage() {
+  const { instructors } = useCatalog();
   return (
     <PublicShell>
       <PageHero

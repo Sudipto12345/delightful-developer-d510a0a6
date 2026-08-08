@@ -20,20 +20,21 @@ export type Course = {
   level: Level;
   language: "english" | "bilingual";
   price: number;
-  oldPrice?: number;
+  oldPrice?: number | undefined;
   durationHours: number;
   lessonsCount: number;
   rating: number;
   reviewsCount: number;
   students: number;
   instructorId: string;
-  badge?: string;
+  badge?: string | undefined;
   published: boolean;
   outcomes: string[];
   requirements: string[];
   description: string;
   modules: Module[];
   nextBatch: string;
+  imageKey?: string;
 };
 
 export type Category = {

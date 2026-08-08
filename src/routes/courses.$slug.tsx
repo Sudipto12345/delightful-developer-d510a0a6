@@ -28,59 +28,86 @@ import { getCourseVideo } from "@/data/courseMedia";
 
 import type { Course } from "@/data/courses";
 
-import { courses, getCourse, getInstructor } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import { useStore } from "@/lib/store";
 
+const titleCase = (slug: string) =>
+  slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
 export const Route = createFileRoute("/courses/$slug")({
-  loader: ({ params }) => {
-    const course = getCourse(params.slug);
-    if (!course) throw notFound();
-    return { course };
-  },
-  head: ({ loaderData }) => {
-    if (!loaderData)
-      return { meta: [{ title: "Course Not Found" }, { name: "robots", content: "noindex" }] };
-    const c = loaderData.course;
+  head: ({ params }) => {
+    const name = titleCase(params.slug);
+    const description = `${name} at ElevateHub Ltd — mentor-led lessons, graded projects, written feedback, and a verified certificate.`;
     return {
       meta: [
-        { title: `${c.title} — ElevateHub Ltd` },
-        { name: "description", content: c.subtitle },
-        { property: "og:title", content: c.title },
-        { property: "og:description", content: c.subtitle },
+        { title: `${name} — ElevateHub Ltd` },
+        { name: "description", content: description },
+        { property: "og:title", content: name },
+        { property: "og:description", content: description },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `/courses/${c.slug}` },
+        { property: "og:url", content: `/courses/${params.slug}` },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/courses/${c.slug}` }],
+      links: [{ rel: "canonical", href: `/courses/${params.slug}` }],
       scripts: [
         {
           type: "application/ld+json",
           children: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Course",
-            name: c.title,
-            description: c.description,
+            name,
+            description,
             provider: { "@type": "Organization", name: "ElevateHub Ltd" },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: c.rating,
-              reviewCount: c.reviewsCount,
-            },
           }),
         },
       ],
     };
   },
+  notFoundComponent: () => (
+    <PublicShell>
+      <div className="container-eh py-24 text-center">
+        <h1 className="text-2xl font-bold">Course not found</h1>
+      </div>
+    </PublicShell>
+  ),
+  errorComponent: () => (
+    <PublicShell>
+      <div className="container-eh py-24 text-center">
+        <h1 className="text-2xl font-bold">Something went wrong</h1>
+      </div>
+    </PublicShell>
+  ),
   component: CourseDetail,
 });
 
 const levelLabel: Record<Course["level"], string> = { beginner: "Beginner", intermediate: "Intermediate", advanced: "Advanced" };
 
 function CourseDetail() {
-  const { course } = Route.useLoaderData() as { course: Course };
-  const { wishlist, toggleWishlist } = useStore();
-  const instructor = getInstructor(course.instructorId);
-  const related = courses.filter((c) => c.category === course.category && c.id !== course.id);
+  const { slug } = Route.useParams();
+  const { wishlist, toggleWishlist, courses: allCourses } = useStore();
+  const { instructors } = useCatalog();
+  const course = allCourses.find((c) => c.slug === slug) as Course | undefined;
+
+  if (allCourses.length > 0 && !course) throw notFound();
+  if (!course) {
+    return (
+      <PublicShell>
+        <div className="container-eh py-24">
+          <div className="h-8 w-1/2 animate-pulse rounded bg-muted" />
+        </div>
+      </PublicShell>
+    );
+  }
+
+  const instructor = instructors.find(
+    (i) => i.id === course.instructorId || i.slug === course.instructorId,
+  );
+  const related = allCourses.filter((c) => c.category === course.category && c.id !== course.id);
   const liked = wishlist.includes(course.id);
+
 
   return (
     <PublicShell>

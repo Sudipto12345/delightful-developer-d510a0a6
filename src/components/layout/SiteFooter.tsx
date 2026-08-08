@@ -3,10 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Facebook, GraduationCap, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import { toast } from "sonner";
 
-import { categories } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import { KanthaDivider, KanthaMotif } from "@/components/motion/NakshiKantha";
 
 export function SiteFooter() {
+  const { categories } = useCatalog();
   const [email, setEmail] = useState("");
 
   function handleSubscribe(e: FormEvent) {

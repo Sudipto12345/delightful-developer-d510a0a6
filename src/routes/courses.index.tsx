@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { categories } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import { useStore } from "@/lib/store";
 
 const title = "All Courses — ElevateHub Ltd";
@@ -37,6 +37,7 @@ export const Route = createFileRoute("/courses/")({
 });
 
 function CoursesPage() {
+  const { categories } = useCatalog();
   const { courses } = useStore();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("all");

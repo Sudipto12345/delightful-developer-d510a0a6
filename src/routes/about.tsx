@@ -5,7 +5,7 @@ import { PageHero, PublicShell } from "@/components/layout/PublicShell";
 import { Counter, Reveal, Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Button } from "@/components/ui/button";
 import { stats } from "@/data/content";
-import { instructors } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 
 const title = "About Us — ElevateHub Ltd";
 const description =
@@ -57,6 +57,7 @@ const milestones = [
 ];
 
 function AboutPage() {
+  const { instructors } = useCatalog();
   return (
     <PublicShell>
       <PageHero

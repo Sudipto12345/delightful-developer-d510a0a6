@@ -14,6 +14,117 @@ export type Database = {
   }
   public: {
     Tables: {
+      catalog_categories: {
+        Row: {
+          color: string
+          icon: string
+          kind: string
+          name: string
+          slug: string
+          sort_order: number
+          tagline: string
+        }
+        Insert: {
+          color?: string
+          icon?: string
+          kind?: string
+          name: string
+          slug: string
+          sort_order?: number
+          tagline?: string
+        }
+        Update: {
+          color?: string
+          icon?: string
+          kind?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+          tagline?: string
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          badge: string | null
+          category_slug: string
+          description: string
+          duration_hours: number
+          id: string
+          image_key: string
+          instructor_slug: string
+          language: string
+          lessons_count: number
+          level: string
+          modules: Json
+          next_batch: string
+          old_price: number | null
+          outcomes: string[]
+          price: number
+          published: boolean
+          rating: number
+          requirements: string[]
+          reviews_count: number
+          slug: string
+          sort_order: number
+          students: number
+          subtitle: string
+          title: string
+        }
+        Insert: {
+          badge?: string | null
+          category_slug: string
+          description?: string
+          duration_hours?: number
+          id?: string
+          image_key?: string
+          instructor_slug: string
+          language?: string
+          lessons_count?: number
+          level?: string
+          modules?: Json
+          next_batch?: string
+          old_price?: number | null
+          outcomes?: string[]
+          price?: number
+          published?: boolean
+          rating?: number
+          requirements?: string[]
+          reviews_count?: number
+          slug: string
+          sort_order?: number
+          students?: number
+          subtitle?: string
+          title: string
+        }
+        Update: {
+          badge?: string | null
+          category_slug?: string
+          description?: string
+          duration_hours?: number
+          id?: string
+          image_key?: string
+          instructor_slug?: string
+          language?: string
+          lessons_count?: number
+          level?: string
+          modules?: Json
+          next_batch?: string
+          old_price?: number | null
+          outcomes?: string[]
+          price?: number
+          published?: boolean
+          rating?: number
+          requirements?: string[]
+          reviews_count?: number
+          slug?: string
+          sort_order?: number
+          students?: number
+          subtitle?: string
+          title?: string
+        }
+        Relationships: []
+      }
       enrollments: {
         Row: {
           amount: number
@@ -53,6 +164,51 @@ export type Database = {
           txn_id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      instructors: {
+        Row: {
+          approved: boolean
+          bio: string
+          courses_count: number
+          experience: string
+          id: string
+          name: string
+          rating: number
+          skills: string[]
+          slug: string
+          sort_order: number
+          students: number
+          title: string
+        }
+        Insert: {
+          approved?: boolean
+          bio?: string
+          courses_count?: number
+          experience?: string
+          id?: string
+          name: string
+          rating?: number
+          skills?: string[]
+          slug: string
+          sort_order?: number
+          students?: number
+          title?: string
+        }
+        Update: {
+          approved?: boolean
+          bio?: string
+          courses_count?: number
+          experience?: string
+          id?: string
+          name?: string
+          rating?: number
+          skills?: string[]
+          slug?: string
+          sort_order?: number
+          students?: number
+          title?: string
         }
         Relationships: []
       }
@@ -107,6 +263,48 @@ export type Database = {
           full_name?: string
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          category_slug: string
+          deliverables: string[]
+          description: string
+          id: string
+          name: string
+          published: boolean
+          slug: string
+          sort_order: number
+          starting_price: number
+          tagline: string
+          turnaround: string
+        }
+        Insert: {
+          category_slug: string
+          deliverables?: string[]
+          description?: string
+          id?: string
+          name: string
+          published?: boolean
+          slug: string
+          sort_order?: number
+          starting_price?: number
+          tagline?: string
+          turnaround?: string
+        }
+        Update: {
+          category_slug?: string
+          deliverables?: string[]
+          description?: string
+          id?: string
+          name?: string
+          published?: boolean
+          slug?: string
+          sort_order?: number
+          starting_price?: number
+          tagline?: string
+          turnaround?: string
         }
         Relationships: []
       }

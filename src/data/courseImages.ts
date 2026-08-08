@@ -25,6 +25,20 @@ export const categoryImages: Record<string, string> = {
   freelancing: freelancingImg,
   "data-ai": dataImg,
   "spoken-english": englishImg,
+  seo: marketingImg,
+  wordpress: webImg,
+  "ui-ux": uiuxImg,
+  ai: aiImg,
+  "svc-graphic-design": designImg,
+  "svc-web": webImg,
+  "svc-seo": marketingImg,
+  "svc-marketing": marketingImg,
+  "svc-training": englishImg,
+  "svc-business": freelancingImg,
 };
 
-export const getCourseImage = (slug: string) => courseImages[slug] ?? webImg;
+export const getCourseImage = (slug: string, imageKey?: string) =>
+  courseImages[slug] ?? (imageKey ? categoryImages[imageKey] : undefined) ?? webImg;
+
+export const getCategoryImage = (slug: string) => categoryImages[slug] ?? webImg;
+
