@@ -27,7 +27,7 @@ export function CourseCard({ course }: { course: Course }) {
     >
       <div className="relative aspect-[16/9] overflow-hidden bg-cobalt">
         <img
-          src={getCourseImage(course.slug)}
+          src={getCourseImage(course.slug, course.imageKey)}
           alt={`${course.title} course cover`}
           loading="lazy"
           width={1024}
