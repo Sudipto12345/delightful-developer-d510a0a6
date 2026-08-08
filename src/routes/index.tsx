@@ -676,11 +676,21 @@ function HomePage() {
                   <Link
                     to="/instructors/$slug"
                     params={{ slug: m.slug }}
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 transition-colors hover:border-primary-soft/60"
+                    className="flex items-center gap-3 rounded-sm border border-border bg-card p-3 transition-colors hover:border-accent/50"
                   >
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-cobalt text-sm font-bold">
-                      {m.name.slice(0, 1)}
-                    </span>
+                    {m.avatarUrl ? (
+                      <img
+                        src={m.avatarUrl}
+                        alt={`${m.name}, ${m.title}`}
+                        loading="lazy"
+                        className="h-12 w-12 shrink-0 rounded-sm object-cover"
+                      />
+                    ) : (
+                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm bg-cobalt text-sm font-bold">
+                        {m.name.slice(0, 1)}
+                      </span>
+                    )}
+
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-semibold">{m.name}</span>
                       <span className="block truncate text-xs text-muted-foreground">
