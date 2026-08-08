@@ -57,6 +57,7 @@ const milestones = [
 ];
 
 function AboutPage() {
+  const { instructors } = useCatalog();
   return (
     <PublicShell>
       <PageHero
