@@ -47,7 +47,7 @@ export const startCoursePurchase = createServerFn({ method: "POST" })
       merchantOrderId: enrollment.id,
       descriptor: course.title,
       returnUrl: `${data.origin}/checkout/return?enrollment=${enrollment.id}`,
-      email: typeof claims?.email === "string" ? claims.email : undefined,
+      ...(typeof claims?.email === "string" ? { email: claims.email } : {}),
     });
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
