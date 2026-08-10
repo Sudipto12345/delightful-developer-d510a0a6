@@ -272,7 +272,7 @@ function CourseDetail() {
               </div>
               <Button asChild size="lg" className="mt-5 h-12 w-full bg-spark text-accent-foreground">
                 <Link to="/checkout/$slug" params={{ slug: course.slug }}>
-                  Enroll Now
+                  Buy Now — ${course.price.toLocaleString("en-US")}
                 </Link>
               </Button>
               <Button
