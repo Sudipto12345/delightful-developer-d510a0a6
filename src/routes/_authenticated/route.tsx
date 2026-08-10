@@ -5,22 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async () => {
-    // Check Supabase session first
-    const { data } = await supabase.auth.getUser();
-    if (data.user) return { authUser: data.user };
-
-    // Fallback: allow demo access via localStorage (for store-based demo login)
-    try {
-      const raw = localStorage.getItem("elevatehub-state-v1");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed?.session) return { authUser: parsed.session };
-      }
-    } catch {
-      /* ignore */
-    }
-
-    throw redirect({ to: "/auth/login" });
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) throw redirect({ to: "/auth/login" });
+    return { authUser: data.user };
   },
   component: () => <Outlet />,
 });

@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 
 import { Reveal } from "@/components/motion/Motion";
+import { supabase } from "@/integrations/supabase/client";
 import { PanelShell } from "@/components/layout/PanelShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,18 @@ export const Route = createFileRoute("/_authenticated/admin")({
       { name: "robots", content: "noindex" },
     ],
   }),
+  beforeLoad: async () => {
+    const { data: userData } = await supabase.auth.getUser();
+    const user = userData.user;
+    if (!user) throw redirect({ to: "/auth/login" });
+
+    const { data: isAdmin, error } = await supabase.rpc("has_role", {
+      _user_id: user.id,
+      _role: "admin",
+    });
+    if (error || !isAdmin) throw redirect({ to: "/dashboard" });
+    return { isAdmin: true };
+  },
   component: AdminPage,
 });
 
