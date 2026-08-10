@@ -29,6 +29,7 @@ import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
 import { Route as CheckoutSlugRouteImport } from './routes/checkout.$slug'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as InstructorsIndexRouteImport } from './routes/instructors.index'
@@ -136,6 +137,11 @@ const CheckoutSlugRoute = CheckoutSlugRouteImport.update({
   path: '/checkout/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/checkout/return',
+  path: '/checkout/return',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
@@ -192,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/$slug': typeof CheckoutSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -220,6 +227,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/$slug': typeof CheckoutSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -250,6 +258,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/$slug': typeof CheckoutSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -280,6 +289,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/categories/$slug'
     | '/checkout/$slug'
+    | '/checkout/return'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/services/$slug'
@@ -308,6 +318,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/categories/$slug'
     | '/checkout/$slug'
+    | '/checkout/return'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/services/$slug'
@@ -337,6 +348,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/categories/$slug'
     | '/checkout/$slug'
+    | '/checkout/return'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/services/$slug'
@@ -365,6 +377,7 @@ export interface RootRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
   CategoriesSlugRoute: typeof CategoriesSlugRoute
   CheckoutSlugRoute: typeof CheckoutSlugRoute
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   InstructorsSlugRoute: typeof InstructorsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
@@ -517,6 +530,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/checkout/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/': {
       id: '/courses/'
       path: '/courses'
@@ -600,6 +620,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
   CategoriesSlugRoute: CategoriesSlugRoute,
   CheckoutSlugRoute: CheckoutSlugRoute,
+  CheckoutReturnRoute: CheckoutReturnRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   InstructorsSlugRoute: InstructorsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,

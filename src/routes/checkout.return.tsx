@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { confirmCoursePurchase } from "@/lib/payments.functions";
 import { useStore } from "@/lib/store";
 
-type Search = { enrollment?: string };
+type Search = { enrollment?: string | undefined };
 
 export const Route = createFileRoute("/checkout/return")({
   validateSearch: (search: Record<string, unknown>): Search => ({
