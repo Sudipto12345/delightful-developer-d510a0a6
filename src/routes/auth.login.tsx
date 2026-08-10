@@ -28,34 +28,15 @@ export const Route = createFileRoute("/auth/login")({
   component: LoginPage,
 });
 
-const DEMO_ACCOUNTS = [
-  { email: "learner@demo.com", password: "demo1234", name: "Demo Learner", role: "learner" as const },
-  { email: "admin@demo.com", password: "demo1234", name: "Demo Admin", role: "admin" as const },
-];
-
 function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-
-    // Demo accounts — bypass Supabase for local preview
-    const demo = DEMO_ACCOUNTS.find(
-      (d) => d.email === email.trim() && d.password === password,
-    );
-    if (demo) {
-      login({ name: demo.name, email: demo.email, role: demo.role });
-      toast.success(`Welcome, ${demo.name}!`);
-      setLoading(false);
-      void navigate({ to: demo.role === "admin" ? "/admin" : "/dashboard" });
-      return;
-    }
 
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);

@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 
 import { Reveal } from "@/components/motion/Motion";
+import { supabase } from "@/integrations/supabase/client";
 import { PanelShell } from "@/components/layout/PanelShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
