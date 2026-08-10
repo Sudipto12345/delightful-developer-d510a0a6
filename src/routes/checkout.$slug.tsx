@@ -1,16 +1,15 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { BadgeCheck, CalendarClock, CheckCircle2, Clock, ShieldCheck, Sparkles } from "lucide-react";
+import { BadgeCheck, Clock, Loader2, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { PublicShell } from "@/components/layout/PublicShell";
-import { Reveal } from "@/components/motion/Motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { getCourseImage } from "@/data/courseImages";
 import { getCourse, getInstructor, type Course } from "@/data/courses";
+import { useAuth } from "@/hooks/useAuth";
+import { startCoursePurchase } from "@/lib/payments.functions";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/checkout/$slug")({
@@ -20,10 +19,10 @@ export const Route = createFileRoute("/checkout/$slug")({
     return { course };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Enrollment" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData) return { meta: [{ title: "Checkout" }, { name: "robots", content: "noindex" }] };
     const c = loaderData.course;
-    const title = `Enroll — ${c.title} | ElevateHub Ltd`;
-    const description = `Reserve your seat in ${c.title}. Free demo enrollment with a scheduled orientation session and instant access after approval.`;
+    const title = `Buy ${c.title} | ElevateHub Ltd`;
+    const description = `Secure checkout for ${c.title}. Pay by card through Airwallex and get instant lifetime access.`;
     return {
       meta: [
         { title },
@@ -39,44 +38,32 @@ export const Route = createFileRoute("/checkout/$slug")({
   component: CheckoutPage,
 });
 
-function nextSessionDate() {
-  const d = new Date();
-  d.setDate(d.getDate() + 3);
-  d.setHours(18, 30, 0, 0);
-  return d;
-}
-
 function CheckoutPage() {
   const { course } = Route.useLoaderData() as { course: Course };
-  const { session, submitEnrollment, enrolled } = useStore();
+  const { enrolled } = useStore();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const instructor = getInstructor(course.instructorId);
+  const [loading, setLoading] = useState(false);
 
-  const [name, setName] = useState(session?.name ?? "");
-  const [email, setEmail] = useState(session?.email ?? "");
-  const [submitted, setSubmitted] = useState(false);
-
-  const scheduled = nextSessionDate();
   const already = enrolled.includes(course.id);
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim() || !email.trim()) {
-      toast.error("Please add your name and email to reserve a seat.");
+  const buyNow = async () => {
+    if (!user) {
+      toast.info("Sign in first to complete your purchase.");
+      void navigate({ to: "/auth/login" });
       return;
     }
-    submitEnrollment({
-      userName: name.trim(),
-      phone: email.trim(),
-      courseId: course.id,
-      courseTitle: course.title,
-      method: "free",
-      trxId: `DEMO-${Date.now().toString().slice(-6)}`,
-      amount: 0,
-      scheduledFor: scheduled.toISOString(),
-    });
-    setSubmitted(true);
-    toast.success("Seat reserved — approval lands within one hour.");
+    setLoading(true);
+    try {
+      const res = await startCoursePurchase({
+        data: { slug: course.slug, origin: window.location.origin },
+      });
+      window.location.href = res.checkoutUrl;
+    } catch (err) {
+      setLoading(false);
+      toast.error(err instanceof Error ? err.message : "Could not start checkout. Please try again.");
+    }
   };
 
   return (
@@ -84,73 +71,64 @@ function CheckoutPage() {
       <section className="border-b border-border/60">
         <div className="container-eh grid gap-8 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_380px]">
           <div>
-            <Badge className="bg-accent text-accent-foreground">Demo Enrollment — No Payment</Badge>
-            <h1 className="mt-4 text-3xl font-extrabold sm:text-4xl">Reserve Your Seat</h1>
+            <Badge className="bg-accent text-accent-foreground">Secure Checkout</Badge>
+            <h1 className="mt-4 text-3xl font-extrabold sm:text-4xl">Buy this course</h1>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              During the evaluation period every course is free to join. Confirm your details, pick up
-              your orientation schedule, and an administrator reviews the request. If nobody reviews it
-              within one hour, the system approves it automatically.
+              Payments are processed by Airwallex over an encrypted connection. The moment your card
+              payment is verified, {course.title} unlocks in your dashboard — no waiting for approval.
             </p>
 
-            {submitted || already ? (
-              <Reveal className="mt-8 rounded-sm border border-success/40 bg-success/10 p-6">
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-success" />
-                  <p className="text-lg font-bold">Enrollment request received</p>
-                </div>
-                <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <dt className="text-xs text-muted-foreground">Orientation session</dt>
-                    <dd className="mt-1 font-semibold">
-                      {scheduled.toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
-                    </dd>
-                  </div>
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <dt className="text-xs text-muted-foreground">Approval window</dt>
-                    <dd className="mt-1 font-semibold">Auto-approved within 60 minutes</dd>
-                  </div>
-                </dl>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <Button onClick={() => navigate({ to: "/dashboard" })}>Go to Dashboard</Button>
-                  <Button variant="outline" asChild>
-                    <Link to="/courses">Browse more courses</Link>
-                  </Button>
-                </div>
-              </Reveal>
+            {already ? (
+              <div className="mt-8 max-w-xl rounded-sm border border-success/40 bg-success/10 p-6">
+                <p className="text-lg font-bold">You already own this course</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Jump straight into the lessons from your dashboard.
+                </p>
+                <Button className="mt-4" onClick={() => navigate({ to: "/dashboard" })}>
+                  Go to Dashboard
+                </Button>
+              </div>
             ) : (
-              <form onSubmit={onSubmit} className="mt-8 max-w-xl space-y-5 rounded-sm border border-border bg-card p-6">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Full name</Label>
-                  <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jordan Miles" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@company.com"
-                  />
+              <div className="mt-8 max-w-xl space-y-5 rounded-sm border border-border bg-card p-6">
+                <div className="flex items-baseline justify-between border-b border-border pb-4">
+                  <span className="text-sm text-muted-foreground">Order total</span>
+                  <span className="font-display text-3xl font-extrabold">
+                    ${course.price.toLocaleString("en-US")}
+                  </span>
                 </div>
 
-                <div className="rounded-xl border border-border bg-secondary/40 p-4 text-sm">
-                  <p className="flex items-center gap-2 font-semibold">
-                    <CalendarClock className="h-4 w-4 text-accent" /> Your orientation schedule
-                  </p>
-                  <p className="mt-1 text-muted-foreground">
-                    {scheduled.toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })} · Live on
-                    ElevateHub Studio with {instructor?.name ?? "your mentor"}.
-                  </p>
-                </div>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <Lock className="h-4 w-4 text-accent" /> Card details are handled by Airwallex — we
+                    never see them.
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ShieldCheck className="h-4 w-4 text-accent" /> Instant access on successful payment.
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-accent" /> Live orientation with{" "}
+                    {instructor?.name ?? "your mentor"}.
+                  </li>
+                </ul>
 
-                <Button type="submit" size="lg" className="h-12 w-full bg-spark text-accent-foreground">
-                  Confirm Free Enrollment
+                <Button
+                  onClick={() => void buyNow()}
+                  disabled={loading}
+                  size="lg"
+                  className="h-12 w-full bg-spark text-accent-foreground"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Redirecting to Airwallex…
+                    </>
+                  ) : (
+                    <>Buy Now — ${course.price.toLocaleString("en-US")}</>
+                  )}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
-                  No card required. Cancel anytime from your dashboard.
+                  {user ? "You'll return here automatically after payment." : "Sign in required to complete the purchase."}
                 </p>
-              </form>
+              </div>
             )}
           </div>
 
@@ -166,10 +144,14 @@ function CheckoutPage() {
               <div className="space-y-4 p-5">
                 <p className="font-bold leading-snug">{course.title}</p>
                 <div className="flex items-end gap-2">
-                  <span className="text-2xl font-extrabold text-success">Free</span>
-                  <span className="pb-1 text-sm text-muted-foreground line-through">
+                  <span className="text-2xl font-extrabold text-accent">
                     ${course.price.toLocaleString("en-US")}
                   </span>
+                  {course.oldPrice && (
+                    <span className="pb-1 text-sm text-muted-foreground line-through">
+                      ${course.oldPrice.toLocaleString("en-US")}
+                    </span>
+                  )}
                 </div>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-center gap-2">
@@ -182,10 +164,10 @@ function CheckoutPage() {
                   <li className="flex items-center gap-2">
                     <BadgeCheck className="h-4 w-4 text-accent" /> Verified certificate
                   </li>
-                  <li className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-accent" /> Admin review or auto-approval in 1 hour
-                  </li>
                 </ul>
+                <Button variant="outline" asChild className="w-full">
+                  <Link to="/courses">Browse other courses</Link>
+                </Button>
               </div>
             </div>
           </aside>
