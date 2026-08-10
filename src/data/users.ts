@@ -17,7 +17,7 @@ export type EnrollmentRequest = {
   userName: string;
   phone: string;
   courseId: string;
-  method: "bank" | "paypal" | "wise" | "invoice" | "free";
+  method: "bank" | "paypal" | "wise" | "invoice" | "free" | "airwallex";
   trxId: string;
   amount: number;
   createdAt: string;
