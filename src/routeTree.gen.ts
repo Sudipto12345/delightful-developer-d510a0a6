@@ -29,12 +29,14 @@ import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
 import { Route as CheckoutSlugRouteImport } from './routes/checkout.$slug'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as InstructorsIndexRouteImport } from './routes/instructors.index'
 import { Route as InstructorsSlugRouteImport } from './routes/instructors.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ApiPublicWebhooksAirwallexRouteImport } from './routes/api/public/webhooks/airwallex'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -135,6 +137,11 @@ const CheckoutSlugRoute = CheckoutSlugRouteImport.update({
   path: '/checkout/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/checkout/return',
+  path: '/checkout/return',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
@@ -165,6 +172,12 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWebhooksAirwallexRoute =
+  ApiPublicWebhooksAirwallexRouteImport.update({
+    id: '/api/public/webhooks/airwallex',
+    path: '/api/public/webhooks/airwallex',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -185,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/$slug': typeof CheckoutSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -192,6 +206,7 @@ export interface FileRoutesByFullPath {
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -212,6 +227,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/$slug': typeof CheckoutSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -219,6 +235,7 @@ export interface FileRoutesByTo {
   '/courses': typeof CoursesIndexRoute
   '/instructors': typeof InstructorsIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -241,6 +258,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/checkout/$slug': typeof CheckoutSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/instructors/$slug': typeof InstructorsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -248,6 +266,7 @@ export interface FileRoutesById {
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -270,6 +289,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/categories/$slug'
     | '/checkout/$slug'
+    | '/checkout/return'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/services/$slug'
@@ -277,6 +297,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/instructors/'
     | '/services/'
+    | '/api/public/webhooks/airwallex'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -297,6 +318,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/categories/$slug'
     | '/checkout/$slug'
+    | '/checkout/return'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/services/$slug'
@@ -304,6 +326,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/instructors'
     | '/services'
+    | '/api/public/webhooks/airwallex'
   id:
     | '__root__'
     | '/'
@@ -325,6 +348,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/categories/$slug'
     | '/checkout/$slug'
+    | '/checkout/return'
     | '/courses/$slug'
     | '/instructors/$slug'
     | '/services/$slug'
@@ -332,6 +356,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/instructors/'
     | '/services/'
+    | '/api/public/webhooks/airwallex'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -352,6 +377,7 @@ export interface RootRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
   CategoriesSlugRoute: typeof CategoriesSlugRoute
   CheckoutSlugRoute: typeof CheckoutSlugRoute
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   InstructorsSlugRoute: typeof InstructorsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
@@ -359,6 +385,7 @@ export interface RootRouteChildren {
   CoursesIndexRoute: typeof CoursesIndexRoute
   InstructorsIndexRoute: typeof InstructorsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
+  ApiPublicWebhooksAirwallexRoute: typeof ApiPublicWebhooksAirwallexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -503,6 +530,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/checkout/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/': {
       id: '/courses/'
       path: '/courses'
@@ -545,6 +579,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/webhooks/airwallex': {
+      id: '/api/public/webhooks/airwallex'
+      path: '/api/public/webhooks/airwallex'
+      fullPath: '/api/public/webhooks/airwallex'
+      preLoaderRoute: typeof ApiPublicWebhooksAirwallexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -579,6 +620,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
   CategoriesSlugRoute: CategoriesSlugRoute,
   CheckoutSlugRoute: CheckoutSlugRoute,
+  CheckoutReturnRoute: CheckoutReturnRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   InstructorsSlugRoute: InstructorsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
@@ -586,17 +628,8 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesIndexRoute: CoursesIndexRoute,
   InstructorsIndexRoute: InstructorsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
+  ApiPublicWebhooksAirwallexRoute: ApiPublicWebhooksAirwallexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
