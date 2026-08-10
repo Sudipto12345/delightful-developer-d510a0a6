@@ -35,6 +35,7 @@ import { Route as InstructorsIndexRouteImport } from './routes/instructors.index
 import { Route as InstructorsSlugRouteImport } from './routes/instructors.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ApiPublicWebhooksAirwallexRouteImport } from './routes/api/public/webhooks/airwallex'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -165,6 +166,12 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWebhooksAirwallexRoute =
+  ApiPublicWebhooksAirwallexRouteImport.update({
+    id: '/api/public/webhooks/airwallex',
+    path: '/api/public/webhooks/airwallex',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -219,6 +227,7 @@ export interface FileRoutesByTo {
   '/courses': typeof CoursesIndexRoute
   '/instructors': typeof InstructorsIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -248,6 +257,7 @@ export interface FileRoutesById {
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/instructors/'
     | '/services/'
+    | '/api/public/webhooks/airwallex'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/instructors'
     | '/services'
+    | '/api/public/webhooks/airwallex'
   id:
     | '__root__'
     | '/'
@@ -332,6 +344,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/instructors/'
     | '/services/'
+    | '/api/public/webhooks/airwallex'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -359,6 +372,7 @@ export interface RootRouteChildren {
   CoursesIndexRoute: typeof CoursesIndexRoute
   InstructorsIndexRoute: typeof InstructorsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
+  ApiPublicWebhooksAirwallexRoute: typeof ApiPublicWebhooksAirwallexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -545,6 +559,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/webhooks/airwallex': {
+      id: '/api/public/webhooks/airwallex'
+      path: '/api/public/webhooks/airwallex'
+      fullPath: '/api/public/webhooks/airwallex'
+      preLoaderRoute: typeof ApiPublicWebhooksAirwallexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -586,17 +607,8 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesIndexRoute: CoursesIndexRoute,
   InstructorsIndexRoute: InstructorsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
+  ApiPublicWebhooksAirwallexRoute: ApiPublicWebhooksAirwallexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
