@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createHmac, timingSafeEqual } from "crypto";
 
+/**
+ * Airwallex webhook receiver — the only trusted source of payment confirmation.
+ * Verifies the HMAC signature, dedupes replays, re-reads the intent from
+ * Airwallex, then updates the enrollment/order status.
+ */
 export const Route = createFileRoute("/api/public/webhooks/airwallex")({
   server: {
     handlers: {
@@ -9,30 +13,69 @@ export const Route = createFileRoute("/api/public/webhooks/airwallex")({
         if (!secret) return new Response("Webhook not configured", { status: 503 });
 
         const timestamp = request.headers.get("x-timestamp") ?? "";
-        const signature = request.headers.get("x-signature") ?? "";
+        const signature = (request.headers.get("x-signature") ?? "").toLowerCase();
         const body = await request.text();
 
-        const expected = createHmac("sha256", secret).update(timestamp + body).digest("hex");
-        const sig = Buffer.from(signature);
-        const exp = Buffer.from(expected);
-        if (sig.length !== exp.length || !timingSafeEqual(sig, exp)) {
+        const expected = await hmacHex(secret, timestamp + body);
+        if (!signature || !timingSafeEqualHex(signature, expected)) {
           return new Response("Invalid signature", { status: 401 });
         }
 
-        const event = JSON.parse(body) as {
+        let event: {
+          id?: string;
           name?: string;
           data?: { object?: { id?: string; merchant_order_id?: string; status?: string } };
         };
-        const intent = event.data?.object;
-        const succeeded =
-          event.name === "payment_intent.succeeded" || intent?.status === "SUCCEEDED";
+        try {
+          event = JSON.parse(body);
+        } catch {
+          return new Response("Invalid JSON", { status: 400 });
+        }
 
-        if (succeeded && intent?.merchant_order_id) {
-          const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-          await supabaseAdmin
-            .from("enrollments")
-            .update({ status: "approved" })
-            .eq("id", intent.merchant_order_id);
+        const intentId = event.data?.object?.id;
+        const orderId = event.data?.object?.merchant_order_id;
+        const eventId = event.id ?? `${event.name ?? "event"}:${intentId ?? ""}:${timestamp}`;
+
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+        // Idempotency: the unique primary key makes replays a no-op.
+        const { error: dedupeError } = await supabaseAdmin
+          .from("payment_webhook_events")
+          .insert({ id: eventId, provider: "airwallex", event_type: event.name ?? "unknown" });
+        if (dedupeError) {
+          if (dedupeError.code === "23505") return new Response("duplicate", { status: 200 });
+          console.error("webhook dedupe insert failed", dedupeError);
+          return new Response("Storage error", { status: 500 });
+        }
+
+        if (intentId && orderId) {
+          // Never trust the payload alone — confirm with Airwallex directly.
+          let status = event.data?.object?.status ?? "";
+          try {
+            const { getPaymentIntent } = await import("@/lib/airwallex.server");
+            status = (await getPaymentIntent(intentId)).status;
+          } catch (error) {
+            console.error("intent re-check failed", error);
+          }
+
+          const nextStatus =
+            status === "SUCCEEDED" || status === "CAPTURE_REQUESTED"
+              ? "approved"
+              : status === "CANCELLED" || status === "FAILED"
+                ? "rejected"
+                : null;
+
+          if (nextStatus) {
+            const { error } = await supabaseAdmin
+              .from("enrollments")
+              .update({ status: nextStatus })
+              .eq("id", orderId)
+              .eq("txn_id", intentId);
+            if (error) {
+              console.error("enrollment update failed", error);
+              return new Response("Update failed", { status: 500 });
+            }
+          }
         }
 
         return new Response("ok");
@@ -40,3 +83,25 @@ export const Route = createFileRoute("/api/public/webhooks/airwallex")({
     },
   },
 });
+
+async function hmacHex(secret: string, message: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(message));
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function timingSafeEqualHex(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}

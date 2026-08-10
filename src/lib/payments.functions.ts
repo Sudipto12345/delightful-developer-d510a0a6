@@ -84,13 +84,19 @@ export const confirmCoursePurchase = createServerFn({ method: "POST" })
       return { status: "pending" as const, courseSlug: enrollment.course_slug, courseTitle: enrollment.course_title, amount: Number(enrollment.amount) };
     }
 
+    // Server-side verification with Airwallex; the return page is never proof of payment.
     const { getPaymentIntent } = await import("@/lib/airwallex.server");
     const intent = await getPaymentIntent(enrollment.txn_id);
     const paid = intent.status === "SUCCEEDED" || intent.status === "CAPTURE_REQUESTED";
+    const failed = intent.status === "CANCELLED" || intent.status === "FAILED";
 
-    if (paid) {
+    if (paid || failed) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      await supabaseAdmin.from("enrollments").update({ status: "approved" }).eq("id", enrollment.id);
+      await supabaseAdmin
+        .from("enrollments")
+        .update({ status: paid ? "approved" : "rejected" })
+        .eq("id", enrollment.id)
+        .eq("txn_id", enrollment.txn_id);
     }
 
     return {
