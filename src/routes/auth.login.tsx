@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CobaltCube } from "@/components/motion/Motion";
-import { useStore } from "@/lib/store";
+
 
 const title = "Sign In — ElevateHub Ltd";
 const description = "Sign in to your ElevateHub account to continue your courses, track progress, and access live cohorts.";
@@ -138,12 +138,6 @@ function LoginPage() {
               Create one
             </Link>
           </p>
-
-          <div className="mt-6 rounded-xl border border-border bg-secondary/40 p-4 text-xs text-muted-foreground space-y-1">
-            <p className="font-semibold text-foreground">Demo credentials</p>
-            <p>Learner: <span className="font-mono">learner@demo.com</span> / <span className="font-mono">demo1234</span></p>
-            <p>Admin: <span className="font-mono">admin@demo.com</span> / <span className="font-mono">demo1234</span></p>
-          </div>
         </motion.div>
       </div>
     </div>
