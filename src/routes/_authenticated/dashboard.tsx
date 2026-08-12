@@ -249,7 +249,19 @@ function DashboardPage() {
         )}
 
         {/* COURSE PLAYER */}
+        {tab === "player" && !activeCourse && (
+          <div className="rounded-sm border border-border bg-card p-8 text-center text-muted-foreground">
+            <p className="text-lg font-bold text-foreground">No course unlocked yet</p>
+            <p className="mt-2 text-sm">
+              Once a payment is verified, your course opens here automatically.
+            </p>
+            <Button asChild className="mt-5">
+              <Link to="/courses">Browse courses</Link>
+            </Button>
+          </div>
+        )}
         {tab === "player" && activeCourse && (
+
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-4">
               <div className="relative aspect-video overflow-hidden rounded-sm border border-border bg-cobalt">
