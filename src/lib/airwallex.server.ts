@@ -10,32 +10,16 @@ const BASE = "https://api.airwallex.com";
 type TokenCache = { token: string; expiresAt: number };
 let cachedToken: TokenCache | undefined;
 
-/** Proxy-aware fetch: sends the absolute Airwallex URL to the static-IP proxy. */
+/** Proxy-aware fetch: tunnels the Airwallex call through the static-IP proxy. */
 async function awFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const target = `${BASE}${path}`;
   const proxyUrl = process.env["QUOTAGUARDSTATIC_URL"];
   if (!proxyUrl) return await fetch(target, init);
 
-  const proxy = new URL(proxyUrl);
-  const username = decodeURIComponent(proxy.username);
-  const password = decodeURIComponent(proxy.password);
-  proxy.username = "";
-  proxy.password = "";
-
-  const headers = new Headers(init.headers);
-  if (username) {
-    headers.set("Proxy-Authorization", `Basic ${btoa(`${username}:${password}`)}`);
-  }
-  // Forward-proxy absolute-URI form: the request line target is the full URL.
-  headers.set("Host", "api.airwallex.com");
-  headers.set("X-Target-URL", target);
-
-  const forwarded = new URL(proxy.toString());
-  forwarded.pathname = new URL(target).pathname;
-  forwarded.search = new URL(target).search;
-
-  return await fetch(forwarded.toString(), { ...init, headers });
+  const { proxyFetch } = await import("./proxy-fetch.server");
+  return await proxyFetch(target, init, proxyUrl);
 }
+
 
 async function getToken(): Promise<string> {
   const now = Date.now();
