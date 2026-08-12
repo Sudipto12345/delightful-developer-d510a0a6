@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { usePaidCourses } from "@/hooks/usePaidCourses";
+
 import { PanelShell } from "@/components/layout/PanelShell";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Badge } from "@/components/ui/badge";
@@ -54,18 +56,22 @@ const navItems = [
 ];
 
 function DashboardPage() {
-  const { session, enrolled, progress, courses, requests, wishlist, logout, toggleLesson, completedLessons } =
+  const { session, progress, courses, requests, wishlist, logout, toggleLesson, completedLessons } =
     useStore();
+  // Entitlements come from the server (verified payments), never local storage.
+  const { slugs: paidSlugs } = usePaidCourses();
+  const enrolledCourses = courses.filter((c) => paidSlugs.has(c.slug));
   const [tab, setTab] = useState("overview");
-  const [playerCourse, setPlayerCourse] = useState(enrolled[0] ?? "c-1");
+  const [playerCourse, setPlayerCourse] = useState(enrolledCourses[0]?.id ?? "c-1");
   const [playerMod, setPlayerMod] = useState(0);
   const [playerLesson, setPlayerLesson] = useState(0);
 
-  const enrolledCourses = courses.filter((c) => enrolled.includes(c.id));
+
   const approvedReqs = requests.filter((r) => r.status === "approved");
   const pendingReqs = requests.filter((r) => r.status === "pending");
   const wishlistCourses = courses.filter((c) => wishlist.includes(c.id));
-  const activeCourse = courses.find((c) => c.id === playerCourse) ?? courses[0];
+  const activeCourse =
+    enrolledCourses.find((c) => c.id === playerCourse) ?? enrolledCourses[0];
 
   const totalLessons = activeCourse
     ? activeCourse.modules.reduce((a, m) => a + m.lessons.length, 0)
@@ -243,7 +249,19 @@ function DashboardPage() {
         )}
 
         {/* COURSE PLAYER */}
+        {tab === "player" && !activeCourse && (
+          <div className="rounded-sm border border-border bg-card p-8 text-center text-muted-foreground">
+            <p className="text-lg font-bold text-foreground">No course unlocked yet</p>
+            <p className="mt-2 text-sm">
+              Once a payment is verified, your course opens here automatically.
+            </p>
+            <Button asChild className="mt-5">
+              <Link to="/courses">Browse courses</Link>
+            </Button>
+          </div>
+        )}
         {tab === "player" && activeCourse && (
+
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-4">
               <div className="relative aspect-video overflow-hidden rounded-sm border border-border bg-cobalt">

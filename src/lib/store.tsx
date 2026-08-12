@@ -73,7 +73,21 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setState((s) => ({ ...s, ...JSON.parse(raw) }));
+      if (raw) {
+        // Only UI preferences are restored from the browser. Catalog data and
+        // course entitlements always come from the server.
+        const saved = JSON.parse(raw) as Partial<State>;
+        setState((s) => ({
+          ...s,
+          session: saved.session ?? s.session,
+          wishlist: saved.wishlist ?? s.wishlist,
+          completedLessons: saved.completedLessons ?? s.completedLessons,
+          progress: saved.progress ?? s.progress,
+          requests: saved.requests ?? s.requests,
+          audit: saved.audit ?? s.audit,
+          users: saved.users ?? s.users,
+        }));
+      }
     } catch {
       /* ignore */
     }
@@ -136,7 +150,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const { courses: _courses, enrolled: _enrolled, ...persistable } = state;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(persistable));
     } catch {
       /* ignore */
     }

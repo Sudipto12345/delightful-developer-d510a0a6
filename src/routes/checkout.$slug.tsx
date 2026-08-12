@@ -6,11 +6,14 @@ import { toast } from "sonner";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { getCourseImage } from "@/data/courseImages";
 import { getCourse, getInstructor, type Course } from "@/data/courses";
 import { useAuth } from "@/hooks/useAuth";
 import { startCoursePurchase } from "@/lib/payments.functions";
-import { useStore } from "@/lib/store";
+import { usePaidCourses } from "@/hooks/usePaidCourses";
 
 export const Route = createFileRoute("/checkout/$slug")({
   loader: ({ params }) => {
@@ -40,22 +43,37 @@ export const Route = createFileRoute("/checkout/$slug")({
 
 function CheckoutPage() {
   const { course } = Route.useLoaderData() as { course: Course };
-  const { enrolled } = useStore();
+  const { slugs: paidSlugs } = usePaidCourses();
   const { user } = useAuth();
   const navigate = useNavigate();
   const instructor = getInstructor(course.instructorId);
   const [loading, setLoading] = useState(false);
+  const [guest, setGuest] = useState({ name: "", email: "", password: "" });
 
-  const already = enrolled.includes(course.id);
+  const already = paidSlugs.has(course.slug);
 
   const buyNow = async () => {
-    if (!user) {
-      toast.info("Sign in first to complete your purchase.");
-      void navigate({ to: "/auth/login" });
-      return;
-    }
     setLoading(true);
     try {
+      if (!user) {
+        if (guest.name.trim().length < 2) throw new Error("Please enter your full name.");
+        if (!/^\S+@\S+\.\S+$/.test(guest.email.trim())) throw new Error("Please enter a valid email.");
+        if (guest.password.length < 8) throw new Error("Password must be at least 8 characters.");
+
+        const { error } = await supabase.auth.signUp({
+          email: guest.email.trim(),
+          password: guest.password,
+          options: { data: { full_name: guest.name.trim() } },
+        });
+        if (error) {
+          const { error: signInError } = await supabase.auth.signInWithPassword({
+            email: guest.email.trim(),
+            password: guest.password,
+          });
+          if (signInError)
+            throw new Error("That email already has an account — please sign in to continue.");
+        }
+      }
       const res = await startCoursePurchase({
         data: { slug: course.slug, origin: window.location.origin },
       });
@@ -65,6 +83,7 @@ function CheckoutPage() {
       toast.error(err instanceof Error ? err.message : "Could not start checkout. Please try again.");
     }
   };
+
 
   return (
     <PublicShell>
@@ -111,6 +130,52 @@ function CheckoutPage() {
                   </li>
                 </ul>
 
+                {!user && (
+                  <div className="space-y-3 rounded-sm border border-border bg-secondary/40 p-4">
+                    <p className="text-sm font-semibold">
+                      Create your account — takes 10 seconds, no email verification needed.
+                    </p>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="guest-name">Full name</Label>
+                      <Input
+                        id="guest-name"
+                        value={guest.name}
+                        onChange={(e) => setGuest((g) => ({ ...g, name: e.target.value }))}
+                        placeholder="Jane Cooper"
+                        autoComplete="name"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="guest-email">Email</Label>
+                      <Input
+                        id="guest-email"
+                        type="email"
+                        value={guest.email}
+                        onChange={(e) => setGuest((g) => ({ ...g, email: e.target.value }))}
+                        placeholder="you@company.com"
+                        autoComplete="email"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="guest-password">Password</Label>
+                      <Input
+                        id="guest-password"
+                        type="password"
+                        value={guest.password}
+                        onChange={(e) => setGuest((g) => ({ ...g, password: e.target.value }))}
+                        placeholder="At least 8 characters"
+                        autoComplete="new-password"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Already have an account?{" "}
+                      <Link to="/auth/login" className="font-semibold text-accent">
+                        Sign in
+                      </Link>
+                    </p>
+                  </div>
+                )}
+
                 <Button
                   onClick={() => void buyNow()}
                   disabled={loading}
@@ -126,7 +191,7 @@ function CheckoutPage() {
                   )}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
-                  {user ? "You'll return here automatically after payment." : "Sign in required to complete the purchase."}
+                  {user ? "You'll return here automatically after payment." : "Your account is created instantly, then you pay securely with Airwallex."}
                 </p>
               </div>
             )}
