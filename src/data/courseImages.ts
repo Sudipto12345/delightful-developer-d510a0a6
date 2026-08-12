@@ -1,3 +1,13 @@
+import pAiProduct from "@/assets/catalog/p-ai-product.jpg";
+import pAppliedMl from "@/assets/catalog/p-applied-ml.jpg";
+import pBrandStudio from "@/assets/catalog/p-brand-studio.jpg";
+import pCloudArch from "@/assets/catalog/p-cloud-arch.jpg";
+import pCybersec from "@/assets/catalog/p-cybersec.jpg";
+import pDataEng from "@/assets/catalog/p-data-eng.jpg";
+import pEcommerceScale from "@/assets/catalog/p-ecommerce-scale.jpg";
+import pGrowthLead from "@/assets/catalog/p-growth-lead.jpg";
+import pProductMgmt from "@/assets/catalog/p-product-mgmt.jpg";
+import pSaasFounder from "@/assets/catalog/p-saas-founder.jpg";
 import aiImg from "@/assets/course-ai.jpg";
 import dataImg from "@/assets/course-data.jpg";
 import designImg from "@/assets/course-design.jpg";
@@ -16,6 +26,17 @@ export const courseImages: Record<string, string> = {
   "spoken-english-confidence": englishImg,
   "ui-ux-design-sprint": uiuxImg,
   "ai-tools-for-work": aiImg,
+  // Premium flagship tier — one unique cover per programme.
+  "ai-product-engineering-intensive": pAiProduct,
+  "enterprise-cloud-architecture-mastery": pCloudArch,
+  "growth-marketing-leadership-program": pGrowthLead,
+  "full-stack-saas-founder-bootcamp": pSaasFounder,
+  "data-engineering-analytics-career-track": pDataEng,
+  "brand-creative-direction-studio": pBrandStudio,
+  "cybersecurity-operations-professional": pCybersec,
+  "product-management-executive-track": pProductMgmt,
+  "ecommerce-scale-up-accelerator": pEcommerceScale,
+  "applied-machine-learning-engineering": pAppliedMl,
 };
 
 export const categoryImages: Record<string, string> = {
