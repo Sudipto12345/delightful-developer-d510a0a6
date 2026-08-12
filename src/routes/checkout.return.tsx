@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { Button } from "@/components/ui/button";
 import { confirmCoursePurchase } from "@/lib/payments.functions";
-import { useStore } from "@/lib/store";
 
 type Search = { enrollment?: string | undefined };
 
@@ -32,7 +31,7 @@ export const Route = createFileRoute("/checkout/return")({
 function ReturnPage() {
   const { enrollment } = useSearch({ from: "/checkout/return" });
   const navigate = useNavigate();
-  const { courses, submitEnrollment, approveRequest } = useStore();
+  const queryClient = useQueryClient();
 
   const { data, isPending, isError, refetch, isFetching } = useQuery({
     queryKey: ["purchase", enrollment],
@@ -43,18 +42,9 @@ function ReturnPage() {
 
   useEffect(() => {
     if (data?.status !== "approved") return;
-    const course = courses.find((c) => c.slug === data.courseSlug);
-    if (!course) return;
-    const id = submitEnrollment({
-      userName: "",
-      phone: "",
-      courseId: course.id,
-      courseTitle: course.title,
-      method: "airwallex",
-      trxId: enrollment ?? "",
-      amount: data.amount,
-    });
-    approveRequest(id);
+    // Entitlement lives in the database (verified against Airwallex). Refresh
+    // the server-side list instead of writing an approval into local state.
+    void queryClient.invalidateQueries({ queryKey: ["paid-courses"] });
     toast.success("Payment verified — your course is unlocked.");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.status]);
