@@ -26,6 +26,17 @@ export const courseImages: Record<string, string> = {
   "spoken-english-confidence": englishImg,
   "ui-ux-design-sprint": uiuxImg,
   "ai-tools-for-work": aiImg,
+  // Premium flagship tier — one unique cover per programme.
+  "ai-product-engineering-intensive": pAiProduct,
+  "enterprise-cloud-architecture-mastery": pCloudArch,
+  "growth-marketing-leadership-program": pGrowthLead,
+  "full-stack-saas-founder-bootcamp": pSaasFounder,
+  "data-engineering-analytics-career-track": pDataEng,
+  "brand-creative-direction-studio": pBrandStudio,
+  "cybersecurity-operations-professional": pCybersec,
+  "product-management-executive-track": pProductMgmt,
+  "ecommerce-scale-up-accelerator": pEcommerceScale,
+  "applied-machine-learning-engineering": pAppliedMl,
 };
 
 export const categoryImages: Record<string, string> = {
