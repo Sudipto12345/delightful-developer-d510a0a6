@@ -6,6 +6,7 @@ Add 10 new database-backed courses at the high-ticket price ladder:
 $1,000 / $1,500 / $1,900 / $2,500 / $2,900 / $3,500 / $3,900 / $4,500 / $4,900 / $5,000.
 
 Each one is a distinct flagship program (no reused copy from existing courses), for example:
+
 - AI Product Engineering Intensive
 - Enterprise Cloud Architecture Mastery
 - Growth Marketing Leadership Program
@@ -37,4 +38,8 @@ Generate 10 brand-new cover images — one per course, each a different scene, s
 - New courses go in via a data insert against the `courses` table (slug, price, modules JSON, image_url, video_url, sort_order), so nothing is hardcoded in the frontend.
 - Images generated to `src/assets/catalog/` and referenced by absolute asset URL in `image_url`.
 - Webhook secret stored through the secure secret form (not `.env`, not committed).
-- Return URL derives from a configurable site origin defaulting to `https://elevatehubltd.com`.
+- Return URL derives from a configurable site origin defaulting to `https://elevatehubltd.com`.  
+  
+  
+  
+also guest purchase checkout form where collect required info annd also create annd login account on that chackeout page   
