@@ -54,14 +54,17 @@ const navItems = [
 ];
 
 function DashboardPage() {
-  const { session, enrolled, progress, courses, requests, wishlist, logout, toggleLesson, completedLessons } =
+  const { session, progress, courses, requests, wishlist, logout, toggleLesson, completedLessons } =
     useStore();
+  // Entitlements come from the server (verified payments), never local storage.
+  const { slugs: paidSlugs } = usePaidCourses();
+  const enrolledCourses = courses.filter((c) => paidSlugs.has(c.slug));
   const [tab, setTab] = useState("overview");
-  const [playerCourse, setPlayerCourse] = useState(enrolled[0] ?? "c-1");
+  const [playerCourse, setPlayerCourse] = useState(enrolledCourses[0]?.id ?? "c-1");
   const [playerMod, setPlayerMod] = useState(0);
   const [playerLesson, setPlayerLesson] = useState(0);
 
-  const enrolledCourses = courses.filter((c) => enrolled.includes(c.id));
+
   const approvedReqs = requests.filter((r) => r.status === "approved");
   const pendingReqs = requests.filter((r) => r.status === "pending");
   const wishlistCourses = courses.filter((c) => wishlist.includes(c.id));
