@@ -45,17 +45,32 @@ function CheckoutPage() {
   const navigate = useNavigate();
   const instructor = getInstructor(course.instructorId);
   const [loading, setLoading] = useState(false);
+  const [guest, setGuest] = useState({ name: "", email: "", password: "" });
 
   const already = paidSlugs.has(course.slug);
 
   const buyNow = async () => {
-    if (!user) {
-      toast.info("Sign in first to complete your purchase.");
-      void navigate({ to: "/auth/login" });
-      return;
-    }
     setLoading(true);
     try {
+      if (!user) {
+        if (guest.name.trim().length < 2) throw new Error("Please enter your full name.");
+        if (!/^\S+@\S+\.\S+$/.test(guest.email.trim())) throw new Error("Please enter a valid email.");
+        if (guest.password.length < 8) throw new Error("Password must be at least 8 characters.");
+
+        const { error } = await supabase.auth.signUp({
+          email: guest.email.trim(),
+          password: guest.password,
+          options: { data: { full_name: guest.name.trim() } },
+        });
+        if (error) {
+          const { error: signInError } = await supabase.auth.signInWithPassword({
+            email: guest.email.trim(),
+            password: guest.password,
+          });
+          if (signInError)
+            throw new Error("That email already has an account — please sign in to continue.");
+        }
+      }
       const res = await startCoursePurchase({
         data: { slug: course.slug, origin: window.location.origin },
       });
@@ -65,6 +80,7 @@ function CheckoutPage() {
       toast.error(err instanceof Error ? err.message : "Could not start checkout. Please try again.");
     }
   };
+
 
   return (
     <PublicShell>
