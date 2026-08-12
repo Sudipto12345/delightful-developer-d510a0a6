@@ -34,8 +34,8 @@ function indexOfSequence(buf: Uint8Array, seq: number[], from = 0): number {
   return -1;
 }
 
-function concat(a: Uint8Array, b: Uint8Array): Uint8Array {
-  const out = new Uint8Array(a.length + b.length);
+function concat(a: Uint8Array, b: Uint8Array): Uint8Array<ArrayBuffer> {
+  const out = new Uint8Array(new ArrayBuffer(a.length + b.length));
   out.set(a, 0);
   out.set(b, a.length);
   return out;
@@ -49,7 +49,7 @@ export async function proxyFetch(
   init: RequestInit,
   proxyUrl: string,
 ): Promise<Response> {
-  const { connect } = (await import("cloudflare:sockets")) as {
+  const { connect } = (await import(/* @vite-ignore */ "cloudflare:sockets" as string)) as unknown as {
     connect: (
       addr: { hostname: string; port: number },
       opts?: { secureTransport?: "on" | "off" | "starttls"; allowHalfOpen?: boolean },
@@ -92,7 +92,7 @@ export async function proxyFetch(
   await writer.write(encoder.encode(connectLines));
 
   // Read the proxy's CONNECT response.
-  let buf = new Uint8Array(0);
+  let buf: Uint8Array<ArrayBuffer> = new Uint8Array(new ArrayBuffer(0));
   for (;;) {
     const { value, done } = await reader.read();
     if (done) break;
@@ -136,7 +136,7 @@ export async function proxyFetch(
 
   await tlsWriter.write(encoder.encode(requestText));
 
-  let raw = new Uint8Array(0);
+  let raw: Uint8Array<ArrayBuffer> = new Uint8Array(new ArrayBuffer(0));
   for (;;) {
     const { value, done } = await tlsReader.read();
     if (done) break;
