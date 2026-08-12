@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { usePaidCourses } from "@/hooks/usePaidCourses";
+
 import { PanelShell } from "@/components/layout/PanelShell";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Motion";
 import { Badge } from "@/components/ui/badge";
@@ -68,7 +70,8 @@ function DashboardPage() {
   const approvedReqs = requests.filter((r) => r.status === "approved");
   const pendingReqs = requests.filter((r) => r.status === "pending");
   const wishlistCourses = courses.filter((c) => wishlist.includes(c.id));
-  const activeCourse = courses.find((c) => c.id === playerCourse) ?? courses[0];
+  const activeCourse =
+    enrolledCourses.find((c) => c.id === playerCourse) ?? enrolledCourses[0];
 
   const totalLessons = activeCourse
     ? activeCourse.modules.reduce((a, m) => a + m.lessons.length, 0)
