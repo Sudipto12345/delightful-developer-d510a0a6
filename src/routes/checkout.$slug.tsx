@@ -6,6 +6,9 @@ import { toast } from "sonner";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { getCourseImage } from "@/data/courseImages";
 import { getCourse, getInstructor, type Course } from "@/data/courses";
 import { useAuth } from "@/hooks/useAuth";
@@ -127,6 +130,52 @@ function CheckoutPage() {
                   </li>
                 </ul>
 
+                {!user && (
+                  <div className="space-y-3 rounded-sm border border-border bg-secondary/40 p-4">
+                    <p className="text-sm font-semibold">
+                      Create your account — takes 10 seconds, no email verification needed.
+                    </p>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="guest-name">Full name</Label>
+                      <Input
+                        id="guest-name"
+                        value={guest.name}
+                        onChange={(e) => setGuest((g) => ({ ...g, name: e.target.value }))}
+                        placeholder="Jane Cooper"
+                        autoComplete="name"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="guest-email">Email</Label>
+                      <Input
+                        id="guest-email"
+                        type="email"
+                        value={guest.email}
+                        onChange={(e) => setGuest((g) => ({ ...g, email: e.target.value }))}
+                        placeholder="you@company.com"
+                        autoComplete="email"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="guest-password">Password</Label>
+                      <Input
+                        id="guest-password"
+                        type="password"
+                        value={guest.password}
+                        onChange={(e) => setGuest((g) => ({ ...g, password: e.target.value }))}
+                        placeholder="At least 8 characters"
+                        autoComplete="new-password"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Already have an account?{" "}
+                      <Link to="/auth/login" className="font-semibold text-accent">
+                        Sign in
+                      </Link>
+                    </p>
+                  </div>
+                )}
+
                 <Button
                   onClick={() => void buyNow()}
                   disabled={loading}
@@ -142,7 +191,7 @@ function CheckoutPage() {
                   )}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
-                  {user ? "You'll return here automatically after payment." : "Sign in required to complete the purchase."}
+                  {user ? "You'll return here automatically after payment." : "Your account is created instantly, then you pay securely with Airwallex."}
                 </p>
               </div>
             )}
