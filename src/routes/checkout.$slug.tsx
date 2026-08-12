@@ -10,7 +10,7 @@ import { getCourseImage } from "@/data/courseImages";
 import { getCourse, getInstructor, type Course } from "@/data/courses";
 import { useAuth } from "@/hooks/useAuth";
 import { startCoursePurchase } from "@/lib/payments.functions";
-import { useStore } from "@/lib/store";
+import { usePaidCourses } from "@/hooks/usePaidCourses";
 
 export const Route = createFileRoute("/checkout/$slug")({
   loader: ({ params }) => {
@@ -40,13 +40,13 @@ export const Route = createFileRoute("/checkout/$slug")({
 
 function CheckoutPage() {
   const { course } = Route.useLoaderData() as { course: Course };
-  const { enrolled } = useStore();
+  const { slugs: paidSlugs } = usePaidCourses();
   const { user } = useAuth();
   const navigate = useNavigate();
   const instructor = getInstructor(course.instructorId);
   const [loading, setLoading] = useState(false);
 
-  const already = enrolled.includes(course.id);
+  const already = paidSlugs.has(course.slug);
 
   const buyNow = async () => {
     if (!user) {
