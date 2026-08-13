@@ -4,13 +4,13 @@ import { getPaymentIntent } from "./airwallex.server";
 
 /**
  * Diagnostic tool to check Airwallex connection and configuration.
- * Only accessible by authenticated users.
+ * Accessible to authenticated users.
  */
 export const testAirwallexConnection = createServerFn({ method: "POST" })
   .inputValidator((data) => z.object({}).parse(data))
   .handler(async ({ context }) => {
-    // Basic role check
-    const ctx = context as unknown as { userId?: string };
+    // Basic auth check
+    const ctx = context as any;
     const userId = ctx.userId;
     if (!userId) throw new Error("Unauthorized");
 
@@ -20,23 +20,26 @@ export const testAirwallexConnection = createServerFn({ method: "POST" })
         CLIENT_ID: !!process.env["AIRWALLEX_CLIENT_ID"],
         API_KEY: !!process.env["AIRWALLEX_API_KEY"],
         WEBHOOK_SECRET: !!process.env["AIRWALLEX_WEBHOOK_SECRET"],
-        QUOTAGUARD: !!process.env["QUOTAGUARDSTATIC_URL"],
+        QUOTAGUARDSTATIC_URL: !!process.env["QUOTAGUARDSTATIC_URL"],
+        QUOTAGUARD_URL: !!process.env["QUOTAGUARD_URL"],
       },
       checks: [] as any[],
     };
 
     try {
-      results["checks"].push({ name: "Import", status: "ok" });
-
-      // connectivity check
+      // 1. Connectivity check
       try {
-        await getPaymentIntent("test_id");
+        // Attempting to fetch a non-existent intent to test connectivity + auth
+        await getPaymentIntent("test_connectivity_intent_id");
       } catch (e: any) {
+        // A 404 means we CONNECTED and AUTHENTICATED, but the object wasn't found (expected).
+        // A 401 means credentials are wrong.
+        // A timeout or "Static-IP proxy refused CONNECT" means proxy/network issue.
         const isAuthError = e.message.includes("401");
         const isNotFoundError = e.message.includes("404");
         
         results["checks"].push({ 
-          name: "API Connectivity", 
+          name: "Airwallex API Connectivity", 
           status: (isAuthError || isNotFoundError) ? "connected" : "failed",
           details: e.message 
         });

@@ -38,6 +38,7 @@ import { Route as InstructorsIndexRouteImport } from './routes/instructors.index
 import { Route as InstructorsSlugRouteImport } from './routes/instructors.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ApiPublicAirwallexTestRouteImport } from './routes/api/public/airwallex-test'
 import { Route as ApiPublicWebhooksAirwallexRouteImport } from './routes/api/public/webhooks/airwallex'
 
 const IndexRoute = IndexRouteImport.update({
@@ -184,6 +185,11 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicAirwallexTestRoute = ApiPublicAirwallexTestRouteImport.update({
+  id: '/api/public/airwallex-test',
+  path: '/api/public/airwallex-test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicWebhooksAirwallexRoute =
   ApiPublicWebhooksAirwallexRouteImport.update({
     id: '/api/public/webhooks/airwallex',
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/api/public/airwallex-test': typeof ApiPublicAirwallexTestRoute
   '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRoutesByTo {
@@ -251,6 +258,7 @@ export interface FileRoutesByTo {
   '/courses': typeof CoursesIndexRoute
   '/instructors': typeof InstructorsIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/api/public/airwallex-test': typeof ApiPublicAirwallexTestRoute
   '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRoutesById {
@@ -284,6 +292,7 @@ export interface FileRoutesById {
   '/courses/': typeof CoursesIndexRoute
   '/instructors/': typeof InstructorsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/api/public/airwallex-test': typeof ApiPublicAirwallexTestRoute
   '/api/public/webhooks/airwallex': typeof ApiPublicWebhooksAirwallexRoute
 }
 export interface FileRouteTypes {
@@ -317,6 +326,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/instructors/'
     | '/services/'
+    | '/api/public/airwallex-test'
     | '/api/public/webhooks/airwallex'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -348,6 +358,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/instructors'
     | '/services'
+    | '/api/public/airwallex-test'
     | '/api/public/webhooks/airwallex'
   id:
     | '__root__'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/instructors/'
     | '/services/'
+    | '/api/public/airwallex-test'
     | '/api/public/webhooks/airwallex'
   fileRoutesById: FileRoutesById
 }
@@ -411,6 +423,7 @@ export interface RootRouteChildren {
   CoursesIndexRoute: typeof CoursesIndexRoute
   InstructorsIndexRoute: typeof InstructorsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
+  ApiPublicAirwallexTestRoute: typeof ApiPublicAirwallexTestRoute
   ApiPublicWebhooksAirwallexRoute: typeof ApiPublicWebhooksAirwallexRoute
 }
 
@@ -619,6 +632,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/airwallex-test': {
+      id: '/api/public/airwallex-test'
+      path: '/api/public/airwallex-test'
+      fullPath: '/api/public/airwallex-test'
+      preLoaderRoute: typeof ApiPublicAirwallexTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/webhooks/airwallex': {
       id: '/api/public/webhooks/airwallex'
       path: '/api/public/webhooks/airwallex'
@@ -670,6 +690,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesIndexRoute: CoursesIndexRoute,
   InstructorsIndexRoute: InstructorsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
+  ApiPublicAirwallexTestRoute: ApiPublicAirwallexTestRoute,
   ApiPublicWebhooksAirwallexRoute: ApiPublicWebhooksAirwallexRoute,
 }
 export const routeTree = rootRouteImport
