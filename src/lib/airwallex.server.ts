@@ -86,6 +86,8 @@ export async function createPaymentIntent(args: {
   url.searchParams.set("mode", "payment");
   url.searchParams.set("successUrl", args.returnUrl);
   url.searchParams.set("failUrl", args.returnUrl);
+  // Ensure the payment method selection is not restricted/hidden
+  url.searchParams.set("payment_methods", "card,googlepay,applepay");
   if (args.email) url.searchParams.set("email", args.email);
 
   return { id: intent.id, clientSecret: intent.client_secret, hostedUrl: url.toString() };
