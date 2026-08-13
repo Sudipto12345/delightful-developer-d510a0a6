@@ -10,19 +10,14 @@ const BASE = "https://api.airwallex.com";
 type TokenCache = { token: string; expiresAt: number };
 let cachedToken: TokenCache | undefined;
 
-/** Proxy-aware fetch: tunnels the Airwallex call through the static-IP proxy. */
+/** Direct fetch: uses standard fetch (free, no proxy). */
 async function awFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const target = `${BASE}${path}`;
-  // Use QUOTAGUARDSTATIC_URL if present, otherwise fall back to QUOTAGUARD_URL
-  const proxyUrl = process.env["QUOTAGUARDSTATIC_URL"] || process.env["QUOTAGUARD_URL"];
   
-  if (!proxyUrl) {
-    console.warn("Airwallex: No proxy configured (QUOTAGUARDSTATIC_URL missing). This call may fail if IP whitelisting is active.");
-    return await fetch(target, init);
-  }
-
-  const { proxyFetch } = await import("./proxy-fetch.server");
-  return await proxyFetch(target, init, proxyUrl);
+  // We've disabled QuotaGuard to use the native "free" Cloudflare Workers fetch.
+  // Note: Airwallex may require IP whitelisting. If this fails with 401 or 403,
+  // you may need to disable IP whitelisting in your Airwallex Developer settings.
+  return await fetch(target, init);
 }
 
 
