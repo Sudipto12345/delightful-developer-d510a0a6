@@ -13,9 +13,11 @@ let cachedToken: TokenCache | undefined;
 /** Proxy-aware fetch: tunnels the Airwallex call through the static-IP proxy. */
 async function awFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const target = `${BASE}${path}`;
+  // Use QUOTAGUARDSTATIC_URL if present, otherwise fall back to QUOTAGUARD_URL
   const proxyUrl = process.env["QUOTAGUARDSTATIC_URL"] || process.env["QUOTAGUARD_URL"];
+  
   if (!proxyUrl) {
-    console.log("Airwallex: No proxy configured, using direct fetch");
+    console.warn("Airwallex: No proxy configured (QUOTAGUARDSTATIC_URL missing). This call may fail if IP whitelisting is active.");
     return await fetch(target, init);
   }
 
