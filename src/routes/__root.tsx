@@ -89,6 +89,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "A mobile-first global learning platform with expert-led courses, live mentor support and verified certificates.",
       },
       { name: "author", content: "ElevateHub Ltd" },
+      {
+        name: "google-site-verification",
+        content: "vqjZrOV_Kl0DwClCvqhaMYzXA5tqQbyCjdPJGNmmiTU",
+      },
       { property: "og:site_name", content: "ElevateHub Ltd" },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_US" },

@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { BadgeCheck, Clock, Loader2, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -10,22 +10,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getCourseImage } from "@/data/courseImages";
-import { getCourse, getInstructor, type Course } from "@/data/courses";
+import { useCatalog } from "@/hooks/useCatalog";
 import { useAuth } from "@/hooks/useAuth";
 import { startCoursePurchase } from "@/lib/payments.functions";
 import { usePaidCourses } from "@/hooks/usePaidCourses";
 
 export const Route = createFileRoute("/checkout/$slug")({
-  loader: ({ params }) => {
-    const course = getCourse(params.slug);
-    if (!course) throw notFound();
-    return { course };
-  },
-  head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Checkout" }, { name: "robots", content: "noindex" }] };
-    const c = loaderData.course;
-    const title = `Buy ${c.title} | ElevateHub Ltd`;
-    const description = `Secure checkout for ${c.title}. Pay by card through Airwallex and get instant lifetime access.`;
+  head: ({ params }) => {
+    const name = params.slug
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+    const title = `Buy ${name} | ElevateHub Ltd`;
+    const description = `Secure checkout for ${name}. Pay by card through Airwallex and get instant lifetime access.`;
     return {
       meta: [
         { title },
@@ -42,17 +39,20 @@ export const Route = createFileRoute("/checkout/$slug")({
 });
 
 function CheckoutPage() {
-  const { course } = Route.useLoaderData() as { course: Course };
+  const { slug } = Route.useParams();
+  const { courses, instructors, loading: catalogLoading } = useCatalog();
+  const course = courses.find((c) => c.slug === slug);
   const { slugs: paidSlugs } = usePaidCourses();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const instructor = getInstructor(course.instructorId);
+  const instructor = instructors.find((i) => i.id === course?.instructorId);
   const [loading, setLoading] = useState(false);
   const [guest, setGuest] = useState({ name: "", email: "", password: "" });
 
-  const already = paidSlugs.has(course.slug);
+  const already = course ? paidSlugs.has(course.slug) : false;
 
   const buyNow = async () => {
+    if (!course) return;
     setLoading(true);
     try {
       if (!user) {
@@ -84,6 +84,23 @@ function CheckoutPage() {
     }
   };
 
+
+  if (!course) {
+    return (
+      <PublicShell>
+        <div className="container-eh py-24 text-center">
+          <h1 className="text-2xl font-bold">
+            {catalogLoading ? "Loading checkout…" : "Course not found"}
+          </h1>
+          {!catalogLoading && (
+            <Button asChild className="mt-6">
+              <Link to="/courses">Browse all courses</Link>
+            </Button>
+          )}
+        </div>
+      </PublicShell>
+    );
+  }
 
   return (
     <PublicShell>
