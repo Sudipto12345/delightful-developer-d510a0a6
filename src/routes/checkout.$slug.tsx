@@ -40,7 +40,7 @@ export const Route = createFileRoute("/checkout/$slug")({
 
 function CheckoutPage() {
   const { slug } = Route.useParams();
-  const { courses, instructors, loading } = useCatalog();
+  const { courses, instructors, loading: catalogLoading } = useCatalog();
   const course = courses.find((c) => c.slug === slug);
   const { slugs: paidSlugs } = usePaidCourses();
   const { user } = useAuth();
@@ -49,9 +49,10 @@ function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [guest, setGuest] = useState({ name: "", email: "", password: "" });
 
-  const already = paidSlugs.has(course.slug);
+  const already = course ? paidSlugs.has(course.slug) : false;
 
   const buyNow = async () => {
+    if (!course) return;
     setLoading(true);
     try {
       if (!user) {
@@ -83,6 +84,23 @@ function CheckoutPage() {
     }
   };
 
+
+  if (!course) {
+    return (
+      <PublicShell>
+        <div className="container-eh py-24 text-center">
+          <h1 className="text-2xl font-bold">
+            {catalogLoading ? "Loading checkout…" : "Course not found"}
+          </h1>
+          {!catalogLoading && (
+            <Button asChild className="mt-6">
+              <Link to="/courses">Browse all courses</Link>
+            </Button>
+          )}
+        </div>
+      </PublicShell>
+    );
+  }
 
   return (
     <PublicShell>
