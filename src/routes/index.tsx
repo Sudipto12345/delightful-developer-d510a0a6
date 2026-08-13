@@ -62,7 +62,7 @@ import { useStore } from "@/lib/store";
 
 const title = "ElevateHub Ltd — Build Your Career With In-Demand Skills";
 const description =
-  "A mobile-first online learning platform for ambitious learners worldwide. Web development, design, digital marketing, freelancing, and communication skills courses — with real mentor support, trusted by learners in 60+ countries.";
+  "A mobile-first learning platform for ambitious learners. Courses in web dev, design, and marketing with live mentor support, trusted in 60+ countries.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
