@@ -20,17 +20,23 @@ export const testAirwallexConnection = createServerFn({ method: "POST" })
         CLIENT_ID: !!process.env["AIRWALLEX_CLIENT_ID"],
         API_KEY: !!process.env["AIRWALLEX_API_KEY"],
         WEBHOOK_SECRET: !!process.env["AIRWALLEX_WEBHOOK_SECRET"],
-        QUOTAGUARDSTATIC_URL: !!process.env["QUOTAGUARDSTATIC_URL"],
-        QUOTAGUARD_URL: !!process.env["QUOTAGUARD_URL"],
       },
       checks: [] as any[],
     };
 
     try {
+      // 0. Get outgoing IP for whitelisting info
+      try {
+        const ipRes = await fetch("https://api.ipify.org?format=json");
+        const ipData = await ipRes.json() as { ip: string };
+        results["outgoingIp"] = ipData.ip;
+      } catch (e) {
+        results["outgoingIp"] = "Could not determine";
+      }
+
       // 1. Connectivity check
       try {
-        // Attempting to fetch a non-existent intent to test connectivity + auth
-        await getPaymentIntent("test_connectivity_intent_id");
+        await getPaymentIntent("test_direct_connectivity");
       } catch (e: any) {
         // A 404 means we CONNECTED and AUTHENTICATED, but the object wasn't found (expected).
         // A 401 means credentials are wrong.
