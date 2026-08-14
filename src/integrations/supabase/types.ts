@@ -252,23 +252,44 @@ export type Database = {
         Row: {
           created_at: string
           event_type: string
+          failure_reason: string | null
           id: string
+          intent_id: string | null
+          order_id: string | null
+          outcome: string | null
           payload: Json | null
+          processed_at: string | null
           provider: string
+          provider_status: string | null
+          verification_result: string
         }
         Insert: {
           created_at?: string
           event_type?: string
+          failure_reason?: string | null
           id: string
+          intent_id?: string | null
+          order_id?: string | null
+          outcome?: string | null
           payload?: Json | null
+          processed_at?: string | null
           provider?: string
+          provider_status?: string | null
+          verification_result?: string
         }
         Update: {
           created_at?: string
           event_type?: string
+          failure_reason?: string | null
           id?: string
+          intent_id?: string | null
+          order_id?: string | null
+          outcome?: string | null
           payload?: Json | null
+          processed_at?: string | null
           provider?: string
+          provider_status?: string | null
+          verification_result?: string
         }
         Relationships: []
       }

@@ -1,24 +1,98 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import {
+  applyIntentToEnrollment,
+  hmacHex,
+  logWebhookDelivery,
+  markWebhookProcessed,
+  timingSafeEqualHex,
+  type VerificationResult,
+} from "@/lib/airwallex-webhook.server";
+
+/** Reject deliveries older than this to blunt replay attempts. */
+const TIMESTAMP_TOLERANCE_MS = 15 * 60 * 1000;
+const HEX_64 = /^[0-9a-f]{64}$/;
+const DIGITS = /^\d{10,20}$/;
+
 /**
  * Airwallex webhook receiver — the only trusted source of payment confirmation.
- * Verifies the HMAC signature, dedupes replays, re-reads the intent from
- * Airwallex, then updates the enrollment/order status.
+ * Validates required headers, verifies the HMAC signature, logs every delivery,
+ * dedupes replays, re-reads the intent from Airwallex, then updates enrollment.
  */
 export const Route = createFileRoute("/api/public/webhooks/airwallex")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const secret = process.env["AIRWALLEX_WEBHOOK_SECRET"];
-        if (!secret) return new Response("Webhook not configured", { status: 503 });
+        const rejectionId = () => `rejected:${crypto.randomUUID()}`;
 
-        const timestamp = request.headers.get("x-timestamp") ?? "";
-        const signature = (request.headers.get("x-signature") ?? "").toLowerCase();
+        const reject = async (
+          status: number,
+          verification: VerificationResult,
+          reason: string,
+          eventType = "unknown",
+        ) => {
+          try {
+            await logWebhookDelivery({
+              id: rejectionId(),
+              eventType,
+              verificationResult: verification,
+              failureReason: reason,
+              outcome: "rejected",
+            });
+          } catch (error) {
+            console.error("failed to log rejected webhook", error);
+          }
+          return new Response(reason, { status });
+        };
+
+        const secret = process.env["AIRWALLEX_WEBHOOK_SECRET"];
+        if (!secret) {
+          console.error("airwallex webhook secret missing");
+          return new Response("Webhook not configured", { status: 503 });
+        }
+
+        const rawTimestamp = request.headers.get("x-timestamp");
+        const rawSignature = request.headers.get("x-signature");
+
+        if (!rawTimestamp || !rawSignature) {
+          return reject(
+            400,
+            "missing_headers",
+            `Missing required header(s): ${[!rawSignature && "x-signature", !rawTimestamp && "x-timestamp"]
+              .filter(Boolean)
+              .join(", ")}`,
+          );
+        }
+
+        const timestamp = rawTimestamp.trim();
+        const signature = rawSignature.trim().toLowerCase();
+
+        if (!DIGITS.test(timestamp)) {
+          return reject(400, "malformed_headers", "Malformed x-timestamp header");
+        }
+        if (!HEX_64.test(signature)) {
+          return reject(400, "malformed_headers", "Malformed x-signature header");
+        }
+
+        const tsMs = Number(timestamp.length > 13 ? timestamp.slice(0, 13) : timestamp);
+        const normalisedMs = timestamp.length <= 10 ? tsMs * 1000 : tsMs;
+        if (!Number.isFinite(normalisedMs) || Math.abs(Date.now() - normalisedMs) > TIMESTAMP_TOLERANCE_MS) {
+          return reject(400, "stale_timestamp", "Timestamp outside allowed window");
+        }
+
+        const contentType = request.headers.get("content-type") ?? "";
+        if (contentType && !contentType.includes("json")) {
+          return reject(415, "malformed_headers", "Unsupported content type");
+        }
+
         const body = await request.text();
+        if (!body || body.length > 1_000_000) {
+          return reject(400, "malformed_headers", "Empty or oversized body");
+        }
 
         const expected = await hmacHex(secret, timestamp + body);
-        if (!signature || !timingSafeEqualHex(signature, expected)) {
-          return new Response("Invalid signature", { status: 401 });
+        if (!timingSafeEqualHex(signature, expected)) {
+          return reject(401, "invalid_signature", "Invalid signature");
         }
 
         let event: {
@@ -29,53 +103,36 @@ export const Route = createFileRoute("/api/public/webhooks/airwallex")({
         try {
           event = JSON.parse(body);
         } catch {
-          return new Response("Invalid JSON", { status: 400 });
+          return reject(400, "invalid_json", "Invalid JSON");
         }
 
-        const intentId = event.data?.object?.id;
-        const orderId = event.data?.object?.merchant_order_id;
-        const eventId = event.id ?? `${event.name ?? "event"}:${intentId ?? ""}:${timestamp}`;
-
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const intentId = event.data?.object?.id ?? null;
+        const orderId = event.data?.object?.merchant_order_id ?? null;
+        const eventType = event.name ?? "unknown";
+        const eventId = event.id ?? `${eventType}:${intentId ?? ""}:${timestamp}`;
 
         // Idempotency: the unique primary key makes replays a no-op.
-        const { error: dedupeError } = await supabaseAdmin
-          .from("payment_webhook_events")
-          .insert({ id: eventId, provider: "airwallex", event_type: event.name ?? "unknown" });
-        if (dedupeError) {
-          if (dedupeError.code === "23505") return new Response("duplicate", { status: 200 });
-          console.error("webhook dedupe insert failed", dedupeError);
-          return new Response("Storage error", { status: 500 });
-        }
+        const { duplicate } = await logWebhookDelivery({
+          id: eventId,
+          eventType,
+          verificationResult: "verified",
+          intentId,
+          orderId,
+          providerStatus: event.data?.object?.status ?? null,
+          outcome: "received",
+          payload: event,
+        });
+        if (duplicate) return new Response("duplicate", { status: 200 });
 
         if (intentId && orderId) {
-          // Never trust the payload alone — confirm with Airwallex directly.
-          let status = event.data?.object?.status ?? "";
-          try {
-            const { getPaymentIntent } = await import("@/lib/airwallex.server");
-            status = (await getPaymentIntent(intentId)).status;
-          } catch (error) {
-            console.error("intent re-check failed", error);
-          }
-
-          const nextStatus =
-            status === "SUCCEEDED" || status === "CAPTURE_REQUESTED"
-              ? "approved"
-              : status === "CANCELLED" || status === "FAILED"
-                ? "rejected"
-                : null;
-
-          if (nextStatus) {
-            const { error } = await supabaseAdmin
-              .from("enrollments")
-              .update({ status: nextStatus })
-              .eq("id", orderId)
-              .eq("txn_id", intentId);
-            if (error) {
-              console.error("enrollment update failed", error);
-              return new Response("Update failed", { status: 500 });
-            }
-          }
+          const result = await applyIntentToEnrollment({
+            intentId,
+            orderId,
+            ...(event.data?.object?.status ? { fallbackStatus: event.data.object.status } : {}),
+          });
+          await markWebhookProcessed(eventId, result);
+        } else {
+          await markWebhookProcessed(eventId, { outcome: "ignored_no_intent" });
         }
 
         return new Response("ok");
@@ -83,25 +140,3 @@ export const Route = createFileRoute("/api/public/webhooks/airwallex")({
     },
   },
 });
-
-async function hmacHex(secret: string, message: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(message));
-  return Array.from(new Uint8Array(sig))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-function timingSafeEqualHex(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
-}

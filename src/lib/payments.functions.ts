@@ -119,3 +119,57 @@ export const listMyPaidCourses = createServerFn({ method: "GET" })
       .eq("status", "approved");
     return { slugs: (data ?? []).map((r) => r.course_slug) };
   });
+
+/**
+ * Latest webhook-confirmed payment outcome for the signed-in learner's most
+ * recent checkout. Reads the enrollment plus the webhook delivery that
+ * confirmed it, so the dashboard reflects server-verified state only.
+ */
+export const latestPaymentStatus = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data: enrollment } = await context.supabase
+      .from("enrollments")
+      .select("id, course_slug, course_title, amount, txn_id, status, created_at, updated_at")
+      .eq("user_id", context.userId)
+      .eq("method", "airwallex")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (!enrollment) return { payment: null };
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: event } = await supabaseAdmin
+      .from("payment_webhook_events")
+      .select("id, event_type, provider_status, outcome, verification_result, created_at")
+      .eq("order_id", enrollment.id)
+      .eq("verification_result", "verified")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const providerStatus = event?.provider_status ?? null;
+    const state: "succeeded" | "failed" | "cancelled" | "pending" =
+      enrollment.status === "approved"
+        ? "succeeded"
+        : providerStatus === "CANCELLED"
+          ? "cancelled"
+          : enrollment.status === "rejected" || providerStatus === "FAILED"
+            ? "failed"
+            : "pending";
+
+    return {
+      payment: {
+        enrollmentId: enrollment.id,
+        courseSlug: enrollment.course_slug,
+        courseTitle: enrollment.course_title,
+        amount: Number(enrollment.amount),
+        state,
+        confirmedByWebhook: Boolean(event),
+        eventType: event?.event_type ?? null,
+        providerStatus,
+        updatedAt: enrollment.updated_at ?? enrollment.created_at,
+      },
+    };
+  });
