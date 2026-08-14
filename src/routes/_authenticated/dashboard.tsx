@@ -63,6 +63,8 @@ function DashboardPage() {
   // Entitlements come from the server (verified payments), never local storage.
   const { slugs: paidSlugs } = usePaidCourses();
   const enrolledCourses = courses.filter((c) => paidSlugs.has(c.slug));
+  const pctOf = (c: (typeof courses)[number]) =>
+    lp.percent(c.slug, c.modules.reduce((a, m) => a + m.lessons.length, 0) || c.lessonsCount);
   const [tab, setTab] = useState("overview");
   const [playerCourse, setPlayerCourse] = useState(enrolledCourses[0]?.id ?? "c-1");
   const [playerMod, setPlayerMod] = useState(0);
