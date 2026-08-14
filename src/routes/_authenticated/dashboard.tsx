@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 
 import { usePaidCourses } from "@/hooks/usePaidCourses";
+import { useLessonProgress } from "@/hooks/useLessonProgress";
 
 import { PanelShell } from "@/components/layout/PanelShell";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Motion";
@@ -56,11 +57,14 @@ const navItems = [
 ];
 
 function DashboardPage() {
-  const { session, progress, courses, requests, wishlist, logout, toggleLesson, completedLessons } =
-    useStore();
+  const { session, courses, requests, wishlist, logout } = useStore();
+  // Lesson progress and certificates come from the server, never local storage.
+  const lp = useLessonProgress();
   // Entitlements come from the server (verified payments), never local storage.
   const { slugs: paidSlugs } = usePaidCourses();
   const enrolledCourses = courses.filter((c) => paidSlugs.has(c.slug));
+  const pctOf = (c: (typeof courses)[number]) =>
+    lp.percent(c.slug, c.modules.reduce((a, m) => a + m.lessons.length, 0) || c.lessonsCount);
   const [tab, setTab] = useState("overview");
   const [playerCourse, setPlayerCourse] = useState(enrolledCourses[0]?.id ?? "c-1");
   const [playerMod, setPlayerMod] = useState(0);
@@ -105,8 +109,8 @@ function DashboardPage() {
               <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {[
                   { icon: BookOpen, label: "Enrolled", value: enrolledCourses.length },
-                  { icon: TrendingUp, label: "In Progress", value: enrolledCourses.filter((c) => (progress[c.id] ?? 0) < 100 && (progress[c.id] ?? 0) > 0).length },
-                  { icon: Award, label: "Completed", value: enrolledCourses.filter((c) => (progress[c.id] ?? 0) === 100).length },
+                  { icon: TrendingUp, label: "In Progress", value: enrolledCourses.filter((c) => pctOf(c) < 100 && pctOf(c) > 0).length },
+                  { icon: Award, label: "Completed", value: enrolledCourses.filter((c) => pctOf(c) === 100).length },
                   { icon: Clock, label: "Pending", value: pendingReqs.length },
                 ].map((s) => (
                   <div key={s.label} className="flex items-center gap-3 rounded-sm border border-border bg-card p-4">
@@ -135,7 +139,7 @@ function DashboardPage() {
               ) : (
                 <div className="mt-4 space-y-3">
                   {enrolledCourses.map((c) => {
-                    const pct = progress[c.id] ?? 0;
+                    const pct = pctOf(c);
                     return (
                       <div
                         key={c.id}
@@ -209,7 +213,7 @@ function DashboardPage() {
                 </div>
               ) : (
                 enrolledCourses.map((c) => {
-                  const pct = progress[c.id] ?? 0;
+                  const pct = pctOf(c);
                   return (
                     <div key={c.id} className="flex flex-col rounded-sm border border-border bg-card overflow-hidden">
                       <div className="relative h-28 bg-cobalt flex items-center justify-center">
@@ -227,7 +231,7 @@ function DashboardPage() {
                         <div className="space-y-1">
                           <div className="flex justify-between text-xs text-muted-foreground">
                             <span>{pct}% complete</span>
-                            <span>{completedLessons[c.id]?.length ?? 0}/{c.lessonsCount} lessons</span>
+                            <span>{lp.completedLessons(c.slug).length}/{c.lessonsCount} lessons</span>
                           </div>
                           <Progress value={pct} className="h-1.5" />
                         </div>
@@ -294,11 +298,11 @@ function DashboardPage() {
                   size="sm"
                   onClick={() => {
                     const key = `${playerMod}-${playerLesson}`;
-                    toggleLesson(activeCourse.id, key, totalLessons);
+                    lp.toggleLesson(activeCourse.slug, key, !lp.completedLessons(activeCourse.slug).includes(key));
                   }}
                 >
                   <CheckCircle2 className="mr-1 h-4 w-4" />
-                  {completedLessons[activeCourse.id]?.includes(`${playerMod}-${playerLesson}`)
+                  {lp.completedLessons(activeCourse.slug).includes(`${playerMod}-${playerLesson}`)
                     ? "Unmark complete"
                     : "Mark complete"}
                 </Button>
@@ -331,9 +335,9 @@ function DashboardPage() {
             <div className="max-h-[70vh] overflow-y-auto rounded-sm border border-border bg-card">
               <div className="sticky top-0 border-b border-border bg-card p-4">
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                  Curriculum · {Math.round(progress[activeCourse.id] ?? 0)}% done
+                  Curriculum · {Math.round(pctOf(activeCourse))}% done
                 </p>
-                <Progress value={progress[activeCourse.id] ?? 0} className="mt-2 h-1.5" />
+                <Progress value={pctOf(activeCourse)} className="mt-2 h-1.5" />
               </div>
               {activeCourse.modules.map((mod, mi) => (
                 <div key={mod.title}>
@@ -342,7 +346,7 @@ function DashboardPage() {
                   </p>
                   {mod.lessons.map((lesson, li) => {
                     const key = `${mi}-${li}`;
-                    const done = completedLessons[activeCourse.id]?.includes(key);
+                    const done = lp.completedLessons(activeCourse.slug).includes(key);
                     const active = playerMod === mi && playerLesson === li;
                     return (
                       <button
@@ -374,13 +378,13 @@ function DashboardPage() {
             <h1 className="text-2xl font-extrabold">Certificates</h1>
             <p className="mt-1 text-sm text-muted-foreground">Earned automatically at 100% course completion.</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {enrolledCourses.filter((c) => (progress[c.id] ?? 0) === 100).length === 0 ? (
+              {enrolledCourses.filter((c) => pctOf(c) === 100).length === 0 ? (
                 <div className="col-span-full rounded-sm border border-dashed border-border bg-card p-10 text-center text-muted-foreground">
                   <Award className="mx-auto mb-3 h-10 w-10 opacity-30" />
                   <p className="text-sm">Complete a course to earn your first certificate.</p>
                 </div>
               ) : (
-                enrolledCourses.filter((c) => (progress[c.id] ?? 0) === 100).map((c) => (
+                enrolledCourses.filter((c) => pctOf(c) === 100).map((c) => (
                   <div key={c.id} className="rounded-sm border-2 border-dashed border-accent/50 bg-card p-6">
                     <div className="flex items-center gap-3">
                       <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-accent">

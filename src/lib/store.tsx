@@ -81,8 +81,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           ...s,
           session: saved.session ?? s.session,
           wishlist: saved.wishlist ?? s.wishlist,
-          completedLessons: saved.completedLessons ?? s.completedLessons,
-          progress: saved.progress ?? s.progress,
           requests: saved.requests ?? s.requests,
           audit: saved.audit ?? s.audit,
           users: saved.users ?? s.users,
@@ -150,7 +148,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      const { courses: _courses, enrolled: _enrolled, ...persistable } = state;
+      const {
+        courses: _courses,
+        enrolled: _enrolled,
+        progress: _progress,
+        completedLessons: _completedLessons,
+        ...persistable
+      } = state;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(persistable));
     } catch {
       /* ignore */
