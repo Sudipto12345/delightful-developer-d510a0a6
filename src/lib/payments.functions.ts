@@ -53,7 +53,14 @@ export const startCoursePurchase = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     await supabaseAdmin.from("enrollments").update({ txn_id: intent.id }).eq("id", enrollment.id);
 
-    return { enrollmentId: enrollment.id, checkoutUrl: intent.hostedUrl };
+    // Intent id + client secret are handed to the Airwallex Components SDK on the
+    // client, which owns the actual hosted checkout session (see checkout.$slug.tsx).
+    return {
+      enrollmentId: enrollment.id,
+      intentId: intent.id,
+      clientSecret: intent.clientSecret,
+      currency: intent.currency,
+    };
   });
 
 /**
