@@ -136,7 +136,18 @@ function CheckoutPage() {
       const res = await startCoursePurchase({
         data: { slug: course.slug, origin: window.location.origin },
       });
-      window.location.href = res.checkoutUrl;
+      const returnUrl = `${window.location.origin}/checkout/return?enrollment=${res.enrollmentId}`;
+      const payments = await loadAirwallexPayments();
+      payments.redirectToCheckout({
+        intent_id: res.intentId,
+        client_secret: res.clientSecret,
+        currency: res.currency,
+        mode: "payment",
+        successUrl: returnUrl,
+        failUrl: returnUrl,
+        paymentMethods: ["card", "googlepay", "applepay"],
+      });
+      // redirectToCheckout navigates the browser away; loading state intentionally left on.
     } catch (err) {
       setLoading(false);
       toast.error(err instanceof Error ? err.message : "Could not start checkout. Please try again.");
