@@ -48,7 +48,14 @@ async function getToken(): Promise<string> {
   return cachedToken.token;
 }
 
-export type CreatedIntent = { id: string; clientSecret: string; hostedUrl: string };
+// NOTE: We intentionally do NOT hand-build a "https://checkout.airwallex.com/#/standalone/checkout"
+// URL and redirect the browser to it. That route is undocumented/unsupported and is the likely
+// cause of the blank/black checkout screen with no payment methods rendering. Airwallex's
+// supported integration is: create the PaymentIntent on the server (this function), then on the
+// CLIENT call `payments.redirectToCheckout({ intent_id, client_secret, currency, ... })` from the
+// official Airwallex Components SDK (`https://static.airwallex.com/components/sdk/v1/index.js`),
+// which owns the actual checkout session/navigation. See src/routes/checkout.$slug.tsx.
+export type CreatedIntent = { id: string; clientSecret: string; currency: string };
 
 export async function createPaymentIntent(args: {
   amount: number;
@@ -76,18 +83,7 @@ export async function createPaymentIntent(args: {
   if (!res.ok) throw new Error(`Airwallex intent failed [${res.status}]: ${body}`);
   const intent = JSON.parse(body) as { id: string; client_secret: string };
 
-  const url = new URL("https://checkout.airwallex.com/#/standalone/checkout");
-  url.searchParams.set("intent_id", intent.id);
-  url.searchParams.set("client_secret", intent.client_secret);
-  url.searchParams.set("currency", args.currency);
-  url.searchParams.set("mode", "payment");
-  url.searchParams.set("successUrl", args.returnUrl);
-  url.searchParams.set("failUrl", args.returnUrl);
-  // Ensure the payment method selection is not restricted/hidden
-  url.searchParams.set("payment_methods", "card,googlepay,applepay");
-  if (args.email) url.searchParams.set("email", args.email);
-
-  return { id: intent.id, clientSecret: intent.client_secret, hostedUrl: url.toString() };
+  return { id: intent.id, clientSecret: intent.client_secret, currency: args.currency };
 }
 
 export async function getPaymentIntent(

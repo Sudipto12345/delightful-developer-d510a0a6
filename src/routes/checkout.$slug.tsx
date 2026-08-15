@@ -15,6 +15,65 @@ import { useAuth } from "@/hooks/useAuth";
 import { startCoursePurchase } from "@/lib/payments.functions";
 import { usePaidCourses } from "@/hooks/usePaidCourses";
 
+/**
+ * Lazily loads the official Airwallex Components SDK and initializes it.
+ * Cached on window so repeat checkouts don't re-fetch/re-init the script.
+ */
+type AirwallexPayments = {
+  redirectToCheckout: (options: {
+    intent_id: string;
+    client_secret: string;
+    currency: string;
+    mode: "payment";
+    successUrl: string;
+    failUrl: string;
+    paymentMethods?: string[];
+  }) => void;
+};
+
+declare global {
+  interface Window {
+    AirwallexComponentsSDK?: {
+      init: (opts: { env: "prod" | "demo"; enabledElements: string[] }) => Promise<{ payments: AirwallexPayments }>;
+    };
+    __awxPaymentsPromise?: Promise<AirwallexPayments>;
+  }
+}
+
+const AWX_SDK_SRC = "https://static.airwallex.com/components/sdk/v1/index.js";
+
+function loadAirwallexPayments(): Promise<AirwallexPayments> {
+  if (window.__awxPaymentsPromise) return window.__awxPaymentsPromise;
+
+  window.__awxPaymentsPromise = new Promise<AirwallexPayments>((resolve, reject) => {
+    const init = () => {
+      if (!window.AirwallexComponentsSDK) {
+        reject(new Error("Airwallex SDK failed to load"));
+        return;
+      }
+      window.AirwallexComponentsSDK.init({ env: "prod", enabledElements: ["payments"] })
+        .then(({ payments }) => resolve(payments))
+        .catch(reject);
+    };
+
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${AWX_SDK_SRC}"]`);
+    if (existing) {
+      if (window.AirwallexComponentsSDK) init();
+      else existing.addEventListener("load", init, { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = AWX_SDK_SRC;
+    script.async = true;
+    script.onload = init;
+    script.onerror = () => reject(new Error("Could not reach Airwallex checkout. Please try again."));
+    document.head.appendChild(script);
+  });
+
+  return window.__awxPaymentsPromise;
+}
+
 export const Route = createFileRoute("/checkout/$slug")({
   head: ({ params }) => {
     const name = params.slug
